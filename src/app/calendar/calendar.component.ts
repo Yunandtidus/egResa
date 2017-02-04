@@ -2,6 +2,8 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
+import { RoomService } from '../api/room.service';
+
 @Component({
     moduleId: module.id,
     selector: 'my-calendar',
@@ -15,7 +17,8 @@ export class CalendarComponent implements OnInit {
     private myForm: FormGroup;
     private myDate: Date = new Date();
 
-    constructor(private formBuilder: FormBuilder) { };
+    constructor(private formBuilder: FormBuilder, private roomService: RoomService) {
+    };
 
     ngOnInit() {
         this.myForm = this.formBuilder.group({
@@ -26,7 +29,18 @@ export class CalendarComponent implements OnInit {
             myDate: [this.dateConverter(this.myDate), Validators.required]
             // other controls are here...
         });
+
+        this.loadData();
     }
+
+    loadData() {
+        this.roomService.loadRoom()
+            .subscribe(
+            heroes => this.test = heroes,
+            error => this.errorMessage = <any>error);
+    }
+    test: Object;
+    errorMessage: Object;
 
     private myDatePickerOptions: IMyOptions = {
         // other options...

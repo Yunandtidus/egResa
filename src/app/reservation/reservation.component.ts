@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,5 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     selector: 'my-reservation',
     templateUrl: './reservation.template.html',
 })
-export class ReservationComponent{
+export class ReservationComponent implements OnInit{
+
+    ngOnInit() {
+    }
+
 }

@@ -6,7 +6,7 @@
     <!-- other controls are here... -->
     <button (click)="addDay()">Ajouter un jour</button>
 </form>
-
+<br />
 <table border="1">
     <tr>
         <td>18h</td>
@@ -17,3 +17,10 @@
         <td><a [routerLink]="['/reservation']">Réserver</a></td>
     </tr>
 </table>
+<br />
+
+<fieldset>
+    <legend>Debug</legend>
+    {{test | json}}
+    {{errorMessage}}
+</fieldset>
