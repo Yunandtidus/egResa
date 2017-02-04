@@ -8,6 +8,7 @@ import { rootRouterConfig } from './app.routes';
 
 import { AppComponent }  from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     ],
     declarations: [
         AppComponent,
-        CalendarComponent
+        CalendarComponent,
+        ReservationComponent
     ],
   bootstrap:    [ AppComponent ]
 })
