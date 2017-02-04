@@ -8,7 +8,6 @@
     "experimentalDecorators": true,
     "lib": [ "es2015", "dom" ],
     "noImplicitAny": false,
-    "types": ["jasmine"],
     "suppressImplicitAnyIndexErrors": true
   }
 }

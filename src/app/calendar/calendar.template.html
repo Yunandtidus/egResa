@@ -1,0 +1,8 @@
+﻿Test
+
+<form [formGroup]="myForm" novalidate>
+    <my-date-picker name="mydate" [options]="myDatePickerOptions"
+                    formControlName="myDate"></my-date-picker>
+    <!-- other controls are here... -->
+    <button (click)="addDay()">Ajouter un jour</button>
+</form>

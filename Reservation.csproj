@@ -22,8 +22,12 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\app\app.template.html" />
+    <Content Include="src\app\calendar\calendar.template.html" />
+    <Content Include="src\app\reservation\reservation.template.html" />
     <Content Include="src\index.html" />
     <Content Include="src\styles.css" />
+    <Content Include="src\systemjs.config.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -31,10 +35,14 @@
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\app.routes.ts" />
+    <TypeScriptCompile Include="src\app\calendar\calendar.component.ts" />
+    <TypeScriptCompile Include="src\app\reservation\reservation.component.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="tsconfig.json" />
+    <Content Include="src\tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="e2e\tsconfig.json" />
     <None Include="web.Debug.config">
