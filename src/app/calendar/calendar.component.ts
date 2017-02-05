@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
+﻿import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
@@ -6,6 +6,7 @@ import { RoomService } from '../api/room.service';
 
 import { RoomModel } from '../model/room.model';
 import { AvailableSessionModel } from '../model/available-session.model';
+import { ScheduleModel } from '../model/schedule.model';
 
 @Component({
     moduleId: module.id,
@@ -13,26 +14,36 @@ import { AvailableSessionModel } from '../model/available-session.model';
     templateUrl: './calendar.template.html',
     styleUrls: ['./calendar.style.css']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent{
 
-    currentDate = new Date(2017,1,5);
+    currentDate = new Date(2017, 1, 5);
 
-    sessionTimes: number[] = [];
+    room: RoomModel;
+    sessionTimes: ScheduleModel[];
+
+    thisHelper: CalendarComponent = this;
 
     constructor( @Inject("RoomService") private roomService: RoomService) {
     };
 
-    ngOnInit() {
-        this.roomService.loadRoom(1,
-            function (data) {
-                this.room = data;
-                this.getSession(18)
-            }.bind(this),
-            null);
-        for (let i = 10; i <= 24; i += 0.5) {
-            this.sessionTimes.push(i);
+    onChange() {
+        let thisHelper = this;
+        return (date: Date) => {
+            thisHelper.currentDate = date;
+            thisHelper.roomService.loadRoom(1,
+                thisHelper.constructSession.bind(thisHelper),
+                null);
         }
     };
+    
+    constructSession(roomData: any) {
+        this.room = roomData;
+
+        this.sessionTimes = [];
+        for (let i = 10; i <= 24; i += 0.5) {
+            this.sessionTimes.push(<ScheduleModel>{ hour: i, session : this.getSession(i) });
+        }
+    }
 
     getSession(sessionTime: number): AvailableSessionModel {
         let tmpDate = new Date();
@@ -48,5 +59,4 @@ export class CalendarComponent implements OnInit {
         return null;
     }
 
-    room : RoomModel;
-    }
+}

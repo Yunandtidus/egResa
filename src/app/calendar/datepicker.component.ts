@@ -20,6 +20,9 @@ export class DatepickerComponent implements OnInit {
     @Input()
     private date: Date;
 
+    @Input()
+    private onChange: (date:any) => any;
+
     private dateModel: Object;
 
     constructor(private formBuilder: FormBuilder) {
@@ -38,8 +41,9 @@ export class DatepickerComponent implements OnInit {
     // dateChanged callback function called when the user select the date. This is mandatory callback
     // in this option. There are also optional inputFieldChanged and calendarViewChanged callbacks.
     onDateChanged(event: IMyDateModel) {
-        this.date.setTime(event.jsdate.getTime());
-        // event properties are: event.date, event.jsdate, event.formatted and event.epoc
+        if (this.onChange) {
+            this.onChange(event.jsdate);
+        }
     }
 
     addDay(value: number) {

@@ -3,7 +3,6 @@
 import { Injectable } from '@angular/core';
 import { RoomModel } from '../model/room.model';
 
-@Injectable()
 export interface RoomService {
 
     /**

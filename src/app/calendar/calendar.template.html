@@ -1,16 +1,16 @@
-﻿Test
-
-    <my-datepicker [date]="currentDate"></my-datepicker>
-
+﻿<my-datepicker [date]="currentDate" [onChange]="onChange()"></my-datepicker>
 <br />
-<table border="1">
+<table border="0">
     <tr>
         <th>Horaire</th>
         <th>Disponibilité</th>
     </tr>
     <tr *ngFor="let sessionTime of sessionTimes">
-        <td>{{sessionTime}}</td>
-        <td *ngIf="getSession(sessionTime)" rowspan="4">Réserver</td>
+        <td>{{sessionTime.hour}}</td>
+        <td *ngIf="sessionTime.session" rowspan="4">
+            <span *ngIf="sessionTime.session.isFree"><a [routerLink]="['/reservation']">Réserver</a></span>
+            <span *ngIf="!sessionTime.session.isFree">Complet</span>
+        </td>
     </tr>
 </table>
 <br />

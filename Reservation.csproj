@@ -45,6 +45,7 @@
     <TypeScriptCompile Include="src\app\calendar\datepicker.component.ts" />
     <TypeScriptCompile Include="src\app\calendar\calendar.component.ts" />
     <TypeScriptCompile Include="src\app\model\available-session.model.ts" />
+    <TypeScriptCompile Include="src\app\model\schedule.model.ts" />
     <TypeScriptCompile Include="src\app\model\room.model.ts" />
     <TypeScriptCompile Include="src\app\reservation\reservation.component.ts" />
     <TypeScriptCompile Include="src\app\utils\logger.alert.service.ts" />

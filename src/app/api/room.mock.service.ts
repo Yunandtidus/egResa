@@ -35,6 +35,12 @@ export class MockRoomService implements RoomService{
                     hourStart: new Date(2017, 1, 5, 22, 0, 0).getTime(),
                     hourEnd: new Date(2017, 1, 5, 24, 0, 0).getTime(),
                     isFree: false
+                },
+                <AvailableSessionModel>{
+                    idAvailability: 1,
+                    hourStart: new Date(2017, 1, 6, 11, 30, 0).getTime(),
+                    hourEnd: new Date(2017, 1, 5, 13, 30, 0).getTime(),
+                    isFree: false
                 }
             ]
         }
