@@ -13,6 +13,7 @@ import { LoggerAlertService }  from './utils/logger.alert.service';
 
 import { AppComponent }  from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { DatepickerComponent } from './calendar/datepicker.component';
 import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ReservationComponent } from './reservation/reservation.component';
     ],
     declarations: [
         AppComponent,
+        DatepickerComponent,
         CalendarComponent,
         ReservationComponent
     ],

@@ -23,6 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\app\app.template.html" />
+    <Content Include="src\app\calendar\datepicker.style.css" />
+    <Content Include="src\app\calendar\datepicker.template.html" />
     <Content Include="src\app\calendar\calendar.template.html" />
     <Content Include="src\app\calendar\calendar.style.css" />
     <Content Include="src\app\reservation\reservation.template.html" />
@@ -40,6 +42,7 @@
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app.routes.ts" />
+    <TypeScriptCompile Include="src\app\calendar\datepicker.component.ts" />
     <TypeScriptCompile Include="src\app\calendar\calendar.component.ts" />
     <TypeScriptCompile Include="src\app\model\available-session.model.ts" />
     <TypeScriptCompile Include="src\app\model\room.model.ts" />

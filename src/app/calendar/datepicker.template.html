@@ -1,0 +1,5 @@
+﻿    <button (click)="addDay(-1)">&lt;</button>
+    <div class="datepicker">
+        <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="dateModel" (dateChanged)="onDateChanged($event)"></my-date-picker>
+    </div>
+    <button (click)="addDay()">&gt;</button>
