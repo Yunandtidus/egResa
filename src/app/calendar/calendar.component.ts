@@ -14,6 +14,8 @@ import { RoomModel } from '../model/room.model';
 })
 export class CalendarComponent implements OnInit {
 
+    currentDate = new Date();
+
     constructor( @Inject("RoomService") private roomService: RoomService) {
     };
 

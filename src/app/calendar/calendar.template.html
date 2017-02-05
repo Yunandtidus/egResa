@@ -1,6 +1,6 @@
 ﻿Test
 
-    <my-datepicker></my-datepicker>
+    <my-datepicker [date]="currentDate"></my-datepicker>
 
 <br />
 <table border="1">
@@ -17,6 +17,12 @@
 
 <fieldset>
     <legend>Debug</legend>
+
+    Date : {{currentDate}}<br/>
+
+    Test :
     <pre>{{test | json}}</pre>
+
+    ErrorMessage :
     {{errorMessage}}
 </fieldset>

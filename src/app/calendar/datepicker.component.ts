@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
+﻿import { Component, OnInit, Inject, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
@@ -16,15 +16,17 @@ export class DatepickerComponent implements OnInit {
     private dateConverter(d: Date) {
         return { date: { year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate() } };
     };
-    
-    private myDate: Date = new Date();
 
-    dateModel = this.dateConverter(this.myDate);
+    @Input()
+    private date: Date;
 
-    constructor(private formBuilder: FormBuilder, @Inject("RoomService") private roomService: RoomService) {
+    private dateModel: Object;
+
+    constructor(private formBuilder: FormBuilder) {
     };
 
     ngOnInit() {
+        this.dateModel = this.dateConverter(this.date);
     };
     
 
@@ -36,12 +38,12 @@ export class DatepickerComponent implements OnInit {
     // dateChanged callback function called when the user select the date. This is mandatory callback
     // in this option. There are also optional inputFieldChanged and calendarViewChanged callbacks.
     onDateChanged(event: IMyDateModel) {
-        this.myDate = event.jsdate;
+        this.date.setTime(event.jsdate.getTime());
         // event properties are: event.date, event.jsdate, event.formatted and event.epoc
     }
 
     addDay(value: number) {
-        this.myDate.setDate(this.myDate.getDate() + (value ? value : 1));
-        this.dateModel = this.dateConverter(this.myDate)
+        this.date.setDate(this.date.getDate() + (value ? value : 1));
+        this.dateModel = this.dateConverter(this.date)
     };
 }
