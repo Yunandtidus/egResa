@@ -33,7 +33,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="src\app\api\room.mock.service.ts" />
     <TypeScriptCompile Include="src\app\api\room.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room.http.service.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -42,6 +44,8 @@
     <TypeScriptCompile Include="src\app\model\available-session.model.ts" />
     <TypeScriptCompile Include="src\app\model\room.model.ts" />
     <TypeScriptCompile Include="src\app\reservation\reservation.component.ts" />
+    <TypeScriptCompile Include="src\app\utils\logger.alert.service.ts" />
+    <TypeScriptCompile Include="src\app\utils\logger.service.ts" />
     <TypeScriptCompile Include="src\main.ts" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,8 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
 import { RoomService } from '../api/room.service';
-
 
 import { RoomModel } from '../model/room.model';
 
@@ -11,7 +10,7 @@ import { RoomModel } from '../model/room.model';
     moduleId: module.id,
     selector: 'my-calendar',
     templateUrl: './calendar.template.html',
-    styleUrls : ['./calendar.style.css']
+    styleUrls: ['./calendar.style.css']
 })
 export class CalendarComponent implements OnInit {
     private dateConverter(d: Date) {
@@ -23,7 +22,7 @@ export class CalendarComponent implements OnInit {
 
     dateModel = this.dateConverter(this.myDate);
 
-    constructor(private formBuilder: FormBuilder, private roomService: RoomService) {
+    constructor(private formBuilder: FormBuilder, @Inject("RoomService") private roomService: RoomService) {
     };
 
     ngOnInit() {
@@ -31,10 +30,7 @@ export class CalendarComponent implements OnInit {
     };
 
     loadData() {
-        this.roomService.loadRoom()
-            .subscribe(
-            data => this.test = data,
-            error => this.errorMessage = <any>error);
+        this.roomService.loadRoom(1, data => this.test = data, null);
     }
     test: RoomModel;
     errorMessage: Object;

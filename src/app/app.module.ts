@@ -7,7 +7,9 @@ import { MyDatePickerModule } from 'mydatepicker';
 
 import { rootRouterConfig } from './app.routes';
 
-import { RoomService }  from './api/room.service';
+import { HttpRoomService }  from './api/room.http.service';
+import { MockRoomService }  from './api/room.mock.service';
+import { LoggerAlertService }  from './utils/logger.alert.service';
 
 import { AppComponent }  from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -28,7 +30,8 @@ import { ReservationComponent } from './reservation/reservation.component';
         ReservationComponent
     ],
     providers: [
-        RoomService
+        { provide: 'RoomService', useClass: MockRoomService },
+        { provide: 'LoggerService', useClass: LoggerAlertService }
     ],
   bootstrap:    [ AppComponent ]
 })
