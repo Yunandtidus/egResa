@@ -20,20 +20,20 @@ export class MockRoomService implements RoomService{
             planning: [
                 <AvailableSessionModel>{
                     idAvailability: 1,
-                    hourStart: new Date(2017, 2, 5, 18, 0, 0).getTime(),
-                    hourEnd: new Date(2017, 2, 5, 20, 0, 0).getTime(),
+                    hourStart: new Date(2017, 1, 5, 18, 0, 0).getTime(),
+                    hourEnd: new Date(2017, 1, 5, 20, 0, 0).getTime(),
                     isFree: true
                 },
                 <AvailableSessionModel>{
                     idAvailability: 1,
-                    hourStart: new Date(2017, 2, 5, 20, 0, 0).getTime(),
-                    hourEnd: new Date(2017, 2, 5, 22, 0, 0).getTime(),
+                    hourStart: new Date(2017, 1, 5, 20, 0, 0).getTime(),
+                    hourEnd: new Date(2017, 1, 5, 22, 0, 0).getTime(),
                     isFree: false
                 },
                 <AvailableSessionModel>{
                     idAvailability: 1,
-                    hourStart: new Date(2017, 2, 5, 22, 0, 0).getTime(),
-                    hourEnd: new Date(2017, 2, 5, 24, 0, 0).getTime(),
+                    hourStart: new Date(2017, 1, 5, 22, 0, 0).getTime(),
+                    hourEnd: new Date(2017, 1, 5, 24, 0, 0).getTime(),
                     isFree: false
                 }
             ]

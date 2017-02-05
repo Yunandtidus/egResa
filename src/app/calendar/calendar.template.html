@@ -5,12 +5,12 @@
 <br />
 <table border="1">
     <tr>
-        <td>18h</td>
-        <td>Non disponible</td>
+        <th>Horaire</th>
+        <th>Disponibilité</th>
     </tr>
-    <tr>
-        <td>20h</td>
-        <td><a [routerLink]="['/reservation']">Réserver</a></td>
+    <tr *ngFor="let sessionTime of sessionTimes">
+        <td>{{sessionTime}}</td>
+        <td *ngIf="getSession(sessionTime)" rowspan="4">Réserver</td>
     </tr>
 </table>
 <br />
@@ -21,8 +21,5 @@
     Date : {{currentDate}}<br/>
 
     Test :
-    <pre>{{test | json}}</pre>
-
-    ErrorMessage :
-    {{errorMessage}}
+    <pre>{{room | json}}</pre>
 </fieldset>
