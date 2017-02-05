@@ -15,7 +15,7 @@ import { AvailableSessionModel } from '../model/available-session.model';
 })
 export class CalendarComponent implements OnInit {
 
-    currentDate = new Date();
+    currentDate = new Date(2017,1,5);
 
     sessionTimes: number[] = [];
 
@@ -32,11 +32,11 @@ export class CalendarComponent implements OnInit {
         for (let i = 10; i <= 24; i += 0.5) {
             this.sessionTimes.push(i);
         }
-        console.log(this.getSession(18));
     };
 
     getSession(sessionTime: number): AvailableSessionModel {
         let tmpDate = new Date();
+        tmpDate.setTime(this.currentDate.getTime());
         let hour = Math.round(sessionTime);
         let minute = (sessionTime - hour) * 60;
         tmpDate.setHours(hour, minute, 0, 0);
