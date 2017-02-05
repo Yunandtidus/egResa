@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { RoomModel } from '../model/room.model';
+
 @Injectable()
 export class RoomService {
     constructor(private http: Http) { }
@@ -16,7 +18,8 @@ export class RoomService {
         let params = new URLSearchParams();
         params.set('per_page', '100');
 
-        let url = `https://api.github.com/orgs/angular`;
+        let url = `/mock/room.json`;
+        //let url = `https://api.github.com/orgs/angular`;
         //let url = 'http://api.bureau401.fr/api/schema/getbyid';
         return this.http.get(url, { search: params })
             .map(this.extractData)
@@ -26,7 +29,7 @@ export class RoomService {
     private extractData(res: Response) {
         let body = res.json();
         console.log(body);
-        return body || {};
+        return body as RoomModel;
     }
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
