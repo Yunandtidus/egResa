@@ -8,8 +8,8 @@
     <tr *ngFor="let sessionTime of sessionTimes">
         <td>{{sessionTime.hour}}</td>
         <td *ngIf="sessionTime.session" rowspan="4">
-            <span *ngIf="sessionTime.session.isFree"><a [routerLink]="['/reservation']">Réserver</a></span>
-            <span *ngIf="!sessionTime.session.isFree">Complet</span>
+            <span *ngIf="sessionTime.session.is_free"><a [routerLink]="['/reservation']">Réserver</a></span>
+            <span *ngIf="!sessionTime.session.is_free">Complet</span>
         </td>
     </tr>
 </table>
@@ -19,7 +19,6 @@
     <legend>Debug</legend>
 
     Date : {{currentDate}}<br/>
-
     Test :
     <pre>{{room | json}}</pre>
 </fieldset>

@@ -5,6 +5,6 @@ import { LoggerService } from './logger.service'
 @Injectable()
 export class LoggerAlertService implements LoggerService {
     error(message: String): void {
-        alert(message);
+        console.log(message);
     }
 }

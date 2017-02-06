@@ -8,6 +8,8 @@ import { RoomModel } from '../model/room.model';
 import { AvailableSessionModel } from '../model/available-session.model';
 import { ScheduleModel } from '../model/schedule.model';
 
+import * as moment from 'moment';
+
 @Component({
     moduleId: module.id,
     selector: 'my-calendar',
@@ -16,7 +18,7 @@ import { ScheduleModel } from '../model/schedule.model';
 })
 export class CalendarComponent{
 
-    currentDate = new Date(2017, 1, 5);
+    currentDate = new Date(2017, 1, 15);
 
     room: RoomModel;
     sessionTimes: ScheduleModel[];
@@ -36,9 +38,8 @@ export class CalendarComponent{
         }
     };
     
-    constructSession(roomData: any) {
+    constructSession(roomData: RoomModel) {
         this.room = roomData;
-
         this.sessionTimes = [];
         for (let i = 10; i <= 24; i += 0.5) {
             this.sessionTimes.push(<ScheduleModel>{ hour: i, session : this.getSession(i) });
@@ -52,7 +53,7 @@ export class CalendarComponent{
         let minute = (sessionTime - hour) * 60;
         tmpDate.setHours(hour, minute, 0, 0);
         for (let a of this.room.planning) {
-            if (a.hourStart === tmpDate.getTime()) {
+            if (moment(a.hour_start, 'YYYY-MM-DD hh:mm:ss').toDate().getTime() === tmpDate.getTime()) {
                 return a;
             }
         };

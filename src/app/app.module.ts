@@ -32,7 +32,7 @@ import { ReservationComponent } from './reservation/reservation.component';
         ReservationComponent
     ],
     providers: [
-        { provide: 'RoomService', useClass: MockRoomService },
+        { provide: 'RoomService', useClass: HttpRoomService },
         { provide: 'LoggerService', useClass: LoggerAlertService }
     ],
   bootstrap:    [ AppComponent ]

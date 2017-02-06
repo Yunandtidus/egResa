@@ -1,5 +1,5 @@
 ﻿import { Injectable, Inject} from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
+import { Http, Response, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -15,22 +15,23 @@ export class HttpRoomService implements RoomService{
     }
 
     loadRoom(id: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
-
         this.makeRequest('')
             .subscribe(
             this.callbackData(onSuccess),
-                // petit hack pour bien garder le this
-                onError ? onError : this.handleError.bind(this)
-            );
+            // petit hack pour bien garder le this
+            onError ? onError : this.handleError.bind(this)
+        );
     };
 
     private makeRequest(path: string): Observable<Response> {
         let params = new URLSearchParams();
-        params.set('per_page', '100');
-        let url = `/mock/room.json`;
-        //let url = `https://api.github.com/orgs/angular`;
-        //let url = 'http://api.bureau401.fr/api/schema/getbyid';
-        return this.http.get(url, { search: params });
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.set('request', '{"id":1}');
+
+        let url = 'http://api.bureau401.fr/api/room/data';
+        return this.http.post(url, urlSearchParams.toString(), { headers: headers });
     }
 
     private callbackData(callback: (res: any) => any): (result: Response) => any {

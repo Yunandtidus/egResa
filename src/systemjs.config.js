@@ -25,6 +25,7 @@
 
         // other libraries
       'rxjs': 'npm:rxjs',
+      'moment': 'npm:moment/moment.js',
       'mydatepicker': 'npm:mydatepicker/bundles/mydatepicker.umd.js',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
     },
