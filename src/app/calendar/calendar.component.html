@@ -1,4 +1,4 @@
-﻿<my-datepicker [date]="currentDate" [onChange]="onChange()"></my-datepicker>
+<my-datepicker [date]="currentDate" [onChange]="onChange()"></my-datepicker>
 <br />
 <table border="0">
     <tr>
@@ -8,7 +8,7 @@
     <tr *ngFor="let sessionTime of sessionTimes">
         <td>{{sessionTime.hour}}</td>
         <td *ngIf="sessionTime.session" rowspan="4">
-            <span *ngIf="sessionTime.session.is_free"><a [routerLink]="['/reservation']">Réserver</a></span>
+            <span *ngIf="sessionTime.session.is_free"><a href="#">Réserver</a></span>
             <span *ngIf="!sessionTime.session.is_free">Complet</span>
         </td>
     </tr>

@@ -1,14 +1,15 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-    moduleId: module.id,
-    selector: 'my-reservation',
-    templateUrl: './reservation.template.html',
+  selector: 'app-reservation',
+  templateUrl: './reservation.component.html',
+  styleUrls: ['./reservation.component.css']
 })
-export class ReservationComponent implements OnInit{
+export class ReservationComponent implements OnInit {
 
-    ngOnInit() {
-    }
+  constructor() { }
+
+  ngOnInit() {
+  }
 
 }

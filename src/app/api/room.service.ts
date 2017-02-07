@@ -1,4 +1,4 @@
-﻿import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { RoomModel } from '../model/room.model';

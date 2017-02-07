@@ -1,4 +1,4 @@
-﻿import { Injectable, Inject} from '@angular/core';4
+import { Injectable, Inject} from '@angular/core';4
 
 import { RoomService} from './room.service';
 import { LoggerService} from '../utils/logger.service';

@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
@@ -13,8 +13,8 @@ import * as moment from 'moment';
 @Component({
     moduleId: module.id,
     selector: 'my-calendar',
-    templateUrl: './calendar.template.html',
-    styleUrls: ['./calendar.style.css']
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent{
 

@@ -1,4 +1,4 @@
-﻿export class AvailableSessionModel {
+export class AvailableSessionModel {
     idAvailability:number;
     hour_start: String;
     hourEnd: String;

@@ -22,50 +22,70 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\app\app.template.html" />
-    <Content Include="src\app\calendar\datepicker.style.css" />
-    <Content Include="src\app\calendar\datepicker.template.html" />
-    <Content Include="src\app\calendar\calendar.template.html" />
-    <Content Include="src\app\calendar\calendar.style.css" />
-    <Content Include="src\app\reservation\reservation.template.html" />
+    <Content Include="karma.conf.js" />
+    <Content Include="protractor.conf.js" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\calendar\calendar.component.css" />
+    <Content Include="src\app\calendar\calendar.component.html" />
+    <Content Include="src\app\calendar\datepicker\datepicker.component.css" />
+    <Content Include="src\app\calendar\datepicker\datepicker.component.html" />
+    <Content Include="src\app\reservation\reservation.component.css" />
+    <Content Include="src\app\reservation\reservation.component.html" />
     <Content Include="src\index.html" />
     <Content Include="src\styles.css" />
-    <Content Include="src\systemjs.config.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
-    <TypeScriptCompile Include="src\app\api\room.mock.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room-http.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\room-http.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room-mock.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\room-mock.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room.service.ts" />
-    <TypeScriptCompile Include="src\app\api\room.http.service.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app.routes.ts" />
-    <TypeScriptCompile Include="src\app\calendar\datepicker.component.ts" />
+    <TypeScriptCompile Include="src\app\calendar\calendar.component.spec.ts" />
     <TypeScriptCompile Include="src\app\calendar\calendar.component.ts" />
+    <TypeScriptCompile Include="src\app\calendar\datepicker\datepicker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\calendar\datepicker\datepicker.component.ts" />
     <TypeScriptCompile Include="src\app\model\available-session.model.ts" />
     <TypeScriptCompile Include="src\app\model\schedule.model.ts" />
     <TypeScriptCompile Include="src\app\model\room.model.ts" />
+    <TypeScriptCompile Include="src\app\reservation\reservation.component.spec.ts" />
     <TypeScriptCompile Include="src\app\reservation\reservation.component.ts" />
-    <TypeScriptCompile Include="src\app\utils\logger.alert.service.ts" />
+    <TypeScriptCompile Include="src\app\utils\logger-alert.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\utils\logger-alert.service.ts" />
+    <TypeScriptCompile Include="src\app\utils\logger.service.spec.ts" />
     <TypeScriptCompile Include="src\app\utils\logger.service.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
     <Content Include="src\tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="e2e\tsconfig.bak.json" />
-    <Content Include="src\mock\room.json" />
-    <Content Include="typings.json" />
-    <Content Include="tsconfig.json" />
+    <Content Include="angular-cli.json" />
+    <Content Include="CHANGELOG.md" />
+    <Content Include="README.md" />
+    <Content Include="src\assets\.gitkeep" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

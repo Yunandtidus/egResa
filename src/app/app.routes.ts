@@ -8,4 +8,3 @@ export const rootRouterConfig: Routes = [
     { path: 'home', component: CalendarComponent },
     { path: 'reservation', component: ReservationComponent }
 ];
-

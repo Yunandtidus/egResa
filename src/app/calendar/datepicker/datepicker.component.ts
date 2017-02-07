@@ -1,16 +1,16 @@
-﻿import { Component, OnInit, Inject, Input} from '@angular/core';
+import { Component, OnInit, Inject, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
-import { RoomService } from '../api/room.service';
+import { RoomService } from '../../api/room.service';
 
-import { RoomModel } from '../model/room.model';
+import { RoomModel } from '../../model/room.model';
 
 @Component({
     moduleId: module.id,
     selector: 'my-datepicker',
-    templateUrl: './datepicker.template.html',
-    styleUrls: ['./datepicker.style.css']
+    templateUrl: './datepicker.component.html',
+    styleUrls: ['./datepicker.component.css']
 })
 export class DatepickerComponent implements OnInit {
     private dateConverter(d: Date) {
@@ -30,6 +30,7 @@ export class DatepickerComponent implements OnInit {
 
     ngOnInit() {
         this.dateModel = this.dateConverter(this.date);
+        this.onChange(this.date);
     };
     
 
@@ -49,5 +50,6 @@ export class DatepickerComponent implements OnInit {
     addDay(value: number) {
         this.date.setDate(this.date.getDate() + (value ? value : 1));
         this.dateModel = this.dateConverter(this.date)
+        this.onChange(this.date);
     };
 }

@@ -1,4 +1,4 @@
-﻿import { AvailableSessionModel } from './available-session.model';
+import { AvailableSessionModel } from './available-session.model';
 
 export class RoomModel {
     id: String;
