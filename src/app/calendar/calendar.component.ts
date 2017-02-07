@@ -18,7 +18,7 @@ import * as moment from 'moment';
 })
 export class CalendarComponent implements OnInit{
 
-    static HOUR_START: number = 8;
+    static HOUR_START: number = 12;
     static HOUR_END: number = 24;
     static DELTA_TIME: number = 0.5;
 
@@ -27,7 +27,9 @@ export class CalendarComponent implements OnInit{
     room: RoomModel;
     hours: number[];
 
-    days: Date[] = [new Date(2017, 1, 15), new Date(2017, 1, 16), new Date(2017, 1, 17)];
+    private mode = this.modeWeek;
+
+    days: Date[];
 
     planning: AvailableSessionModel[][];
 
@@ -39,7 +41,11 @@ export class CalendarComponent implements OnInit{
     ngOnInit(){
         this.hours = [];
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
-            this.hours.push(i);
+            if (i == Math.round(i)) {
+                this.hours.push(i);
+            } else {
+                this.hours.push(null);
+            }
         }
     };
 
@@ -47,6 +53,7 @@ export class CalendarComponent implements OnInit{
         let thisHelper = this;
         return (date: Date) => {
             thisHelper.currentDate = date;
+            thisHelper.mode();
             thisHelper.roomService.loadRoom(1,
                 thisHelper.constructSession.bind(thisHelper),
                 null);
@@ -55,7 +62,10 @@ export class CalendarComponent implements OnInit{
     
     constructSession(roomData: RoomModel) {
         this.room = roomData;
+        this.refreshPlanning();
+    }
 
+    refreshPlanning(){
         this.planning = [];
 
         for (let d of this.days) {
@@ -66,7 +76,7 @@ export class CalendarComponent implements OnInit{
             this.planning.push(dayPlanning);
         }
 
-        for (let a of roomData.planning) {
+        for (let a of this.room.planning) {
             let d = moment(a.hour_start, 'YYYY-MM-DD hh').toDate();
             let hour = d.getHours();
             d.setHours(0);
@@ -78,18 +88,20 @@ export class CalendarComponent implements OnInit{
         }
     }
 
-    getSession(date: Date, sessionTime: number): AvailableSessionModel {
-        let tmpDate = new Date();
-        tmpDate.setTime(this.currentDate.getTime());
-        let hour = Math.round(sessionTime);
-        let minute = (sessionTime - hour) * 60;
-        tmpDate.setHours(hour, minute, 0, 0);
-        for (let a of this.room.planning) {
-            if (moment(a.hour_start, 'YYYY-MM-DD hh:mm:ss').toDate().getTime() === tmpDate.getTime()) {
-                return a;
-            }
-        };
-        return null;
+    modeDay() {
+        this.mode = this.modeDay;
+        this.days = [this.currentDate];
+    }
+
+    modeWeek() {
+        this.mode = this.modeWeek;
+        this.days = [this.currentDate];
+        for (let i = 1; i < 7; i++) {
+            let d = new Date();
+            d.setTime(this.currentDate.getTime());
+            d.setDate(d.getDate() + i);
+            this.days.push(d);
+        }
     }
 
 }

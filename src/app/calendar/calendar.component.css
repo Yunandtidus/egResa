@@ -1,0 +1,19 @@
+table{
+    border-collapse:collapse;
+    border:1px solid black;
+}
+td {
+    height: 12px;
+    border-left : 1px solid grey;
+    border-right : 1px solid grey;
+}
+td.planning-cell{
+    font-size: 12px;
+}
+tr.full-hour td{
+    border-top:1px solid grey;
+}
+
+tr.not-full-hour td{
+    border-top:1px dotted grey;
+}

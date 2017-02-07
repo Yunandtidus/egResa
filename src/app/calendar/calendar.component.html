@@ -1,18 +1,22 @@
 <my-datepicker [date]="currentDate" [onChange]="onChange()"></my-datepicker>
 <br />
-<table border="1" style="width:100%">
+<button (click)="modeDay();refreshPlanning();">Jour</button>
+<button (click)="modeWeek();refreshPlanning();">Semaine</button>
+<table style="width:100%">
     <tr>
         <th>Horaire</th>
         <th *ngFor="let d of days">{{d | date: 'dd/MM/yyyy'}}</th>
     </tr>
-    <tr *ngFor="let hour of hours;let i=index">
-        <td>{{hour}}h</td>
+    <tr *ngFor="let hour of hours;let i=index" [ngClass]="hour ? 'full-hour' : 'not-full-hour'">
+        <td class="planning-cell">
+            <span *ngIf="hour">{{hour}}h</span>
+        </td>
 
         <td *ngFor="let d of days;let j=index">
-            <div *ngIf="planning[j][i]" style="position:relative;top:-10px;left:0px;right:0px;">
-                <div style="position:absolute; border:1px solid #001a44;background:#5184d6;z-index:1000;display:block;top:0px;bottom:-90px;left:0px;right:0px;">
+            <div *ngIf="planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
+                <div style="position:absolute; border:1px solid #001a44;background:#5184d6;z-index:1000;display:block;top:0px;bottom:-56px;left:0px;right:0px;">
                     <a *ngIf="planning[j][i].is_free" [routerLink]="['/reservation']">Réserver</a>
-                    <span *ngIf="!planning[j][i].is_free">Indisponible</span>
+                    <span *ngIf="!planning[j][i].is_free">Indispo.</span>
                 </div>
             </div>
         </td>
