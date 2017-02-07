@@ -9,6 +9,16 @@ import { AvailableSessionModel } from '../model/available-session.model';
 @Injectable()
 export class MockRoomService implements RoomService{
 
+    static buildSession(month: number, day: number, hour: number, minutes: number): AvailableSessionModel {
+        return <AvailableSessionModel>{
+            idAvailability: 1,
+            hour_start: "2017-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2) + " " + ("0" + hour).slice(-2) + ":" + ("0" + minutes).slice(-2)+":00",
+            hourEnd: "2017-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2) + " " + ("0" +( hour + (Math.random() > 0.5? 1:2))).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":00",
+            is_free: Math.random() > 0.5 ? true : false
+        };
+    }
+
+
     private ROOMS: { [id: number]: RoomModel } = {
         1: <RoomModel>{
             id: '1',
@@ -18,30 +28,13 @@ export class MockRoomService implements RoomService{
             gameDuration: null,
             totalDuration: null,
             planning: [
-                <AvailableSessionModel>{
-                    idAvailability: 1,
-                    hour_start: "2017-02-05 18:00:00",//new Date(2017, 1, 5, 18, 0, 0).getTime(),
-                    hourEnd: "",
-                    is_free: true
-                },
-                <AvailableSessionModel>{
-                    idAvailability: 1,
-                    hour_start: "2017-02-05 18:00:00",
-                    hourEnd: "",
-                    is_free: false
-                },
-                <AvailableSessionModel>{
-                    idAvailability: 1,
-                    hour_start: "2017-02-05 18:00:00",
-                    hourEnd: "",
-                    is_free: false
-                },
-                <AvailableSessionModel>{
-                    idAvailability: 1,
-                    hour_start: "2017-02-05 18:00:00",
-                    hourEnd: "",
-                    is_free: false
-                }
+                MockRoomService.buildSession(2, 15, 18, 0),
+                MockRoomService.buildSession(2, 15, 20, 0),
+                MockRoomService.buildSession(2, 15, 22, 0),
+                MockRoomService.buildSession(2, 16, 16, 0),
+                MockRoomService.buildSession(2, 16, 18, 0),
+                MockRoomService.buildSession(2, 16, 20, 0),
+                MockRoomService.buildSession(2, 16, 22, 0),
             ]
         }
     };

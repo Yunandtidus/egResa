@@ -40,7 +40,6 @@
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
     <TypeScriptCompile Include="src\app\api\room-http.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room-http.service.ts" />
-    <TypeScriptCompile Include="src\app\api\room-mock.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room-mock.service.ts" />
     <TypeScriptCompile Include="src\app\api\room.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room.service.ts" />

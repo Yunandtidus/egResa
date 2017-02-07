@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
@@ -16,16 +16,31 @@ import * as moment from 'moment';
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent{
+export class CalendarComponent implements OnInit{
+
+    static HOUR_START: number = 8;
+    static HOUR_END: number = 24;
+    static DELTA_TIME: number = 0.5;
 
     currentDate = new Date(2017, 1, 15);
 
     room: RoomModel;
-    sessionTimes: ScheduleModel[];
+    hours: number[];
+
+    days: Date[] = [new Date(2017, 1, 15), new Date(2017, 1, 16), new Date(2017, 1, 17)];
+
+    planning: AvailableSessionModel[][];
 
     thisHelper: CalendarComponent = this;
 
     constructor( @Inject("RoomService") private roomService: RoomService) {
+    }
+
+    ngOnInit(){
+        this.hours = [];
+        for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
+            this.hours.push(i);
+        }
     };
 
     onChange() {
@@ -40,13 +55,30 @@ export class CalendarComponent{
     
     constructSession(roomData: RoomModel) {
         this.room = roomData;
-        this.sessionTimes = [];
-        for (let i = 10; i <= 24; i += 0.5) {
-            this.sessionTimes.push(<ScheduleModel>{ hour: i, session : this.getSession(i) });
+
+        this.planning = [];
+
+        for (let d of this.days) {
+            let dayPlanning = [];
+            for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
+                dayPlanning.push(null);
+            }
+            this.planning.push(dayPlanning);
+        }
+
+        for (let a of roomData.planning) {
+            let d = moment(a.hour_start, 'YYYY-MM-DD hh').toDate();
+            let hour = d.getHours();
+            d.setHours(0);
+            for (let i in this.days) {
+                if (d.getTime() == this.days[i].getTime()) {
+                    this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;
+                }
+            }
         }
     }
 
-    getSession(sessionTime: number): AvailableSessionModel {
+    getSession(date: Date, sessionTime: number): AvailableSessionModel {
         let tmpDate = new Date();
         tmpDate.setTime(this.currentDate.getTime());
         let hour = Math.round(sessionTime);

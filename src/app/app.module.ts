@@ -11,6 +11,7 @@ import { RoomService } from './api/room.service';
 import { MyDatePickerModule } from 'mydatepicker';
 
 import { HttpRoomService } from './api/room-http.service';
+import { MockRoomService } from './api/room-mock.service';
 import { LoggerAlertService } from './utils/logger-alert.service';
 
 import { AppComponent } from './app.component';
@@ -36,7 +37,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 	MyDatePickerModule
   ],
   providers: [
-    { provide: 'RoomService', useClass: HttpRoomService },
+      { provide: 'RoomService', useClass: MockRoomService },
     { provide: 'LoggerService', useClass: LoggerAlertService }
   ],
   bootstrap: [AppComponent]
