@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
 import { RoomService } from '../api/room.service';
+import { DatepickerComponent } from './datepicker/datepicker.component';
 
 import { RoomModel } from '../model/room.model';
 import { AvailableSessionModel } from '../model/available-session.model';
@@ -22,6 +23,8 @@ export class CalendarComponent implements OnInit{
     static HOUR_END: number = 24;
     static DELTA_TIME: number = 0.5;
 
+    DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
+
     currentDate = new Date(2017, 1, 15);
 
     room: RoomModel;
@@ -29,11 +32,11 @@ export class CalendarComponent implements OnInit{
 
     private mode = this.modeWeek;
 
+    @Input()
     days: Date[];
 
+    @Input()
     planning: AvailableSessionModel[][];
-
-    thisHelper: CalendarComponent = this;
 
     constructor( @Inject("RoomService") private roomService: RoomService) {
     }
@@ -41,18 +44,15 @@ export class CalendarComponent implements OnInit{
     ngOnInit(){
         this.hours = [];
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
-            if (i == Math.round(i)) {
-                this.hours.push(i);
-            } else {
-                this.hours.push(null);
-            }
+            this.hours.push(i);
         }
     };
 
     onChange() {
-        let thisHelper = this;
+        let thisHelper: CalendarComponent = this;
         return (date: Date) => {
-            thisHelper.currentDate = date;
+            console.log("On change", date);
+            thisHelper.currentDate = new Date(date.getTime());
             thisHelper.mode();
             thisHelper.roomService.loadRoom(1,
                 thisHelper.constructSession.bind(thisHelper),
@@ -88,6 +88,16 @@ export class CalendarComponent implements OnInit{
         }
     }
 
+    addSession(day:Date, hour:number) {
+        console.log(day, hour);
+        let d: Date = new Date();
+        d.setTime(day.getTime());
+        d.setHours(Math.round(hour));
+        d.setMinutes((hour - Math.round(hour)) * 30);
+        this.roomService.addSession(1, d, null, null);
+        this.onChange()(this.currentDate);
+    }
+
     modeDay() {
         this.mode = this.modeDay;
         this.days = [this.currentDate];
@@ -104,4 +114,11 @@ export class CalendarComponent implements OnInit{
         }
     }
 
+    modeMonth() {
+        this.mode = this.modeMonth;
+    }
+
+    showHour(h: number) {
+        return Math.round(h) == h;
+    }
 }

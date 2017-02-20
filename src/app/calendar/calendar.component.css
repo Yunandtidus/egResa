@@ -17,3 +17,46 @@ tr.full-hour td{
 tr.not-full-hour td{
     border-top:1px dotted grey;
 }
+
+.game-session{
+    position:absolute; 
+    border:1px solid;
+    border-radius:5px;
+    text-overflow:ellipsis;
+    padding:5px;
+    background:#a3a3a3;
+    border-color:#333333;
+    z-index:50;
+    display:block;
+    top:0px;
+    left:0px;
+    right:0px;
+}
+
+.game-session.free {
+    background:#387cea;
+    border-color:#06054a;
+}
+
+.reservation-link {
+    color:black;
+}
+
+.add-session-button{
+    display:none;
+    position:relative;
+    top:0px;
+    border:1px solid #005200;
+    background:#00ac01;
+    font-size:9px;
+    font-weight:bold;
+    color:white;
+    border-radius:1px;
+    text-align:center;
+    z-index:99;
+}
+
+td:hover .add-session-button{
+    display:block;
+    cursor:pointer
+}

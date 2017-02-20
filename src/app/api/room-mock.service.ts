@@ -42,4 +42,8 @@ export class MockRoomService implements RoomService{
     loadRoom(id: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
         onSuccess(this.ROOMS[1]);
     }
+
+    addSession(id: number, date: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void {
+        this.ROOMS[1].planning.push(MockRoomService.buildSession(date.getMonth()+1, date.getDate(), date.getHours(), date.getMinutes()));
+    }
 }
