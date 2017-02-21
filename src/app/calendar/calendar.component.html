@@ -3,12 +3,12 @@
 <button (click)="modeDay();refreshPlanning();">Jour</button>
 <button (click)="modeWeek();refreshPlanning();">Semaine</button>
 <button (click)="modeMonth();refreshPlanning();">Mois</button>
-<table *ngIf="mode != modeMonth" style="width:100%">
+<table class="calendar" *ngIf="mode != modeMonth" style="width:100%">
     <tr>
         <th style="max-width:80px">Horaire</th>
         <th *ngFor="let d of days">{{d | date: 'dd/MM/yyyy'}}</th>
     </tr>
-    <tr *ngFor="let hour of hours;let i=index" [ngClass]="hour ? 'full-hour' : 'not-full-hour'">
+    <tr *ngFor="let hour of hours;let i=index" [ngClass]="showHour(hour) ? 'full-hour' : 'not-full-hour'">
         <td class="planning-cell" style="max-width:80px">
             <span *ngIf="showHour(hour)">{{hour}}h</span>
         </td>
@@ -27,19 +27,32 @@
     </tr>
 </table>
 
-<table *ngIf="mode == modeMonth">
+<table class="month-calendar" *ngIf="mode == modeMonth">
     <tr>
         <th *ngFor="let i of DAY_OF_WEEK">{{i}}</th>
+    </tr>
+    <tr *ngFor="let w of monthWeeks;let i = index">
+        <td *ngFor="let d of w; let j = index">
+            <div class="calendar-day {{d.getMonth() == currentDate.getMonth() ? 'current-month' : ''}} {{d.getTime() == currentDate.getTime() ? 'today' : ''}}">
+                {{d.getDate()}} <span *ngIf="d.getDate() == 1">{{d | date:'MMM'}}</span>
+            </div>
+            <div *ngFor="let p of planning[i*7+j]"><div *ngIf="p" class="game-session {{p.is_free ? 'free' : ''}}">
+                <div *ngIf="p.is_free">
+                    <a class="reservation-link" [routerLink]="['/reservation']">{{p.hour_start.substring(11, 16)}} : Réserver</a>
+                </div>
+                <div *ngIf="!p.is_free">{{p.hour_start.substring(11, 16)}}</div>
+                
+            </div></div>
+        </td>
     </tr>
 </table>
 <br />
 
 <fieldset>
     <legend>Debug</legend>
-    Test : {{ DAY_OF_WEEK | json}}
-    Date : {{currentDate}}<br/>
+    Test : {{ monthWeeks | json}}
     Room :
-    <pre>{{room | json}}</pre>    
+    <pre>{{room | json}}</pre>
     Planning :
     <pre>{{planning | json}}</pre>
 </fieldset>

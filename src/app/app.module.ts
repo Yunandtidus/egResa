@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -37,7 +37,8 @@ import { ReservationComponent } from './reservation/reservation.component';
 	MyDatePickerModule
   ],
   providers: [
-      { provide: 'RoomService', useClass: MockRoomService },
+    { provide: LOCALE_ID, useValue: "fr-FR" },
+    { provide: 'RoomService', useClass: MockRoomService },
     { provide: 'LoggerService', useClass: LoggerAlertService }
   ],
   bootstrap: [AppComponent]

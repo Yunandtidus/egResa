@@ -35,6 +35,7 @@ export class MockRoomService implements RoomService{
                 MockRoomService.buildSession(2, 16, 18, 0),
                 MockRoomService.buildSession(2, 16, 20, 0),
                 MockRoomService.buildSession(2, 16, 22, 0),
+                MockRoomService.buildSession(2, 17, 19, 30),
             ]
         }
     };

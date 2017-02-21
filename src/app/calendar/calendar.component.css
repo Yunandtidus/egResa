@@ -18,19 +18,23 @@ tr.not-full-hour td{
     border-top:1px dotted grey;
 }
 
-.game-session{
-    position:absolute; 
+.game-session {
     border:1px solid;
     border-radius:5px;
     text-overflow:ellipsis;
-    padding:5px;
     background:#a3a3a3;
     border-color:#333333;
     z-index:50;
+}
+.calendar .game-session{
+    position:absolute; 
+    padding:5px;
     display:block;
     top:0px;
     left:0px;
     right:0px;
+}
+.month-calendar .game-session {
 }
 
 .game-session.free {
@@ -59,4 +63,25 @@ tr.not-full-hour td{
 td:hover .add-session-button{
     display:block;
     cursor:pointer
+}
+
+table.month-calendar {
+    width:100%;
+    table-layout:fixed;
+}
+.month-calendar td {
+    vertical-align:top;
+    width:14.29%;
+    height:100px;
+    border:1px solid black;
+}
+
+.calendar-day {
+    color:#c8c8c8;
+}
+.calendar-day.current-month {
+    color:black;
+}
+.calendar-day.today {
+    font-weight:700;
 }

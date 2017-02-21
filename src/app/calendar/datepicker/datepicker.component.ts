@@ -14,13 +14,13 @@ import { RoomModel } from '../../model/room.model';
 })
 export class DatepickerComponent implements OnInit {
     public static DAY_LABELS:string[] = [
-        'Dimanche',
         'Lundi',
         'Mardi',
         'Mercredi',
         'Jeudi',
         'Vendredi',
-        'Samedi'
+        'Samedi',
+        'Dimanche'
     ];
 
     public static MONTH_LABELS: IMyMonthLabels = {
@@ -62,13 +62,13 @@ export class DatepickerComponent implements OnInit {
         // other options...
         dateFormat: 'dd mmm yyyy',
         dayLabels: <IMyDayLabels> {
-            su: DatepickerComponent.DAY_LABELS[0],
-            mo: DatepickerComponent.DAY_LABELS[1],
-            tu: DatepickerComponent.DAY_LABELS[2],
-            we: DatepickerComponent.DAY_LABELS[3],
-            th: DatepickerComponent.DAY_LABELS[4],
-            fr: DatepickerComponent.DAY_LABELS[5],
-            sa: DatepickerComponent.DAY_LABELS[6]
+            su: DatepickerComponent.DAY_LABELS[6],
+            mo: DatepickerComponent.DAY_LABELS[0],
+            tu: DatepickerComponent.DAY_LABELS[1],
+            we: DatepickerComponent.DAY_LABELS[2],
+            th: DatepickerComponent.DAY_LABELS[3],
+            fr: DatepickerComponent.DAY_LABELS[4],
+            sa: DatepickerComponent.DAY_LABELS[5]
         },
         monthLabels: DatepickerComponent.MONTH_LABELS,
         todayBtnTxt : "Aujourd'hui"

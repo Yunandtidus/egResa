@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
@@ -30,12 +30,11 @@ export class CalendarComponent implements OnInit{
     room: RoomModel;
     hours: number[];
 
-    private mode = this.modeWeek;
+    private mode = this.modeMonth;
 
-    @Input()
     days: Date[];
+    monthWeeks: Date[][];
 
-    @Input()
     planning: AvailableSessionModel[][];
 
     constructor( @Inject("RoomService") private roomService: RoomService) {
@@ -77,9 +76,10 @@ export class CalendarComponent implements OnInit{
         }
 
         for (let a of this.room.planning) {
-            let d = moment(a.hour_start, 'YYYY-MM-DD hh').toDate();
-            let hour = d.getHours();
+            let d = moment(a.hour_start, 'YYYY-MM-DD hh:mm').toDate();
+            let hour = d.getHours() + d.getMinutes() / 60;
             d.setHours(0);
+            d.setMinutes(0);
             for (let i in this.days) {
                 if (d.getTime() == this.days[i].getTime()) {
                     this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;
@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit{
         let d: Date = new Date();
         d.setTime(day.getTime());
         d.setHours(Math.round(hour));
-        d.setMinutes((hour - Math.round(hour)) * 30);
+        d.setMinutes((hour - Math.round(hour)) * 60);
         this.roomService.addSession(1, d, null, null);
         this.onChange()(this.currentDate);
     }
@@ -116,6 +116,23 @@ export class CalendarComponent implements OnInit{
 
     modeMonth() {
         this.mode = this.modeMonth;
+        this.days = [];
+        this.monthWeeks = [];
+        let firstMonday = new Date(this.currentDate.getFullYear(), 1, 1, 0, 0, 0, 0);
+        firstMonday.setMonth(this.currentDate.getMonth());
+        firstMonday.setDate(1);
+        firstMonday.setDate(firstMonday.getDate() - firstMonday.getDay() + 1);
+        console.log(firstMonday);
+        for (let i = 0; i < 5;i++){
+            this.monthWeeks.push([]);
+            for (let d = 0; d < 7; d++) {
+                let date: Date = new Date();
+                date.setTime(firstMonday.getTime());
+                this.monthWeeks[i].push(date);
+                this.days.push(date);
+                firstMonday.setDate(firstMonday.getDate() + 1);
+            }
+        }
     }
 
     showHour(h: number) {
