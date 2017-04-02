@@ -6,18 +6,21 @@ import { HttpModule } from '@angular/http';
 
 import { rootRouterConfig } from './app.routes';
 
-import { RoomService } from './api/room.service';
+import { RoomService } from './api/room/room.service';
+import { AuthService } from './api/auth/auth.service';
 
 import { MyDatePickerModule } from 'mydatepicker';
 
-import { HttpRoomService } from './api/room-http.service';
-import { MockRoomService } from './api/room-mock.service';
+import { HttpRoomService } from './api/room/room-http.service';
+import { MockRoomService } from './api/room/room-mock.service';
 import { LoggerAlertService } from './utils/logger-alert.service';
+import { HttpAuthService } from './api/auth/auth-http.service';
 
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DatepickerComponent } from './calendar/datepicker/datepicker.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { ReservationComponent } from './reservation/reservation.component';
 
     CalendarComponent,
     DatepickerComponent,
-    ReservationComponent
+    ReservationComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ import { ReservationComponent } from './reservation/reservation.component';
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr-FR" },
-    { provide: 'RoomService', useClass: MockRoomService },
+    { provide: 'AuthService', useClass: HttpAuthService },
+    { provide: 'RoomService', useClass: HttpRoomService },
     { provide: 'LoggerService', useClass: LoggerAlertService }
   ],
   bootstrap: [AppComponent]

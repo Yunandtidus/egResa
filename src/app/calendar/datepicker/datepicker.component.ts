@@ -45,7 +45,10 @@ export class DatepickerComponent implements OnInit {
     private date: Date;
 
     @Input()
-    private onChange: (date:any) => any;
+    private onChange: (date: any) => any;
+
+    @Input()
+    private mode: String
 
     private dateModel: Object;
 
@@ -82,8 +85,16 @@ export class DatepickerComponent implements OnInit {
         }
     }
 
-    addDay(value: number) {
-        this.date.setDate(this.date.getDate() + (value ? value : 1));
+
+    shiftDate(value: number) {
+        console.log(this.mode);
+        if (this.mode == "week") {
+            this.date.setDate(this.date.getDate() + value*7);
+        } else if (this.mode == "month") {
+            this.date.setMonth(this.date.getMonth() + value);
+        } else {
+            this.date.setDate(this.date.getDate() + value);
+        }
         this.dateModel = this.dateConverter(this.date)
         this.onChange(this.date);
     };

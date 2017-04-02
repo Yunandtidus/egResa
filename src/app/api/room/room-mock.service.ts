@@ -1,10 +1,10 @@
 import { Injectable, Inject} from '@angular/core';4
 
 import { RoomService} from './room.service';
-import { LoggerService} from '../utils/logger.service';
+import { LoggerService} from '../../utils/logger.service';
 
-import { RoomModel } from '../model/room.model';
-import { AvailableSessionModel } from '../model/available-session.model';
+import { RoomModel } from '../../model/room.model';
+import { AvailableSessionModel } from '../../model/available-session.model';
 
 @Injectable()
 export class MockRoomService implements RoomService{
@@ -40,7 +40,7 @@ export class MockRoomService implements RoomService{
         }
     };
 
-    loadRoom(id: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
+    loadRoom(id: number, begin:Date, end: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void {
         onSuccess(this.ROOMS[1]);
     }
 

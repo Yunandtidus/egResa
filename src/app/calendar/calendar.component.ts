@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
-import { RoomService } from '../api/room.service';
+import { RoomService } from '../api/room/room.service';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 
 import { RoomModel } from '../model/room.model';
@@ -25,12 +25,14 @@ export class CalendarComponent implements OnInit{
 
     DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
 
-    currentDate = new Date(2017, 1, 15);
+    currentDate = new Date();
 
     room: RoomModel;
     hours: number[];
 
-    private mode = this.modeMonth;
+    private mode: string = "month";
+
+    private modes = {'day' : this.modeDay, 'week' : this.modeWeek, 'month' : this.modeMonth};
 
     days: Date[];
     monthWeeks: Date[][];
@@ -50,10 +52,9 @@ export class CalendarComponent implements OnInit{
     onChange() {
         let thisHelper: CalendarComponent = this;
         return (date: Date) => {
-            console.log("On change", date);
             thisHelper.currentDate = new Date(date.getTime());
-            thisHelper.mode();
-            thisHelper.roomService.loadRoom(1,
+            thisHelper.modes[thisHelper.mode].bind(thisHelper)();
+            thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate(),
                 thisHelper.constructSession.bind(thisHelper),
                 null);
         }
@@ -64,7 +65,7 @@ export class CalendarComponent implements OnInit{
         this.refreshPlanning();
     }
 
-    refreshPlanning(){
+    refreshPlanning() {
         this.planning = [];
 
         for (let d of this.days) {
@@ -89,22 +90,21 @@ export class CalendarComponent implements OnInit{
     }
 
     addSession(day:Date, hour:number) {
-        console.log(day, hour);
         let d: Date = new Date();
         d.setTime(day.getTime());
         d.setHours(Math.round(hour));
         d.setMinutes((hour - Math.round(hour)) * 60);
-        this.roomService.addSession(1, d, null, null);
+        //this.roomService.addSession(1, d, null, null);
         this.onChange()(this.currentDate);
     }
 
     modeDay() {
-        this.mode = this.modeDay;
+        this.mode = "day";
         this.days = [this.currentDate];
-    }
+    };
 
     modeWeek() {
-        this.mode = this.modeWeek;
+        this.mode = "week";
         this.days = [this.currentDate];
         for (let i = 1; i < 7; i++) {
             let d = new Date();
@@ -115,15 +115,14 @@ export class CalendarComponent implements OnInit{
     }
 
     modeMonth() {
-        this.mode = this.modeMonth;
+        this.mode = "month";
         this.days = [];
         this.monthWeeks = [];
         let firstMonday = new Date(this.currentDate.getFullYear(), 1, 1, 0, 0, 0, 0);
         firstMonday.setMonth(this.currentDate.getMonth());
         firstMonday.setDate(1);
         firstMonday.setDate(firstMonday.getDate() - firstMonday.getDay() + 1);
-        console.log(firstMonday);
-        for (let i = 0; i < 5;i++){
+        for (let i = 0; i < 5; i++) {
             this.monthWeeks.push([]);
             for (let d = 0; d < 7; d++) {
                 let date: Date = new Date();
@@ -133,9 +132,10 @@ export class CalendarComponent implements OnInit{
                 firstMonday.setDate(firstMonday.getDate() + 1);
             }
         }
-    }
+    }    
 
     showHour(h: number) {
         return Math.round(h) == h;
     }
+
 }

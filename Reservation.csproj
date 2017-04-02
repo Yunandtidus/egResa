@@ -24,6 +24,8 @@
   <ItemGroup>
     <Content Include="karma.conf.js" />
     <Content Include="protractor.conf.js" />
+    <Content Include="src\app\admin\admin.component.css" />
+    <Content Include="src\app\admin\admin.component.html" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\calendar\calendar.component.css" />
@@ -38,11 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
-    <TypeScriptCompile Include="src\app\api\room-http.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\api\room-http.service.ts" />
-    <TypeScriptCompile Include="src\app\api\room-mock.service.ts" />
-    <TypeScriptCompile Include="src\app\api\room.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\api\room.service.ts" />
+    <TypeScriptCompile Include="src\app\admin\admin.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\admin\admin.component.ts" />
+    <TypeScriptCompile Include="src\app\api\abstract-http.service.ts" />
+    <TypeScriptCompile Include="src\app\api\auth\auth.service.ts" />
+    <TypeScriptCompile Include="src\app\api\auth\auth-http.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room\room-http.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\room\room-http.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room\room-mock.service.ts" />
+    <TypeScriptCompile Include="src\app\api\room\room.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\room\room.service.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -86,6 +93,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,0 +1,15 @@
+import { Observable } from 'rxjs/Observable';
+
+import { Injectable } from '@angular/core';
+import { RoomModel } from '../../model/room.model';
+
+export interface RoomService {
+
+    /**
+    * @param id : the room id
+    * @throw error
+    */
+    loadRoom(id: number, begin: Date, end: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void;
+
+    //addSession(id: number, date:Date, onSuccess: (result: any) => any, onError: (error: any) => any): void;
+}

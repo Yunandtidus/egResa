@@ -1,9 +1,9 @@
-<my-datepicker [date]="currentDate" [onChange]="onChange()"></my-datepicker>
+<my-datepicker [date]="currentDate" [onChange]="onChange()" [mode]="mode"></my-datepicker>
 <br />
 <button (click)="modeDay();refreshPlanning();">Jour</button>
 <button (click)="modeWeek();refreshPlanning();">Semaine</button>
 <button (click)="modeMonth();refreshPlanning();">Mois</button>
-<table class="calendar" *ngIf="mode != modeMonth" style="width:100%">
+<table class="calendar" *ngIf="mode != 'month'" style="width:100%">
     <tr>
         <th style="max-width:80px">Horaire</th>
         <th *ngFor="let d of days">{{d | date: 'dd/MM/yyyy'}}</th>
@@ -15,7 +15,7 @@
 
         <td *ngFor="let d of days;let j=index">
             <div class="add-session-button" (click)="addSession(d, hour)">Ajouter session</div>
-            <div *ngIf="planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
+            <div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
                 <div class="game-session {{ planning[j][i].is_free ? 'free' : ''}}" style="bottom:-56px">
                     <div *ngIf="planning[j][i].is_free">
                         <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
@@ -27,7 +27,7 @@
     </tr>
 </table>
 
-<table class="month-calendar" *ngIf="mode == modeMonth">
+<table class="month-calendar" *ngIf="mode == 'month'">
     <tr>
         <th *ngFor="let i of DAY_OF_WEEK">{{i}}</th>
     </tr>
@@ -36,13 +36,17 @@
             <div class="calendar-day {{d.getMonth() == currentDate.getMonth() ? 'current-month' : ''}} {{d.getTime() == currentDate.getTime() ? 'today' : ''}}">
                 {{d.getDate()}} <span *ngIf="d.getDate() == 1">{{d | date:'MMM'}}</span>
             </div>
-            <div *ngFor="let p of planning[i*7+j]"><div *ngIf="p" class="game-session {{p.is_free ? 'free' : ''}}">
-                <div *ngIf="p.is_free">
-                    <a class="reservation-link" [routerLink]="['/reservation']">{{p.hour_start.substring(11, 16)}} : Réserver</a>
+
+            <div *ngIf="planning">
+                <div *ngFor="let p of planning[i*7+j]">
+                    <div *ngIf="p" class="game-session {{p.is_free ? 'free' : ''}}">
+                        <div *ngIf="p.is_free">
+                            <a class="reservation-link" [routerLink]="['/reservation']">{{p.hour_start.substring(11, 16)}} : Réserver</a>
+                        </div>
+                        <div *ngIf="!p.is_free">{{p.hour_start.substring(11, 16)}}</div>
+                    </div>
                 </div>
-                <div *ngIf="!p.is_free">{{p.hour_start.substring(11, 16)}}</div>
-                
-            </div></div>
+            </div>
         </td>
     </tr>
 </table>
