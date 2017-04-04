@@ -1,5 +1,6 @@
 import { Injectable, Inject} from '@angular/core';
-import { Http, Response, URLSearchParams, Headers } from '@angular/http';
+import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -9,10 +10,10 @@ import { LoggerService} from '../utils/logger.service';
 @Injectable()
 export class AbstractHttpService {
 
-    constructor(protected http : Http, @Inject('LoggerService') protected loggerService: LoggerService) { }
+    constructor(protected http: Http, @Inject('LoggerService') protected loggerService: LoggerService, protected authHttp: AuthHttp = null) { }
 
-    protected makeRequest(path: string, params: Object, headers: Headers,
-            onSuccess: (result: any) => any, onError: (error: any) => any): void {
+    protected httpPost(path: string, params: Object, headers: Headers,
+        onSuccess: (result: any) => any, onError: (error: any) => any): void {
         var headers = headers || new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let parameters = new URLSearchParams();
@@ -26,7 +27,26 @@ export class AbstractHttpService {
             this.callbackData(onSuccess),
             // petit hack pour bien garder le this
             onError ? onError : this.handleError.bind(this)
-        );
+            );
+    }
+
+    protected authHttpPost(path: string, params: Object, headers: Headers,
+        onSuccess: (result: any) => any, onError: (error: any) => any): void {
+        var headers = headers || new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let parameters = new URLSearchParams();
+        if (params) {
+            parameters.set("request", JSON.stringify(params));
+        }
+
+        let url = 'http://api.bureau401.fr/api/' + path;
+        let options = new RequestOptions({ headers: headers, withCredentials: true })
+        this.authHttp.post(url, parameters.toString(), options)
+            .subscribe(
+            this.callbackData(onSuccess),
+            // petit hack pour bien garder le this
+            onError ? onError : this.handleError.bind(this)
+            );
     }
 
     protected callbackData(callback: (res: any) => any): (result: Response) => any {

@@ -1,5 +1,6 @@
 import { Injectable, Inject} from '@angular/core';
 import { Http, Response, URLSearchParams, Headers } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -15,8 +16,8 @@ import * as moment from 'moment';
 
 @Injectable()
 export class HttpRoomService extends AbstractHttpService implements RoomService{
-    constructor(http: Http, @Inject('LoggerService') private _loggerService: LoggerService) {
-        super(http, _loggerService);
+    constructor(http: Http, @Inject('LoggerService') private _loggerService: LoggerService, authHttp : AuthHttp) {
+        super(http, _loggerService, authHttp);
     }
 
     loadRoom(id: number, begin: Date, end: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void {
@@ -25,8 +26,12 @@ export class HttpRoomService extends AbstractHttpService implements RoomService{
             roomModel.planning = result.message;
             onSuccess(roomModel);
         };
-        this.makeRequest('room/planning', { idRoom: id, startDateTime: this.dateForApi(begin), endDateTime: this.dateForApi(end) }, null, roomSuccess, onError);
+        this.httpPost('room/planning', { idRoom: id, startDateTime: this.dateForApi(begin), endDateTime: this.dateForApi(end) }, null, roomSuccess, onError);
     };
+
+    addSession(id: number, date: Date, duration: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
+        this.authHttpPost('staff/availability/create', { room_id: id, startDateTyme: this.dateForApi(date), endDateTime: this.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null, onSuccess, onError);
+    }
 
     private dateForApi(date: Date): String {
         return moment(date).format("YYYY-MM-DD hh:mm:ss");

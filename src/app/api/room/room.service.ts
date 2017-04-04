@@ -11,5 +11,5 @@ export interface RoomService {
     */
     loadRoom(id: number, begin: Date, end: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void;
 
-    //addSession(id: number, date:Date, onSuccess: (result: any) => any, onError: (error: any) => any): void;
+    addSession(id: number, date:Date, duration:number, onSuccess: (result: any) => any, onError: (error: any) => any): void;
 }

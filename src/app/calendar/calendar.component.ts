@@ -30,7 +30,7 @@ export class CalendarComponent implements OnInit{
     room: RoomModel;
     hours: number[];
 
-    private mode: string = "month";
+    private mode: string = "week";
 
     private modes = {'day' : this.modeDay, 'week' : this.modeWeek, 'month' : this.modeMonth};
 
@@ -94,7 +94,7 @@ export class CalendarComponent implements OnInit{
         d.setTime(day.getTime());
         d.setHours(Math.round(hour));
         d.setMinutes((hour - Math.round(hour)) * 60);
-        //this.roomService.addSession(1, d, null, null);
+        this.roomService.addSession(1, d, 90, function (result) { console.log("ok", result); }, function onError() { console.log("ko");});
         this.onChange()(this.currentDate);
     }
 
