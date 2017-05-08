@@ -30,11 +30,8 @@ export class HttpRoomService extends AbstractHttpService implements RoomService{
     };
 
     addSession(id: number, date: Date, duration: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
-        this.authHttpPost('staff/availability/create', { room_id: id, startDateTyme: this.dateForApi(date), endDateTime: this.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null, onSuccess, onError);
+        this.authHttpPost('staff/availability/create', { room_id: id, startDateTime: this.dateForApi(date), endDateTime: this.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null, onSuccess, onError);
     }
 
-    private dateForApi(date: Date): String {
-        return moment(date).format("YYYY-MM-DD hh:mm:ss");
-    }
 
 }

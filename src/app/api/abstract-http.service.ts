@@ -4,8 +4,10 @@ import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { environment } from '../../environments/environment';
 
 import { LoggerService} from '../utils/logger.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class AbstractHttpService {
@@ -21,7 +23,7 @@ export class AbstractHttpService {
             parameters.set("request", JSON.stringify(params));
         }
 
-        let url = 'http://api.bureau401.fr/api/' + path;
+        let url = this.getApiUrl() + path;
         this.http.post(url, parameters.toString(), { headers: headers })
             .subscribe(
             this.callbackData(onSuccess),
@@ -39,7 +41,7 @@ export class AbstractHttpService {
             parameters.set("request", JSON.stringify(params));
         }
 
-        let url = 'http://api.bureau401.fr/api/' + path;
+        let url = this.getApiUrl() + path;
         let options = new RequestOptions({ headers: headers, withCredentials: true })
         this.authHttp.post(url, parameters.toString(), options)
             .subscribe(
@@ -53,6 +55,10 @@ export class AbstractHttpService {
         return (res: Response) => callback(res.json());
     }
 
+    protected getApiUrl(): string {
+        return environment.apiUrl + "api/";
+    }
+
     private handleError(error: Response | any) {
         let errMsg: string;
         if (error instanceof Response) {
@@ -62,4 +68,8 @@ export class AbstractHttpService {
         }
         this.loggerService.error(errMsg);
     };
+
+    protected dateForApi(date: Date): String {
+        return moment(date).format("YYYY-MM-DD hh:mm:ss");
+    }
 }

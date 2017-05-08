@@ -57,6 +57,8 @@
       "style": false,
       "template": false
     },
+    "serve": {
+    },
     "spec": {
       "class": false,
       "component": true,

@@ -1,0 +1,9 @@
+﻿{
+  "/proxy/*": {
+  "target": "https://api.bureau401.fr/",
+  "secure": false,
+  "changeOrigin": true,
+  "logLevel": "debug",
+  "pathRewrite": {"^/proxy" : ""}
+  }
+}

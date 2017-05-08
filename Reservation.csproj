@@ -82,6 +82,7 @@
     <Content Include="CHANGELOG.md" />
     <Content Include="README.md" />
     <Content Include="src\assets\.gitkeep" />
+    <Content Include="proxy.conf.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
