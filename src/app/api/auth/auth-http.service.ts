@@ -1,26 +1,23 @@
-import { Injectable, Inject} from '@angular/core';
-import { Http, Response, URLSearchParams, Headers } from '@angular/http';
+import { Inject, Injectable, EventEmitter } from '@angular/core';
+import { Response, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import 'rxjs';
 
-import { AbstractHttpService} from '../abstract-http.service';
-
-import { AuthService} from './auth.service';
-import { LoggerService} from '../../utils/logger.service';
+import { HttpApi} from '../http-api.service';
 
 @Injectable()
-export class HttpAuthService extends AbstractHttpService implements AuthService{
-    constructor(http: Http, @Inject('LoggerService') _loggerService: LoggerService) {
-        super(http, _loggerService);
+export class HttpAuthService  {
+    constructor(private http: HttpApi) {
     }
 
-    auth(email: String, password: String, onSuccess: (result: any) => any, onError: (error: any) => any): void {
+    public onLogin: EventEmitter<any> = new EventEmitter<any>();
 
-        let authSuccess = function (result: any) {
-            localStorage.setItem('token', result.token);
-            onSuccess(result);
-        };
-        this.httpPost('staff/login', { email: email, password: password }, null, authSuccess, onError);
+    login(email: String, password: String): Observable<Response> {
+        let o = this.http.post('staff/login', { email: email, password: password }, null);
+        o.subscribe(data => {
+             localStorage.setItem("token", data["token"]);
+             this.onLogin.emit(data);
+            });
+        return o;
     }
 }

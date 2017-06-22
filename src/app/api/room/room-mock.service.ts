@@ -1,13 +1,11 @@
 import { Injectable, Inject} from '@angular/core';4
 
-import { RoomService} from './room.service';
-import { LoggerService} from '../../utils/logger.service';
 
 import { RoomModel } from '../../model/room.model';
 import { AvailableSessionModel } from '../../model/available-session.model';
 
 @Injectable()
-export class MockRoomService implements RoomService{
+export class MockRoomService {
 
     static buildSession(month: number, day: number, hour: number, minutes: number): AvailableSessionModel {
         return <AvailableSessionModel>{

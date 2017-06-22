@@ -2,17 +2,17 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
-import { RoomService } from '../api/room/room.service';
+import { HttpRoomService } from '../api/room/room-http.service';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 
 import { RoomModel } from '../model/room.model';
 import { AvailableSessionModel } from '../model/available-session.model';
 import { ScheduleModel } from '../model/schedule.model';
+import { ReservationModel } from '../model/reservation.model';
 
 import * as moment from 'moment';
 
 @Component({
-    moduleId: module.id,
     selector: 'my-calendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.css']
@@ -39,7 +39,7 @@ export class CalendarComponent implements OnInit{
 
     planning: AvailableSessionModel[][];
 
-    constructor( @Inject("RoomService") private roomService: RoomService) {
+    constructor( private roomService: HttpRoomService) {
         this.midnight(this.currentDate);
     }
 
@@ -55,9 +55,8 @@ export class CalendarComponent implements OnInit{
         return (date: Date) => {
             thisHelper.currentDate = new Date(date.getTime());
             thisHelper.modes[thisHelper.mode].bind(thisHelper)();
-            thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate(),
-                thisHelper.constructSession.bind(thisHelper),
-                null);
+            thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
+                .subscribe(roomData => this.constructSession(roomData));
         }
     };
     
@@ -97,7 +96,11 @@ export class CalendarComponent implements OnInit{
         d.setMinutes((hour - Math.round(hour)) * 60);
         d.setSeconds(0);
         d.setMilliseconds(0);
-        this.roomService.addSession(1, d, 90, function (result) { console.log("ok", result); }, function onError(e) { console.log(e, "ko");});
+        this.roomService.addSession(1, d, 90)
+            .subscribe(
+                result => { console.log("ok", result); }, 
+                e => { console.log(e, "ko")}
+            );
         this.onChange()(this.currentDate);
     }
 
@@ -147,6 +150,10 @@ export class CalendarComponent implements OnInit{
         d.setMinutes(0);
         d.setSeconds(0);
         d.setMilliseconds(0);
+    }
+
+    getReservation(): ReservationModel {
+        return this.roomService.getReservationModel();
     }
 
 }

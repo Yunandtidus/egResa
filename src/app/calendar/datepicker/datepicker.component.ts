@@ -2,12 +2,9 @@ import { Component, OnInit, Inject, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel, IMyDayLabels, IMyMonthLabels} from 'mydatepicker';
 
-import { RoomService } from '../../api/room/room.service';
-
 import { RoomModel } from '../../model/room.model';
 
 @Component({
-    moduleId: module.id,
     selector: 'my-datepicker',
     templateUrl: './datepicker.component.html',
     styleUrls: ['./datepicker.component.css']

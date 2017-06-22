@@ -1,37 +1,36 @@
 import { Injectable, Inject} from '@angular/core';
-import { Http, Response, URLSearchParams, Headers } from '@angular/http';
+import { Response, URLSearchParams, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import 'rxjs';
 
-import { AbstractHttpService} from '../abstract-http.service';
-
-import { RoomService} from './room.service';
-import { LoggerService} from '../../utils/logger.service';
+import { HttpApi} from '../http-api.service';
 
 import { RoomModel } from '../../model/room.model';
+import { ReservationModel } from '../../model/reservation.model';
 
 import * as moment from 'moment';
 
 @Injectable()
-export class HttpRoomService extends AbstractHttpService implements RoomService{
-    constructor(http: Http, @Inject('LoggerService') private _loggerService: LoggerService, authHttp : AuthHttp) {
-        super(http, _loggerService, authHttp);
+export class HttpRoomService {
+    constructor(private http: HttpApi) {
     }
 
-    loadRoom(id: number, begin: Date, end: Date, onSuccess: (result: any) => any, onError: (error: any) => any): void {
-        function roomSuccess (result) : void{
-            let roomModel: RoomModel = new RoomModel();
-            roomModel.planning = result.message;
-            onSuccess(roomModel);
-        };
-        this.httpPost('room/planning', { idRoom: id, startDateTime: this.dateForApi(begin), endDateTime: this.dateForApi(end) }, null, roomSuccess, onError);
+    private reservationModel: ReservationModel= null;
+
+    loadRoom(id: number, begin: Date, end: Date): Observable<RoomModel> {
+        return this.http.post('room/planning', { idRoom: id, startDateTime: this.http.dateForApi(begin), endDateTime: this.http.dateForApi(end) }, null)
+            .map(res => {let roomModel: RoomModel = new RoomModel(); roomModel.planning = res["message"]; return roomModel});
     };
 
-    addSession(id: number, date: Date, duration: number, onSuccess: (result: any) => any, onError: (error: any) => any): void {
-        this.authHttpPost('staff/availability/create', { room_id: id, startDateTime: this.dateForApi(date), endDateTime: this.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null, onSuccess, onError);
+    addSession(id: number, date: Date, duration: number): Observable<Response> {
+        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: this.http.dateForApi(date), endDateTime: this.http.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null);
     }
 
-
+    getReservationModel(): ReservationModel {
+        if (this.reservationModel == null) {
+            this.reservationModel = new ReservationModel();
+        }
+        return this.reservationModel;
+    }
 }

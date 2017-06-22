@@ -7,14 +7,10 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { rootRouterConfig } from './app.routes';
 
-import { RoomService } from './api/room/room.service';
-import { AuthService } from './api/auth/auth.service';
-
 import { MyDatePickerModule } from 'mydatepicker';
 
+import { HttpApi } from './api/http-api.service';
 import { HttpRoomService } from './api/room/room-http.service';
-import { MockRoomService } from './api/room/room-mock.service';
-import { LoggerAlertService } from './utils/logger-alert.service';
 import { HttpAuthService } from './api/auth/auth-http.service';
 
 import { AppComponent } from './app.component';
@@ -46,10 +42,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	MyDatePickerModule
   ],
   providers: [
+    HttpApi,
+    HttpAuthService,
+    HttpRoomService,
     { provide: LOCALE_ID, useValue: "fr-FR" },
-    { provide: 'AuthService', useClass: HttpAuthService },
-    { provide: 'RoomService', useClass: HttpRoomService },
-    { provide: 'LoggerService', useClass: LoggerAlertService },
     { provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions]}
   ],
   bootstrap: [AppComponent]

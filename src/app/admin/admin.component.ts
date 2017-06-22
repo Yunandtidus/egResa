@@ -1,36 +1,50 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../api/auth/auth.service';
+import { FormBuilder, Validators, NgForm } from '@angular/forms';
+import { HttpAuthService } from '../api/auth/auth-http.service';
 
 import {Router} from '@angular/router';
 
 @Component({
-    moduleId: module.id,
     selector: 'admin',
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.css']
 })
-export class AdminComponent{
+export class AdminComponent implements OnInit{
 
     errorMessage = "";
 
-    public loginForm = this.fb.group({
-        email: ["@bureau401.fr", Validators.required],
-        password: ["", Validators.required]
-    });
+    email = "@bureau401.fr";
 
     constructor(
-        public fb: FormBuilder,
         private router : Router,
-        @Inject("AuthService") private authService: AuthService
+        private authService: HttpAuthService
     ) { }
+    
+    ngOnInit(): void {
+        this.authService.onLogin.subscribe(
+            data => (this.router.navigateByUrl('/home')), 
+            error => this.errorMessage = "Utilisateur ou mot de passe invalide."
+        );
+    }
 
+    /*
     doLogin(event) {
         let thisHelper: AdminComponent = this;
         this.authService.auth(this.loginForm.value.email, this.loginForm.value.password,
             function onSuccess() { thisHelper.router.navigateByUrl('/home'); },
             function onError() { thisHelper.errorMessage = "Utilisateur ou mot de passe invalide."; });
+        return false;
+    }*/
+    login(f: NgForm) {
+        console.log(f);
+        console.log(f.value);
+        this.authService.login(f.value.email, f.value.password);
+        
+        /*
+            function onSuccess() { thisHelper.router.navigateByUrl('/home'); },
+            function onError() { thisHelper.errorMessage = "Utilisateur ou mot de passe invalide."; });
+            */
         return false;
     }
   

@@ -43,7 +43,6 @@
     <TypeScriptCompile Include="src\app\admin\admin.component.spec.ts" />
     <TypeScriptCompile Include="src\app\admin\admin.component.ts" />
     <TypeScriptCompile Include="src\app\api\abstract-http.service.ts" />
-    <TypeScriptCompile Include="src\app\api\auth\auth.service.ts" />
     <TypeScriptCompile Include="src\app\api\auth\auth-http.service.ts" />
     <TypeScriptCompile Include="src\app\api\room\room-http.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room\room-http.service.ts" />
@@ -58,6 +57,7 @@
     <TypeScriptCompile Include="src\app\calendar\datepicker\datepicker.component.spec.ts" />
     <TypeScriptCompile Include="src\app\calendar\datepicker\datepicker.component.ts" />
     <TypeScriptCompile Include="src\app\model\available-session.model.ts" />
+    <TypeScriptCompile Include="src\app\model\reservation.model.ts" />
     <TypeScriptCompile Include="src\app\model\schedule.model.ts" />
     <TypeScriptCompile Include="src\app\model\room.model.ts" />
     <TypeScriptCompile Include="src\app\reservation\reservation.component.spec.ts" />

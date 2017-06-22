@@ -1,6 +1,6 @@
-<form [formGroup]="loginForm" (ngSubmit)="doLogin($event)">
-    <input formControlName="email" type="email" placeholder="Your email">
-    <input formControlName="password" type="password" placeholder="Your password">
+<form #f="ngForm" (ngSubmit)="login(f)">
+    <input name="email" type="email" placeholder="Your email" [ngModel]="email">
+    <input name="password" type="password" placeholder="Your password" ngModel>
     <button type="submit">Log in</button>
 
     <div class="alert">{{errorMessage}}</div>

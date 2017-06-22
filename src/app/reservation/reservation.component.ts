@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
+import { HttpRoomService } from '../api/room/room-http.service';
+import { ReservationModel } from '../model/reservation.model';
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReservationComponent implements OnInit {
 
-  constructor() { }
+    constructor( private roomService: HttpRoomService) { 
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
+    getReservation(): ReservationModel {
+        return this.roomService.getReservationModel();
+    }
 }

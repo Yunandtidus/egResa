@@ -2,20 +2,17 @@ import { Injectable, Inject} from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import 'rxjs';
 import { environment } from '../../environments/environment';
 
-import { LoggerService} from '../utils/logger.service';
 import * as moment from 'moment';
 
 @Injectable()
-export class AbstractHttpService {
+export class HttpApi {
 
-    constructor(protected http: Http, @Inject('LoggerService') protected loggerService: LoggerService, protected authHttp: AuthHttp = null) { }
+    constructor(protected http: Http, protected authHttp: AuthHttp = null) { }
 
-    protected httpPost(path: string, params: Object, headers: Headers,
-        onSuccess: (result: any) => any, onError: (error: any) => any): void {
+    public post(path: string, params: Object, headers: Headers): Observable<Response> {
         var headers = headers || new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let parameters = new URLSearchParams();
@@ -24,16 +21,10 @@ export class AbstractHttpService {
         }
 
         let url = this.getApiUrl() + path;
-        this.http.post(url, parameters.toString(), { headers: headers })
-            .subscribe(
-            this.callbackData(onSuccess),
-            // petit hack pour bien garder le this
-            onError ? onError : this.handleError.bind(this)
-            );
+        return this.http.post(url, parameters.toString(), { headers: headers }).map(res => res.json());
     }
 
-    protected authHttpPost(path: string, params: Object, headers: Headers,
-        onSuccess: (result: any) => any, onError: (error: any) => any): void {
+    public authPost(path: string, params: Object, headers: Headers): Observable<Response> {
         var headers = headers || new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let parameters = new URLSearchParams();
@@ -43,16 +34,7 @@ export class AbstractHttpService {
 
         let url = this.getApiUrl() + path;
         let options = new RequestOptions({ headers: headers, withCredentials: true })
-        this.authHttp.post(url, parameters.toString(), options)
-            .subscribe(
-            this.callbackData(onSuccess),
-            // petit hack pour bien garder le this
-            onError ? onError : this.handleError.bind(this)
-            );
-    }
-
-    protected callbackData(callback: (res: any) => any): (result: Response) => any {
-        return (res: Response) => callback(res.json());
+        return this.authHttp.post(url, parameters.toString(), options);
     }
 
     protected getApiUrl(): string {
@@ -66,12 +48,10 @@ export class AbstractHttpService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        this.loggerService.error(errMsg);
     };
 
-    protected dateForApi(date: Date): String {
+    public dateForApi(date: Date): String {
         let ret: string = moment(date).format("YYYY-MM-DD HH:mm:ss");
-        console.log(ret);
         return ret;
     }
 }
