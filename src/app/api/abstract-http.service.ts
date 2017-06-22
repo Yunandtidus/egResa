@@ -70,6 +70,8 @@ export class AbstractHttpService {
     };
 
     protected dateForApi(date: Date): String {
-        return moment(date).format("YYYY-MM-DD hh:mm:ss");
+        let ret: string = moment(date).format("YYYY-MM-DD HH:mm:ss");
+        console.log(ret);
+        return ret;
     }
 }

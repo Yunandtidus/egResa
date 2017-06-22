@@ -18,7 +18,7 @@ export class HttpAuthService extends AbstractHttpService implements AuthService{
     auth(email: String, password: String, onSuccess: (result: any) => any, onError: (error: any) => any): void {
 
         let authSuccess = function (result: any) {
-            localStorage.setItem('id_token', result.token);
+            localStorage.setItem('token', result.token);
             onSuccess(result);
         };
         this.httpPost('staff/login', { email: email, password: password }, null, authSuccess, onError);

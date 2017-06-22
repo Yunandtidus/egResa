@@ -14,7 +14,7 @@
         </td>
 
         <td *ngFor="let d of days;let j=index">
-            <div class="add-session-button" (click)="addSession(d, hour)">Ajouter session</div>
+            <div class="add-session-button" (click)="addSession(d, hour)">Ajouter session ({{hour}})</div>
             <div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
                 <div class="game-session {{ planning[j][i].is_free ? 'free' : ''}}" style="bottom:-56px">
                     <div *ngIf="planning[j][i].is_free">

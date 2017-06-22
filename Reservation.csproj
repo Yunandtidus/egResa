@@ -48,7 +48,6 @@
     <TypeScriptCompile Include="src\app\api\room\room-http.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room\room-http.service.ts" />
     <TypeScriptCompile Include="src\app\api\room\room-mock.service.ts" />
-    <TypeScriptCompile Include="src\app\api\room\room.service.spec.ts" />
     <TypeScriptCompile Include="src\app\api\room\room.service.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
@@ -65,7 +64,6 @@
     <TypeScriptCompile Include="src\app\reservation\reservation.component.ts" />
     <TypeScriptCompile Include="src\app\utils\logger-alert.service.spec.ts" />
     <TypeScriptCompile Include="src\app\utils\logger-alert.service.ts" />
-    <TypeScriptCompile Include="src\app\utils\logger.service.spec.ts" />
     <TypeScriptCompile Include="src\app\utils\logger.service.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />

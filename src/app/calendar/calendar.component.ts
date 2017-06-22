@@ -40,6 +40,7 @@ export class CalendarComponent implements OnInit{
     planning: AvailableSessionModel[][];
 
     constructor( @Inject("RoomService") private roomService: RoomService) {
+        this.midnight(this.currentDate);
     }
 
     ngOnInit(){
@@ -79,8 +80,7 @@ export class CalendarComponent implements OnInit{
         for (let a of this.room.planning) {
             let d = moment(a.hour_start, 'YYYY-MM-DD hh:mm').toDate();
             let hour = d.getHours() + d.getMinutes() / 60;
-            d.setHours(0);
-            d.setMinutes(0);
+            this.midnight(d);
             for (let i in this.days) {
                 if (d.getTime() == this.days[i].getTime()) {
                     this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;
@@ -89,12 +89,15 @@ export class CalendarComponent implements OnInit{
         }
     }
 
-    addSession(day:Date, hour:number) {
+    addSession(day: Date, hour: number) {
+        console.log("ajout de session" + day + hour);
         let d: Date = new Date();
         d.setTime(day.getTime());
         d.setHours(Math.round(hour));
         d.setMinutes((hour - Math.round(hour)) * 60);
-        this.roomService.addSession(1, d, 90, function (result) { console.log("ok", result); }, function onError() { console.log("ko");});
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+        this.roomService.addSession(1, d, 90, function (result) { console.log("ok", result); }, function onError(e) { console.log(e, "ko");});
         this.onChange()(this.currentDate);
     }
 
@@ -106,6 +109,7 @@ export class CalendarComponent implements OnInit{
     modeWeek() {
         this.mode = "week";
         this.days = [this.currentDate];
+        console.log(this.currentDate);
         for (let i = 1; i < 7; i++) {
             let d = new Date();
             d.setTime(this.currentDate.getTime());
@@ -136,6 +140,13 @@ export class CalendarComponent implements OnInit{
 
     showHour(h: number) {
         return Math.round(h) == h;
+    }
+
+    midnight(d: Date) {
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
     }
 
 }
