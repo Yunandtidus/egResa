@@ -1,1 +1,23 @@
 <h2>Réservation de séance</h2>
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+    <select name="level" ngModel>
+            <option value="" disabled>Niveau de difficulté</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+    </select>
+    <h3>Liste des joueurs</h3>
+    <div *ngFor="let s of subscribers; let i = index" [attr.data-index]="i">
+        <div>Joueur {{i+1}}</div>
+        <input type="text" name="nom-{{i}}" placeholder="Nom" [(ngModel)]="s.nom"/>
+        <input type="text" name="prenom" placeholder="Prénom"/>
+        <input type="email" name="email" placeholder="E-mail"/>
+        <span (click)="subscribers.splice(i, 1)">-</span><span>{{s | json}}</span>
+    </div>
+    <div *ngIf="subscribers.length < 3" (click)="subscribers.push({})">
+        +
+    </div>
+    <button type="submit">Réserver</button>
+
+    <div class="alert">{{errorMessage}}</div>
+</form>
