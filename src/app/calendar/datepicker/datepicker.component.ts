@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {IMyOptions, IMyDateModel, IMyDayLabels, IMyMonthLabels} from 'mydatepicker';
+import { IMyDateModel, IMyDayLabels, IMyMonthLabels, IMyDpOptions } from 'mydatepicker';
 
 import { RoomModel } from '../../model/room.model';
 
@@ -58,7 +58,7 @@ export class DatepickerComponent implements OnInit {
     };
     
 
-    private myDatePickerOptions: IMyOptions = {
+    private myDatePickerOptions: IMyDpOptions = {
         // other options...
         dateFormat: 'dd mmm yyyy',
         dayLabels: <IMyDayLabels> {
@@ -70,6 +70,8 @@ export class DatepickerComponent implements OnInit {
             fr: DatepickerComponent.DAY_LABELS[4],
             sa: DatepickerComponent.DAY_LABELS[5]
         },
+        selectorWidth:"252px",
+        openSelectorOnInputClick: true,
         monthLabels: DatepickerComponent.MONTH_LABELS,
         todayBtnTxt : "Aujourd'hui"
     };

@@ -1,8 +1,8 @@
 <my-datepicker [date]="currentDate" [onChange]="onChange()" [mode]="mode"></my-datepicker>
 <br />
-<button (click)="modeDay();refreshPlanning();">Jour</button>
-<button (click)="modeWeek();refreshPlanning();">Semaine</button>
-<button (click)="modeMonth();refreshPlanning();">Mois</button>
+<button class="btn btn-default" (click)="modeDay();refreshPlanning();">Jour</button>
+<button class="btn btn-default" (click)="modeWeek();refreshPlanning();">Semaine</button>
+<button class="btn btn-default" (click)="modeMonth();refreshPlanning();">Mois</button>
 <table class="calendar" *ngIf="mode != 'month'" style="width:100%">
     <tr>
         <th style="max-width:80px">Horaire</th>

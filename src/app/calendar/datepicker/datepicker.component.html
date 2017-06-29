@@ -1,5 +1,5 @@
-    <button (click)="shiftDate(-1)">&lt;</button>
-    <div class="datepicker">
+    <button class="btn btn-default" (click)="shiftDate(-1)">&lt;</button>
+    <span class="datepicker">
         <my-date-picker name="date" [options]="myDatePickerOptions" [(ngModel)]="dateModel" (dateChanged)="onDateChanged($event)"></my-date-picker>
-    </div>
-    <button (click)="shiftDate(1)">&gt;</button>
+    </span>
+    <button class="btn btn-default" (click)="shiftDate(1)">&gt;</button>

@@ -1,23 +1,30 @@
 <h2>Réservation de séance</h2>
 
-<form #f="ngForm" (ngSubmit)="submit(f)">
-    <select name="level" ngModel>
-            <option value="" disabled>Niveau de difficulté</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-    </select>
-    <h3>Liste des joueurs</h3>
-    <div *ngFor="let s of subscribers; let i = index" [attr.data-index]="i">
-        <div>Joueur {{i+1}}</div>
-        <input type="text" name="nom-{{i}}" placeholder="Nom" [(ngModel)]="s.nom"/>
-        <input type="text" name="prenom" placeholder="Prénom"/>
-        <input type="email" name="email" placeholder="E-mail"/>
-        <span (click)="subscribers.splice(i, 1)">-</span><span>{{s | json}}</span>
-    </div>
-    <div *ngIf="subscribers.length < 3" (click)="subscribers.push({})">
-        +
-    </div>
-    <button type="submit">Réserver</button>
+<form #f="ngForm" (ngSubmit)="submit(f)" class="form-inline">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Niveau de difficulté</label>
+        <select name="level" class="form-control" ngModel>
+                <option value="1">1</option>
+                <option value="2">2</option>
+        </select>
 
+        <h3>Liste des joueurs</h3>
+        <div *ngFor="let s of subscribers; let i = index" [attr.data-index]="i">
+            <div>Joueur {{i+1}}</div>
+            <input type="text" name="nom-{{i}}" placeholder="Nom" [(ngModel)]="s.nom"  class="form-control"/>
+            <input type="text" name="prenom" placeholder="Prénom"  class="form-control"/>
+            <input type="email" name="email" placeholder="E-mail"  class="form-control"/>
+            <button *ngIf="i != 0" (click)="subscribers.splice(i, 1)" class="btn btn-primary">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            </button>
+        </div>
+        <button  *ngIf="subscribers.length < 3" (click)="subscribers.push({})" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <div>
+            <button type="submit" class="btn btn-primary">Réserver</button>
+        </div>
+
+    </div>
     <div class="alert">{{errorMessage}}</div>
 </form>
