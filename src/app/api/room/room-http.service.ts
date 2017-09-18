@@ -33,4 +33,10 @@ export class HttpRoomService {
         }
         return this.reservationModel;
     }
+
+    createSession(idAvailability:number,startDateTime:Date,numberOfPlayers:number,level:number,subscribers,discounts){
+
+
+    }
+    
 }

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,11 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { DatepickerComponent } from './calendar/datepicker/datepicker.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { AdminComponent } from './admin/admin.component';
+import { CalendarDetailsComponent } from './calendar-details/calendar-details.component';
+
+
+
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -30,16 +36,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CalendarComponent,
     DatepickerComponent,
     ReservationComponent,
-    AdminComponent
+    AdminComponent,
+    CalendarDetailsComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
-    RouterModule.forRoot(rootRouterConfig, { useHash: true }),
-	
-	MyDatePickerModule
+    HttpModule,   
+    RouterModule.forRoot(rootRouterConfig, { useHash: true }),	
+	  MyDatePickerModule
   ],
   providers: [
     HttpApi,

@@ -1,6 +1,8 @@
+
 table{
     border-collapse:collapse;
     border:1px solid black;
+        background-color: rgb(34,34,34);
 }
 td {
     height: 12px;
@@ -12,10 +14,12 @@ td.planning-cell{
 }
 tr.full-hour td{
     border-top:1px solid grey;
+    line-height: 30px;
 }
 
 tr.not-full-hour td{
     border-top:1px dotted grey;
+    line-height: 30px;
 }
 
 .game-session {
@@ -32,7 +36,7 @@ tr.not-full-hour td{
     display:block;
     top:0px;
     left:0px;
-    right:0px;
+    right:0px;    
 }
 .month-calendar .game-session {
 }
@@ -46,24 +50,6 @@ tr.not-full-hour td{
     color:black;
 }
 
-.add-session-button{
-    display:none;
-    position:relative;
-    top:0px;
-    border:1px solid #005200;
-    background:#00ac01;
-    font-size:9px;
-    font-weight:bold;
-    color:white;
-    border-radius:1px;
-    text-align:center;
-    z-index:99;
-}
-
-td:hover .add-session-button{
-    display:block;
-    cursor:pointer
-}
 
 table.month-calendar {
     width:100%;
@@ -73,15 +59,19 @@ table.month-calendar {
     vertical-align:top;
     width:14.29%;
     height:100px;
-    border:1px solid black;
+    border:1px solid grey;
 }
 
 .calendar-day {
-    color:#c8c8c8;
+    color:grey;
 }
 .calendar-day.current-month {
-    color:black;
+    color:white;
 }
 .calendar-day.today {
     font-weight:700;
+}
+
+.choicePeriod{
+    margin-bottom: 20px;
 }

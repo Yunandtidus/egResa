@@ -1,7 +1,7 @@
 <form #f="ngForm" (ngSubmit)="login(f)">
     <input name="email" type="email" placeholder="Your email" [ngModel]="email">
     <input name="password" type="password" placeholder="Your password" ngModel>
-    <button type="submit">Log in</button>
+    <button class="btn btn-primary" type="submit">Log in</button>
 
     <div class="alert">{{errorMessage}}</div>
 </form>

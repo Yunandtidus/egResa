@@ -1,7 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/less/bootstrap.less";
 
-@bgcolor: #aaa;
-body {
+@bgcolor: rgb(69,83,84);
+body {  
+    font-family: "Playfair Display",serif;
     background-color: @bgcolor;
+    color: white;
 }
+
+input{
+color:black;
+}
+
+.btn {
+    border: medium none;
+    border-radius: 300px;   
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.35s ease 0s;
+}
+.btn-primary-dark {
+    background-color: #455354;
+    border-color: #455354;
+    color: white;
+}
+
+.btn-primary-light {
+    background-color: white;
+    border-color: #455354;
+    color: #222222;
+   
+}
+
+.btn-primary-light:hover {
+    background-color: #e2e2e2;
+    border-color: #ededed;   
+}
+
+

@@ -1,35 +1,48 @@
 <my-datepicker [date]="currentDate" [onChange]="onChange()" [mode]="mode"></my-datepicker>
 <br />
-<button class="btn btn-default" (click)="modeDay();refreshPlanning();">Jour</button>
-<button class="btn btn-default" (click)="modeWeek();refreshPlanning();">Semaine</button>
-<button class="btn btn-default" (click)="modeMonth();refreshPlanning();">Mois</button>
+<div class="row choicePeriod">
+    <div class="col-xs-4">
+        <button class="btn btn-primary-light btn-block" (click)="modeDay();refreshPlanning();">Jour</button>
+    </div>
+    <div class="col-xs-4">
+        <button class="btn btn-primary-light btn-block" (click)="modeWeek();refreshPlanning();">Semaine</button>    
+    </div>
+    <div class="col-xs-4">
+        <button class="btn btn-primary-light btn-block" (click)="modeMonth();refreshPlanning();">Mois</button>    
+</div>
+
+
+</div>
+
 <table class="calendar" *ngIf="mode != 'month'" style="width:100%">
     <tr>
         <th style="max-width:80px">Horaire</th>
-        <th *ngFor="let d of days">{{d | date: 'dd/MM/yyyy'}}</th>
+        <th class="text-center" *ngFor="let d of days">{{d | date: 'dd/MM'}}</th>
     </tr>
     <tr *ngFor="let hour of hours;let i=index" [ngClass]="showHour(hour) ? 'full-hour' : 'not-full-hour'">
-        <td class="planning-cell" style="max-width:80px">
-            <span *ngIf="showHour(hour)">{{hour}}h</span>
+        <td class="planning-cell col-xs-1" style="max-width:80px">
+            <!--<span  *ngIf="showHour(hour)">{{hour}}h</span>-->
+            <span>{{hour}}h</span>
         </td>
+        
 
-        <td *ngFor="let d of days;let j=index">
-            <div class="add-session-button" (click)="addSession(d, hour)">Ajouter session ({{hour}})</div>
-            <div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
+        <td *ngFor="let d of days;let j=index"> 
+            <app-calendar-details [hour]="hour" [day]="d" [availableSession]="availableSession(j,i)"></app-calendar-details>                      
+            <!--<div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
                 <div class="game-session {{ planning[j][i].is_free ? 'free' : ''}}" style="bottom:-56px">
                     <div *ngIf="planning[j][i].is_free">
                         <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
                     </div>
                     <div *ngIf="!planning[j][i].is_free">Indisponible</div>
                 </div>
-            </div>
+            </div>-->
         </td>
     </tr>
 </table>
 
 <table class="month-calendar" *ngIf="mode == 'month'">
     <tr>
-        <th *ngFor="let i of DAY_OF_WEEK">{{i}}</th>
+        <th class="text-center" *ngFor="let i of DAY_OF_WEEK">{{i}}</th>
     </tr>
     <tr *ngFor="let w of monthWeeks;let i = index">
         <td *ngFor="let d of w; let j = index">
@@ -60,3 +73,4 @@
     Planning :
     <pre>{{planning | json}}</pre>
 </fieldset>
+

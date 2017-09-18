@@ -40,23 +40,27 @@ export class CalendarComponent implements OnInit{
     planning: AvailableSessionModel[][];
 
     constructor( private roomService: HttpRoomService) {
+       
         this.midnight(this.currentDate);
     }
 
     ngOnInit(){
+         console.log("start");
         this.hours = [];
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
             this.hours.push(i);
         }
+         this.onChange();
+       
     };
 
-    onChange() {
+    onChange() {      
         let thisHelper: CalendarComponent = this;
         return (date: Date) => {
             thisHelper.currentDate = new Date(date.getTime());
             thisHelper.modes[thisHelper.mode].bind(thisHelper)();
             thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
-                .subscribe(roomData => this.constructSession(roomData));
+                .subscribe(roomData => {this.constructSession(roomData);console.log(roomData)});
         }
     };
     
@@ -82,7 +86,7 @@ export class CalendarComponent implements OnInit{
             this.midnight(d);
             for (let i in this.days) {
                 if (d.getTime() == this.days[i].getTime()) {
-                    this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;
+                    this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;                   
                 }
             }
         }
@@ -154,6 +158,20 @@ export class CalendarComponent implements OnInit{
 
     getReservation(): ReservationModel {
         return this.roomService.getReservationModel();
+    }
+
+    availableSession(j,i):boolean{         
+        let available;
+        if(this.planning && this.planning[j][i] != undefined && this.planning[j][i] != null ) {
+            console.log(this.planning[j][i]);
+            available = true;
+        }
+        else{
+            available = false
+        }
+        return available;
+
+       
     }
 
 }
