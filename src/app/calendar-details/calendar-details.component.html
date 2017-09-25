@@ -2,6 +2,20 @@
 <div *ngIf="availableSession" (click)="addSession(day, hour)">Ajouter session ({{hour}})
 {{day}}/{{hour}}/{{availableSession}}</div>-->
 
- <div class="availableReservation" *ngIf="availableSession; else elseBlock">Tu peux réserver</div>
-    <ng-template #elseBlock><div class="session" (click)="addSession(day, hour)">Ajouter session ({{hour}})
-{{day}}/{{hour}}/{{availableSession}}</div></ng-template>
+ <!--<div class="availableReservation" *ngIf="state == 'reservable'; else elseBlock">Tu peux réserver</div>
+    <ng-template #elseBlock>
+        
+        <div class="session" (click)="addSession(day, hour)">{{mycolor }} Ajouter session ({{hour}}){{day}}/{{hour}}/{{availableSession}}</div>
+    </ng-template>-->
+
+    <div [ngSwitch]="state">
+        <div *ngSwitchCase="'reservable'"> 
+            <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
+         </div>    
+        <div *ngSwitchCase="'empty'">        
+            <div class="session" (click)="addSession(day, hour)">Ajouter session ({{hour}}){{day}}/{{hour}}/{{availableSession}}</div>
+        </div>
+         <div *ngSwitchCase="'reserved'">        
+            reservé
+        </div>
+    </div>

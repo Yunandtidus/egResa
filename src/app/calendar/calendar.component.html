@@ -27,7 +27,7 @@
         
 
         <td *ngFor="let d of days;let j=index"> 
-            <app-calendar-details [hour]="hour" [day]="d" [availableSession]="availableSession(j,i)"></app-calendar-details>                      
+            <app-calendar-details [hour]="hour" [day]="d" [state]="availableSession(j,i)"></app-calendar-details>                      
             <!--<div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
                 <div class="game-session {{ planning[j][i].is_free ? 'free' : ''}}" style="bottom:-56px">
                     <div *ngIf="planning[j][i].is_free">

@@ -22,6 +22,7 @@ export class CalendarComponent implements OnInit{
     static HOUR_START: number = 12;
     static HOUR_END: number = 24;
     static DELTA_TIME: number = 0.5;
+    public state:String;    
 
     DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
 
@@ -160,16 +161,23 @@ export class CalendarComponent implements OnInit{
         return this.roomService.getReservationModel();
     }
 
-    availableSession(j,i):boolean{         
+    availableSession(j,i):String{         
         let available;
         if(this.planning && this.planning[j][i] != undefined && this.planning[j][i] != null ) {
-            console.log(this.planning[j][i]);
-            available = true;
+            if(this.planning[j][i].is_free == false){
+                this.state = "reserved";
+            }else{
+                console.log(this.planning[j][i]);
+                 this.state = "reservable";
+            }
+           
+           
         }
         else{
-            available = false
+          
+            this.state = "empty";
         }
-        return available;
+        return  this.state;
 
        
     }

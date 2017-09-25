@@ -10,7 +10,9 @@ export class CalendarDetailsComponent implements OnInit {
 
 @Input() hour:number;
 @Input() day: Date;
-@Input() availableSession:boolean;
+@Input() state:String;
+
+
 
 
   constructor( private roomService: HttpRoomService) { }
@@ -29,8 +31,8 @@ export class CalendarDetailsComponent implements OnInit {
         d.setMilliseconds(0);
         this.roomService.addSession(1, d, 90)
             .subscribe(
-                result => { console.log("ok", result); }, 
-                e => { console.log(e, "ko")}
+                result => {this.state="reservable"; console.log("ok", result); }, 
+                e => { console.log(e, "ko")}                
             );
         //this.onChange()(this.currentDate);
     }
