@@ -13,7 +13,7 @@
             <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
          </div>    
         <div *ngSwitchCase="'empty'">        
-            <div class="session" (click)="addSession(day, hour)">Ajouter session ({{hour}}){{day}}/{{hour}}/{{availableSession}}</div>
+            <div class="session" (click)="addSession(day, hour)">Ajouter session ({{hour}}){{day}}/{{hour}}</div>
         </div>
          <div *ngSwitchCase="'reserved'">        
             reservé

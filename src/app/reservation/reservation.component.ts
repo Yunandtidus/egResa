@@ -1,3 +1,4 @@
+import { Subscriber } from './../model/subscriber.model';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 
@@ -10,7 +11,7 @@ import { ReservationModel } from '../model/reservation.model';
 })
 export class ReservationComponent implements OnInit {
 
-    private subscribers : any[] = [{}];
+    private subscribers : Subscriber[] = [];
 
     constructor( private roomService: HttpRoomService) { 
     }
@@ -24,5 +25,9 @@ export class ReservationComponent implements OnInit {
 
     submit(f : NgForm){
         console.log(f.value, this.subscribers);
+    }
+
+    createReservation(){
+        //this.roomService.createSession(idAvailability:number,startDateTime:Date,numberOfPlayers:number,level:number,subscribers,discounts)
     }
 }
