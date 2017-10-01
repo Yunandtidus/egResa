@@ -46,7 +46,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,   
-    RouterModule.forRoot(rootRouterConfig, { useHash: true }),	
+    RouterModule.forRoot(rootRouterConfig),	
 	  MyDatePickerModule
   ],
   providers: [
