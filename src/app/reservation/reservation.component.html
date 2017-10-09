@@ -1,17 +1,17 @@
 <h2>Réservation de séance</h2>
 
-<form #f="ngForm" (ngSubmit)="submit(f)" class="form-inline">
+<!-- <form #f="ngForm" (ngSubmit)="submit(f)" class="form-inline">
     <div class="form-group">
         <label for="exampleInputEmail1">Niveau de difficulté</label>
-        <select name="level" class="form-control" ngModel>
+        <select name="level" class="form-control" (ngModel)="createSessionData.level">
                 <option value="1">1</option>
                 <option value="2">2</option>
         </select>
-
+    </div>
         <h3>Liste des joueurs</h3>
         <div *ngFor="let s of subscribers; let i = index" [attr.data-index]="i">
             <div>Joueur {{i+1}}</div>
-            <input type="text" name="nom-{{i}}" placeholder="Nom" [(ngModel)]="s.nom"  class="form-control"/>
+            <input type="text" name="nom-{{i}}" placeholder="Nom" (ngModel)="s.nom"  class="form-control"/>
             <input type="text" name="prenom" placeholder="Prénom"  class="form-control"/>
             <input type="email" name="email" placeholder="E-mail"  class="form-control"/>
             <button *ngIf="i != 0" (click)="subscribers.splice(i, 1)" class="btn btn-primary">
@@ -25,6 +25,60 @@
             <button type="submit" class="btn btn-primary">Réserver</button>
         </div>
 
+    
+    <!-- <div class="alert">{{errorMessage}}</div> -->
+<!-- </form> -->
+
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="startDateTime">StartDateTime</label>
+    <input type="text" class="form-control" id="startDateTime" formControlName="startDateTime">
+  </div>  
+  <div class="form-group">
+    <label for="firstname">Prenom</label>
+    <input type="text" class="form-control" id="firstname" formControlName="firstname">
+  </div>
+  <div class="form-group">
+    <label for="lastname">Nom</label>
+    <input type="text" class="form-control" id="lastname" formControlName="lastname">
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" id="email" formControlName="email">
+  </div>
+  <div class="radio" *ngFor="let level of levels; let i = index">
+    <label>  
+        <input type="radio"               
+               id="level"
+               formControlName="level"
+               [value]="level"
+               [attr.id]="i">
+               {{level}}
+            </label>
+  </div>
+  <div formArrayName="player" class="form-group">
+    <label for="Player">Player</label>
+    <div class="form-group row" *ngFor="let item of myForm.get('player').controls; let i = index" [formGroup]="item">
+      <div class="col-sm-6">
+        <label [attr.for]="'user'+i">Name</label>
+        <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="user">
+      </div>
+
+      <div class="col-sm-5">
+        <label [attr.for]="'mail'+i">Mail</label>
+        <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="mail">
+      </div>
+
+      <div class="col-sm-1">
+            <button type="button" class="btn btn-primary"
+                    (click)="removeAt(i)">-</button>
     </div>
-    <div class="alert">{{errorMessage}}</div>
+
+    </div>
+  </div>
+  <button class="btn btn-default" type="button" (click)="addPlayer()">Ajouter des joueurs</button>
+  <button class="btn btn-primary" type="submit" [disabled]="!myForm.valid">Submit</button>
+
+
 </form>
+

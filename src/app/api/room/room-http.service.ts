@@ -1,3 +1,4 @@
+import { CreateSessionModel } from './../../model/create-session-model';
 import { Injectable, Inject} from '@angular/core';
 import { Response, URLSearchParams, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
@@ -17,6 +18,7 @@ export class HttpRoomService {
     }
 
     private reservationModel: ReservationModel= null;
+    public createSessionData:CreateSessionModel;
 
     loadRoom(id: number, begin: Date, end: Date): Observable<RoomModel> {
         return this.http.post('room/planning', { idRoom: id, startDateTime: this.http.dateForApi(begin), endDateTime: this.http.dateForApi(end) }, null)
@@ -34,8 +36,26 @@ export class HttpRoomService {
         return this.reservationModel;
     }
 
-    createSession(idAvailability:number,startDateTime:Date,numberOfPlayers:number,level:number,subscribers,discounts){
-
+    createSession(idAvailability, startDateTime,numberOfPlayers,level,subscribers,discounts){
+        console.log("creation")          ;
+        startDateTime= "2017-10-13 12:00:00"
+        return this.http.post('session/create', {idAvailability, 
+            
+            startDateTime,
+            numberOfPlayers,
+            level,
+            subscribers,
+            discounts}, null) 
+            .subscribe(
+                res => {
+                  console.log(res);
+                },
+                err => {
+                  console.log("Error occured");
+                }
+              );;
+      
+        
 
     }
     

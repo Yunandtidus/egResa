@@ -2,15 +2,15 @@
 <div *ngIf="availableSession" (click)="addSession(day, hour)">Ajouter session ({{hour}})
 {{day}}/{{hour}}/{{availableSession}}</div>-->
 
- <!--<div class="availableReservation" *ngIf="state == 'reservable'; else elseBlock">Tu peux réserver</div>
+ <!-- <div class="availableReservation" (click)="createSession()" *ngIf="state.etat == 'reservable'; else elseBlock">Tu peux réserver</div>
     <ng-template #elseBlock>
         
-        <div class="session" (click)="addSession(day, hour)">{{mycolor }} Ajouter session ({{hour}}){{day}}/{{hour}}/{{availableSession}}</div>
-    </ng-template>-->
+        <div class="session" (click)="addSession(day, hour)"> {{etatcourant}} Ajouter session aa {{mycolor}}aa ({{hour}}){{day}}/{{hour}}/{{availableSession}}</div>
+    </ng-template> -->
 
-    <div [ngSwitch]="state">
+    <!-- <div [ngSwitch]="state.etat">
         <div *ngSwitchCase="'reservable'"> 
-            <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
+            <a class="availableReservation" (click)="createSession()"> {{state.id}} Réserver {{hour}}){{day}}/{{hour}}</a>
          </div>    
         <div *ngSwitchCase="'empty'">        
             <div class="session" (click)="addSession(day, hour)">Ajouter session ({{hour}}){{day}}/{{hour}}</div>
@@ -18,4 +18,19 @@
          <div *ngSwitchCase="'reserved'">        
             reservé
         </div>
+    </div> -->
+    <div [ngSwitch]="state.etat">
+            <div *ngSwitchCase="'reservable'"> 
+                   
+                    <a  (click)="createSession()">  create session  {{hour}} / {{day}} / {{state.etat}} // {{state.id.id_availability}}</a>
+                 </div>    
+                <div *ngSwitchCase="'empty'">      
+                        <div *ngIf="choice == 'selected'">C'est ok!!!!</div>  
+                    <div (click)="addSession(day, hour)">add session {{hour}} / {{day}} / {{state.etat}} // {{state.id}}</div>
+                </div>
+                 <div *ngSwitchCase="'reserved'">        
+                    reservé
+                </div>
+
+        
     </div>

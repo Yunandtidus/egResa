@@ -1,7 +1,7 @@
 import { Subscriber } from './subscriber.model';
 export class CreateSessionModel {
     idAvailability:number;
-    startDateTime:Date;
+    startDateTime:string;
     numberOfPlayers:number;
     level:number;
     subscribers:Subscriber[];

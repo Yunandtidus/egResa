@@ -1,5 +1,7 @@
+import { CreateSessionModel } from './../model/create-session-model';
 import { HttpRoomService } from './../api/room/room-http.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendar-details',
@@ -7,18 +9,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./calendar-details.component.less']
 })
 export class CalendarDetailsComponent implements OnInit {
+    choice: string;
+
 
 @Input() hour:number;
 @Input() day: Date;
-@Input() state:String;
+@Input() state;
+private createSessionModel:CreateSessionModel= new CreateSessionModel();
 
 
-
-
-  constructor( private roomService: HttpRoomService) { }
+  constructor( private router:Router,private roomService: HttpRoomService) { }
 
   ngOnInit() {   
-
+       
   }
 
    addSession(day: Date, hour: number) {
@@ -31,10 +34,21 @@ export class CalendarDetailsComponent implements OnInit {
         d.setMilliseconds(0);
         this.roomService.addSession(1, d, 90)
             .subscribe(
-                result => {this.state="reservable"; console.log("ok", result); }, 
+                result => {this.state.etat="reservable"; console.log("session creation ok", result); }, 
                 e => { console.log(e, "ko")}                
             );
-        //this.onChange()(this.currentDate);
+        this.choice = "selected";
+      
+    }
+
+    createSession(){       
+        var n = this.day.toLocaleDateString(); 
+        this.createSessionModel.startDateTime = n+" "+this.hour;       
+        this.createSessionModel.idAvailability = this.state.id.id_availability;
+        console.log(this.createSessionModel.idAvailability);
+        this.roomService.createSessionData = this.createSessionModel;
+     this.router.navigate(['/reservation']);
+    
     }
 
 }

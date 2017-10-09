@@ -17,13 +17,19 @@ import * as moment from 'moment';
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent implements OnInit {
 
     static HOUR_START: number = 12;
     static HOUR_END: number = 24;
     static DELTA_TIME: number = 0.5;
-    public state:String;    
 
+    // public state : any =
+    //  {
+    //      etat:"",
+    //      id:""
+    //     };   
+    
+ 
     DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
 
     currentDate = new Date();
@@ -161,24 +167,33 @@ export class CalendarComponent implements OnInit{
         return this.roomService.getReservationModel();
     }
 
-    availableSession(j,i):String{         
-        let available;
+    availableSession(j,i){         
+         let state : any =
+     {
+         etat:"",
+         id:""
+        };  
+
         if(this.planning && this.planning[j][i] != undefined && this.planning[j][i] != null ) {
             if(this.planning[j][i].is_free == false){
-                this.state = "reserved";
+                
+                state.etat = "reserved";
+                state.id = this.planning[j][i];
+               
             }else{
-                console.log(this.planning[j][i]);
-                 this.state = "reservable";
-            }
-           
+               
+                state.etat = "reservable";
+                state.id= this.planning[j][i];
+                               
+            }         
            
         }
-        else{
-          
-            this.state = "empty";
+        else{          
+            state.etat = "empty";
+            state.id=null;
         }
-        return  this.state;
-
+        return state;
+       
        
     }
 
