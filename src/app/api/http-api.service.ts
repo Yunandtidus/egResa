@@ -49,9 +49,4 @@ export class HttpApi {
             errMsg = error.message ? error.message : error.toString();
         }
     };
-
-    public dateForApi(date: Date): String {
-        let ret: string = moment(date).format("YYYY-MM-DD HH:mm:ss");
-        return ret;
-    }
 }

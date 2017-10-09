@@ -21,12 +21,12 @@ export class HttpRoomService {
     public createSessionData:CreateSessionModel;
 
     loadRoom(id: number, begin: Date, end: Date): Observable<RoomModel> {
-        return this.http.post('room/planning', { idRoom: id, startDateTime: this.http.dateForApi(begin), endDateTime: this.http.dateForApi(end) }, null)
+        return this.http.post('room/planning', { idRoom: id, startDateTime: begin, endDateTime: end }, null)
             .map(res => {let roomModel: RoomModel = new RoomModel(); roomModel.planning = res["message"]; return roomModel});
     };
 
     addSession(id: number, date: Date, duration: number): Observable<Response> {
-        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: this.http.dateForApi(date), endDateTime: this.http.dateForApi(moment(date).add(120, "m").toDate()), gameTotalDuration: duration }, null);
+        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(120, "m").toDate(), gameTotalDuration: duration }, null);
     }
 
     getReservationModel(): ReservationModel {
@@ -36,27 +36,26 @@ export class HttpRoomService {
         return this.reservationModel;
     }
 
-    createSession(idAvailability, startDateTime,numberOfPlayers,level,subscribers,discounts){
-        console.log("creation")          ;
-        startDateTime= "2017-10-13 12:00:00"
-        return this.http.post('session/create', {idAvailability, 
-            
-            startDateTime,
-            numberOfPlayers,
-            level,
-            subscribers,
-            discounts}, null) 
-            .subscribe(
+    createSession(model : CreateSessionModel){
+        return this.http.post('session/create', model, null).subscribe(
                 res => {
                   console.log(res);
                 },
                 err => {
                   console.log("Error occured");
                 }
-              );;
-      
-        
+              );
+    }
 
+    validateSession(model : any){
+        return this.http.post('session/validate', model, null).subscribe(
+                res => {
+                  console.log(res);
+                },
+                err => {
+                  console.log("Error occured");
+                }
+              );
     }
     
 }

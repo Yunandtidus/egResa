@@ -20,6 +20,7 @@ import { DatepickerComponent } from './calendar/datepicker/datepicker.component'
 import { ReservationComponent } from './reservation/reservation.component';
 import { AdminComponent } from './admin/admin.component';
 import { CalendarDetailsComponent } from './calendar-details/calendar-details.component';
+import { ValidationComponent } from './reservation/validation/validation.component';
 
 
 
@@ -38,6 +39,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ReservationComponent,
     AdminComponent,
     CalendarDetailsComponent,
+    ValidationComponent,
     
     
   ],

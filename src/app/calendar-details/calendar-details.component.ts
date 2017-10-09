@@ -42,8 +42,9 @@ private createSessionModel:CreateSessionModel= new CreateSessionModel();
     }
 
     createSession(){       
-        var n = this.day.toLocaleDateString(); 
-        this.createSessionModel.startDateTime = n+" "+this.hour;       
+        var n = this.day;
+        n.setHours(this.hour); 
+        this.createSessionModel.startDateTime = n;       
         this.createSessionModel.idAvailability = this.state.id.id_availability;
         console.log(this.createSessionModel.idAvailability);
         this.roomService.createSessionData = this.createSessionModel;

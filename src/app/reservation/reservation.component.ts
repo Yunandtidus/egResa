@@ -11,40 +11,43 @@ import * as moment from 'moment';
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css']
 })
-export class ReservationComponent implements OnInit {
+export class ReservationComponent {
 
     private subscribers : Subscriber[] = [];
     public createSessionData:CreateSessionModel;
     myForm: FormGroup;
     levels = [
-        "Debutant",
-        "Confirmé",
-        "expert"        
-    ]
+        {value:0, label:"Débutant"},
+        {value:1, label:"Confirmé"},
+        {value:2, label:"Expert"}
+    ];
         
     constructor( private roomService: HttpRoomService) {
+        this.createSessionData = this.roomService.createSessionData;
         this.myForm = new FormGroup({
-            'startDateTime':new FormControl(this.roomService.createSessionData.startDateTime),
-            'firstname':new FormControl('',Validators.required),
-            'lastname':new FormControl('',Validators.required),
-            'email':new FormControl('',[Validators.required,Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
-            'level': new FormControl('Debutant'),
-            'player': new FormArray([
-                 new FormGroup({
-                   user: new FormControl('Jean Paul'),
-                   mail:new FormControl('Jeanpaul@free.fr')
+            'idAvailability':new FormControl(this.createSessionData.idAvailability),
+            'startDateTime':new FormControl(this.createSessionData.startDateTime),
+            'level': new FormControl(this.levels[0].value),
+            'subscribers': new FormArray([
+                new FormGroup({
+                   firstname: new FormControl('Bruno',[Validators.required]),
+                   lastname: new FormControl('Bruno',[Validators.required]),
+                   email:new FormControl('bruno@bureau401.fr',[Validators.required,Validators.email]),
+                   creator:new FormControl(true)
                 }),
                 new FormGroup({
-                    user: new FormControl('bipbip'),
-                    mail:new FormControl('coyotte@free.fr')
-                 })
-            ])})
-    }
-
-    ngOnInit() {
-
-        this.createSessionData = this.roomService.createSessionData;
-        console.log(this.createSessionData);
+                   firstname: new FormControl('Daniel'),
+                   lastname: new FormControl('Daniel'),
+                   email:new FormControl('daniel@bureau401.fr',[Validators.required,Validators.email])
+                }),
+                new FormGroup({
+                   firstname: new FormControl('Esteban'),
+                   lastname: new FormControl('Esteban'),
+                   email:new FormControl('esteban@bureau401.fr',[Validators.required,Validators.email])
+                })
+            ]),
+            'discounts': new FormArray([])
+        });
     }
 
     getReservation(): ReservationModel {
@@ -52,34 +55,24 @@ export class ReservationComponent implements OnInit {
     }
     
     onSubmit(){
-        let idAvailability = this.createSessionData.idAvailability;
-        let startDateTime = this.createSessionData.startDateTime;
-              
-        
-        let numberOfPalyer = this.myForm.get('player').value.length+1;
-        let level = 1;
-        let discount=[];
+        console.log(this.myForm.getRawValue());
 
-        let sub = new Subscriber();
-        sub.creator = true;
-        sub.firstname = this.myForm.get('firstname').value;
-        sub.lastname =this.myForm.get('lastname').value;
-        sub.email =this.myForm.get('email').value;
-
-        this.subscribers.push(sub);
-        this.roomService.createSession(idAvailability,startDateTime,numberOfPalyer,level,this.subscribers,[]);
-     
-        
-        
+        let toto = this.myForm.getRawValue();
+        toto.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
+        this.roomService.createSession(toto);
     }
+
     removeAt(i){
-        (<FormArray>this.myForm.get('player')).removeAt(i);
+        if (i > 0){
+            (<FormArray>this.myForm.get('subscribers')).removeAt(i);
+        }
     }
 
     addPlayer(){
-        (<FormArray>this.myForm.get('player')).push( new FormGroup({
-            user: new FormControl('nom'),
-            mail:new FormControl('Email')
+        (<FormArray>this.myForm.get('subscribers')).push( new FormGroup({
+            firstname: new FormControl('user'),
+            lastname: new FormControl('user'),
+            email: new FormControl('mail',[Validators.email])
          }))
     }    
 }
