@@ -1,6 +1,6 @@
 export class AvailableSessionModel {
     idAvailability:number;
-    hour_start: String;
+    hour_start: Date;
     hourEnd: String;
     is_free: boolean;
 }

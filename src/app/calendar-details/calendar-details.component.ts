@@ -1,3 +1,5 @@
+import { HttpAuthService } from './../api/auth/auth-http.service';
+import { AvailableSessionModel } from './../model/available-session.model';
 import { CreateSessionModel } from './../model/create-session-model';
 import { HttpRoomService } from './../api/room/room-http.service';
 import { Component, OnInit, Input } from '@angular/core';
@@ -9,47 +11,47 @@ import { Router } from '@angular/router';
   styleUrls: ['./calendar-details.component.less']
 })
 export class CalendarDetailsComponent implements OnInit {
-    choice: string;
 
+    @Input() day: Date;
+    @Input() hour: number;
+    private minutes: number;
+    @Input() sessionModel: AvailableSessionModel;
 
-@Input() hour:number;
-@Input() day: Date;
-@Input() state;
-private createSessionModel:CreateSessionModel= new CreateSessionModel();
+    private selected: boolean = false;
 
+    constructor( private router:Router, private roomService: HttpRoomService, private authService : HttpAuthService) { }
 
-  constructor( private router:Router,private roomService: HttpRoomService) { }
+    ngOnInit() {
+        this.minutes = (this.hour - Math.round(this.hour)) * 60;
+        this.hour = Math.round(this.hour);
+    }
 
-  ngOnInit() {   
-       
-  }
-
-   addSession(day: Date, hour: number) {
-        console.log("ajout de session" + day + hour);
+    addSession() {
+        console.log("ajout de session" + this.day + this.hour);
         let d: Date = new Date();
-        d.setTime(day.getTime());
-        d.setHours(Math.round(hour));
-        d.setMinutes((hour - Math.round(hour)) * 60);
+        d.setTime(this.day.getTime());
+        d.setHours(this.hour);
+        d.setMinutes(this.minutes);
         d.setSeconds(0);
         d.setMilliseconds(0);
         this.roomService.addSession(1, d, 90)
             .subscribe(
-                result => {this.state.etat="reservable"; console.log("session creation ok", result); }, 
+                result => {console.log("session creation ok", result); }, 
                 e => { console.log(e, "ko")}                
             );
-        this.choice = "selected";
+        this.selected = true;
       
     }
 
-    createSession(){       
-        var n = this.day;
-        n.setHours(this.hour); 
-        this.createSessionModel.startDateTime = n;       
-        this.createSessionModel.idAvailability = this.state.id.id_availability;
-        console.log(this.createSessionModel.idAvailability);
-        this.roomService.createSessionData = this.createSessionModel;
-     this.router.navigate(['/reservation']);
-    
+    reserveSession(){       
+        let createSessionModel : CreateSessionModel = new CreateSessionModel();
+        createSessionModel.startDateTime = this.sessionModel.hour_start;
+        createSessionModel.idAvailability = this.sessionModel.idAvailability;
+        this.roomService.createSessionData = createSessionModel;
+        this.router.navigate(['/reservation']);
     }
 
+    isAdmin(){
+        return this.authService.isAdmin();
+    }
 }

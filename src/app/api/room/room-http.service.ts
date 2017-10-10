@@ -1,3 +1,4 @@
+import { AvailableSessionModel } from './../../model/available-session.model';
 import { CreateSessionModel } from './../../model/create-session-model';
 import { Injectable, Inject} from '@angular/core';
 import { Response, URLSearchParams, Headers } from '@angular/http';
@@ -14,15 +15,14 @@ import * as moment from 'moment';
 
 @Injectable()
 export class HttpRoomService {
-    constructor(private http: HttpApi) {
-    }
+    constructor(private http: HttpApi) {}
 
     private reservationModel: ReservationModel= null;
     public createSessionData:CreateSessionModel;
 
-    loadRoom(id: number, begin: Date, end: Date): Observable<RoomModel> {
+    loadRoom(id: number, begin: Date, end: Date): Observable<AvailableSessionModel[]> {
         return this.http.post('room/planning', { idRoom: id, startDateTime: begin, endDateTime: end }, null)
-            .map(res => {let roomModel: RoomModel = new RoomModel(); roomModel.planning = res["message"]; return roomModel});
+            .map(res => {let planning: AvailableSessionModel[] = res["message"]; return planning});
     };
 
     addSession(id: number, date: Date, duration: number): Observable<Response> {

@@ -2,16 +2,14 @@
 <br />
 <div class="row choicePeriod">
     <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeDay();refreshPlanning();">Jour</button>
+        <button class="btn btn-primary-light btn-block" (click)="modeDay();refreshCalendrier();">Jour</button>
     </div>
     <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeWeek();refreshPlanning();">Semaine</button>    
+        <button class="btn btn-primary-light btn-block" (click)="modeWeek();refreshCalendrier();">Semaine</button>    
     </div>
     <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeMonth();refreshPlanning();">Mois</button>    
-</div>
-
-
+        <button class="btn btn-primary-light btn-block" (click)="modeMonth();refreshCalendrier();">Mois</button>    
+    </div>
 </div>
 
 <table class="calendar" *ngIf="mode != 'month'" style="width:100%">
@@ -21,21 +19,11 @@
     </tr>
     <tr *ngFor="let hour of hours;let i=index" [ngClass]="showHour(hour) ? 'full-hour' : 'not-full-hour'">
         <td class="planning-cell col-xs-1" style="max-width:80px">
-            <!--<span  *ngIf="showHour(hour)">{{hour}}h</span>-->
             <span>{{hour}}h</span>
         </td>
-        
 
-        <td *ngFor="let d of days;let j=index"> 
-            <app-calendar-details [hour]="hour" [day]="d" [state]="availableSession(j,i)"></app-calendar-details>                      
-            <!--<div *ngIf="planning && planning[j][i]" style="position:relative;top:-5px;left:0px;right:0px;">
-                <div class="game-session {{ planning[j][i].is_free ? 'free' : ''}}" style="bottom:-56px">
-                    <div *ngIf="planning[j][i].is_free">
-                        <a class="reservation-link" [routerLink]="['/reservation']">Réserver</a>
-                    </div>
-                    <div *ngIf="!planning[j][i].is_free">Indisponible</div>
-                </div>
-            </div>-->
+        <td *ngFor="let d of days;let j=index">
+            <app-calendar-details *ngIf="calendrier" [hour]="hour" [day]="d" [sessionModel]="calendrier[j][i]"></app-calendar-details>                      
         </td>
     </tr>
 </table>
@@ -50,13 +38,10 @@
                 {{d.getDate()}} <span *ngIf="d.getDate() == 1">{{d | date:'MMM'}}</span>
             </div>
 
-            <div *ngIf="planning">
-                <div *ngFor="let p of planning[i*7+j]">
+            <div *ngIf="calendrier">
+                <div *ngFor="let p of calendrier[i*7+j]">
                     <div *ngIf="p" class="game-session {{p.is_free ? 'free' : ''}}">
-                        <div *ngIf="p.is_free">
-                            <a class="reservation-link" [routerLink]="['/reservation']">{{p.hour_start.substring(11, 16)}} : Réserver</a>
-                        </div>
-                        <div *ngIf="!p.is_free">{{p.hour_start.substring(11, 16)}}</div>
+                        <app-calendar-details *ngIf="calendrier" [hour]="p.hour_start.substring(11, 16)" [day]="d" [sessionModel]="p" class="month-session"></app-calendar-details>
                     </div>
                 </div>
             </div>
@@ -68,9 +53,9 @@
 <fieldset>
     <legend>Debug</legend>
     Test : {{ monthWeeks | json}}
-    Room :
-    <pre>{{room | json}}</pre>
     Planning :
     <pre>{{planning | json}}</pre>
+    Calendrier :
+    <pre>{{calendrier | json}}</pre>
 </fieldset>
 

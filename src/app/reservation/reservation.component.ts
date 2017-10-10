@@ -17,9 +17,9 @@ export class ReservationComponent {
     public createSessionData:CreateSessionModel;
     myForm: FormGroup;
     levels = [
-        {value:0, label:"Débutant"},
-        {value:1, label:"Confirmé"},
-        {value:2, label:"Expert"}
+        {value:1, label:"Débutant"},
+        {value:2, label:"Confirmé"},
+        {value:3, label:"Expert"}
     ];
         
     constructor( private roomService: HttpRoomService) {
@@ -38,12 +38,14 @@ export class ReservationComponent {
                 new FormGroup({
                    firstname: new FormControl('Daniel'),
                    lastname: new FormControl('Daniel'),
-                   email:new FormControl('daniel@bureau401.fr',[Validators.required,Validators.email])
+                   email:new FormControl('daniel@bureau401.fr',[Validators.email]),
+                   creator:new FormControl(false)
                 }),
                 new FormGroup({
                    firstname: new FormControl('Esteban'),
                    lastname: new FormControl('Esteban'),
-                   email:new FormControl('esteban@bureau401.fr',[Validators.required,Validators.email])
+                   email:new FormControl('esteban@bureau401.fr',[Validators.email]),
+                   creator:new FormControl(false)
                 })
             ]),
             'discounts': new FormArray([])
@@ -57,9 +59,9 @@ export class ReservationComponent {
     onSubmit(){
         console.log(this.myForm.getRawValue());
 
-        let toto = this.myForm.getRawValue();
-        toto.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
-        this.roomService.createSession(toto);
+        let formData = this.myForm.getRawValue();
+        formData.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
+        this.roomService.createSession(formData);
     }
 
     removeAt(i){
@@ -72,7 +74,8 @@ export class ReservationComponent {
         (<FormArray>this.myForm.get('subscribers')).push( new FormGroup({
             firstname: new FormControl('user'),
             lastname: new FormControl('user'),
-            email: new FormControl('mail',[Validators.email])
+            email: new FormControl('mail',[Validators.email]),
+            creator:new FormControl(false)
          }))
     }    
 }

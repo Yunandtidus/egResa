@@ -1,3 +1,4 @@
+import { AvailableSessionModel } from './../model/available-session.model';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {IMyOptions, IMyDateModel} from 'mydatepicker';
@@ -6,8 +7,6 @@ import { HttpRoomService } from '../api/room/room-http.service';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 
 import { RoomModel } from '../model/room.model';
-import { AvailableSessionModel } from '../model/available-session.model';
-import { ScheduleModel } from '../model/schedule.model';
 import { ReservationModel } from '../model/reservation.model';
 
 import * as moment from 'moment';
@@ -22,19 +21,11 @@ export class CalendarComponent implements OnInit {
     static HOUR_START: number = 12;
     static HOUR_END: number = 24;
     static DELTA_TIME: number = 0.5;
-
-    // public state : any =
-    //  {
-    //      etat:"",
-    //      id:""
-    //     };   
-    
  
     DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
 
     currentDate = new Date();
 
-    room: RoomModel;
     hours: number[];
 
     private mode: string = "week";
@@ -44,21 +35,19 @@ export class CalendarComponent implements OnInit {
     days: Date[];
     monthWeeks: Date[][];
 
-    planning: AvailableSessionModel[][];
+    planning: AvailableSessionModel[]; 
+    calendrier: AvailableSessionModel[][];
 
     constructor( private roomService: HttpRoomService) {
-       
         this.midnight(this.currentDate);
     }
 
     ngOnInit(){
-         console.log("start");
         this.hours = [];
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
             this.hours.push(i);
         }
-         this.onChange();
-       
+        this.onChange();
     };
 
     onChange() {      
@@ -67,33 +56,40 @@ export class CalendarComponent implements OnInit {
             thisHelper.currentDate = new Date(date.getTime());
             thisHelper.modes[thisHelper.mode].bind(thisHelper)();
             thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
-                .subscribe(roomData => {this.constructSession(roomData);console.log(roomData)});
+                .subscribe(planning => {this.constructSession(planning)});
         }
     };
     
-    constructSession(roomData: RoomModel) {
-        this.room = roomData;
-        this.refreshPlanning();
+    constructSession(planning: AvailableSessionModel[]) {
+        this.planning = planning;
+        this.refreshCalendrier();
     }
 
-    refreshPlanning() {
-        this.planning = [];
+    /** Construct Calendar
+     * The calendar is a 2-dim array, 
+     * - first dimension is the day number (relative to first day displayed)
+     * - second dimension is the time slot number 
+     * 
+     * It contains only existing sessions
+     */
+    refreshCalendrier() {
+        this.calendrier = [];
 
         for (let d of this.days) {
             let dayPlanning = [];
             for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
                 dayPlanning.push(null);
             }
-            this.planning.push(dayPlanning);
+            this.calendrier.push(dayPlanning);
         }
 
-        for (let a of this.room.planning) {
+        for (let a of this.planning) {
             let d = moment(a.hour_start, 'YYYY-MM-DD hh:mm').toDate();
             let hour = d.getHours() + d.getMinutes() / 60;
             this.midnight(d);
             for (let i in this.days) {
                 if (d.getTime() == this.days[i].getTime()) {
-                    this.planning[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;                   
+                    this.calendrier[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;                   
                 }
             }
         }
@@ -166,35 +162,4 @@ export class CalendarComponent implements OnInit {
     getReservation(): ReservationModel {
         return this.roomService.getReservationModel();
     }
-
-    availableSession(j,i){         
-         let state : any =
-     {
-         etat:"",
-         id:""
-        };  
-
-        if(this.planning && this.planning[j][i] != undefined && this.planning[j][i] != null ) {
-            if(this.planning[j][i].is_free == false){
-                
-                state.etat = "reserved";
-                state.id = this.planning[j][i];
-               
-            }else{
-               
-                state.etat = "reservable";
-                state.id= this.planning[j][i];
-                               
-            }         
-           
-        }
-        else{          
-            state.etat = "empty";
-            state.id=null;
-        }
-        return state;
-       
-       
-    }
-
 }

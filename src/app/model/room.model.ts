@@ -7,5 +7,4 @@ export class RoomModel {
     available: boolean;
     gameDuration: number;
     totalDuration: number;
-    planning: AvailableSessionModel[];
 }
