@@ -46,7 +46,7 @@ export class CalendarDetailsComponent implements OnInit {
     reserveSession(){       
         let createSessionModel : CreateSessionModel = new CreateSessionModel();
         createSessionModel.startDateTime = this.sessionModel.hour_start;
-        createSessionModel.idAvailability = this.sessionModel.idAvailability;
+        createSessionModel.idAvailability = this.sessionModel.id_availability;
         this.roomService.createSessionData = createSessionModel;
         this.router.navigate(['/reservation']);
     }
