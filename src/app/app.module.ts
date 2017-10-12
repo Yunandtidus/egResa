@@ -21,11 +21,6 @@ import { CreationReservationComponent } from './reservation/reservation-creation
 import { UpdateReservationComponent } from './reservation/reservation-update.component';
 import { AdminComponent } from './admin/admin.component';
 import { CalendarDetailsComponent } from './calendar-details/calendar-details.component';
-import { ValidationComponent } from './reservation/validation/validation.component';
-
-
-
-
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -41,8 +36,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UpdateReservationComponent,
     AdminComponent,
     CalendarDetailsComponent,
-    ValidationComponent,
-    
     
   ],
   imports: [

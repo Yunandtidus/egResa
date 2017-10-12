@@ -59,9 +59,14 @@ export class CreationReservationComponent implements OnInit {
     }
     
     protected onSubmit(){
-        let formData = this.myForm.getRawValue();
-        formData.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
-        this.performSaveSession(formData);
+        this.myForm.markAsDirty();
+        if (this.myForm.valid){
+            let formData = this.myForm.getRawValue();
+            formData.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
+            this.performSaveSession(formData);
+        } else {
+            alert("Formulaire invalide" + this.myForm.errors);
+        }
     }
 
     protected performSaveSession(formData:any){
@@ -91,6 +96,6 @@ export class CreationReservationComponent implements OnInit {
     }
 
     emailOrEmpty(control: FormControl) {
-        return control.value === '' ? null : Validators.email(control);
+        return control.value ? Validators.email(control) : null;
     }
 }

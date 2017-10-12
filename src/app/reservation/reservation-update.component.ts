@@ -43,6 +43,9 @@ export class UpdateReservationComponent extends CreationReservationComponent {
         this.roomService.consultSession(this.session_id).subscribe(session => {
             console.log(session);
             this.myForm = new FormGroup({});
+
+            this.myForm.addControl('idAvailability', new FormControl(0)),
+            this.myForm.addControl('startDateTime', new FormControl(session["hour_start"])),
             this.myForm.addControl('subscribers', new FormArray([]));
             this.myForm.addControl('level', new FormControl(session.level));
             let first: boolean = true;
@@ -50,7 +53,7 @@ export class UpdateReservationComponent extends CreationReservationComponent {
                 (<FormArray>this.myForm.get('subscribers')).push(new FormGroup({
                     firstname: new FormControl(s.firstname, first ? [Validators.required] : []),
                     lastname: new FormControl(s.lastname, first ? [Validators.required] : []),
-                    email:new FormControl(s.email, first ? [Validators.required, Validators.email] : [this.emailOrEmpty]),
+                    email:new FormControl(s.email, first ? [Validators.required, this.emailOrEmpty] : [this.emailOrEmpty]),
                     creator:new FormControl(first)
                 }));
                 first = false;
@@ -59,6 +62,7 @@ export class UpdateReservationComponent extends CreationReservationComponent {
     }
 
     protected performSaveSession(formData:any){
+        console.log((<FormArray>this.myForm.get('subscribers')).at(0).get('email'));
         //this.roomService.updateSession(formData);
     }
 

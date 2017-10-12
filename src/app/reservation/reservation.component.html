@@ -5,29 +5,32 @@
   <div class="form-group">
     {{myForm.get('startDateTime').value | date:'dd/MM/y HH:mm:ss'}}
   </div>  
-  <div class="radio" *ngFor="let level of levels; let i = index">
-    <label>  
-        <input type="radio"               
-               id="level.value"
-               formControlName="level"
-               [value]="level.value">
-               {{level.label}}
-            </label>
+  Niveau de difficulté :
+  <div class="btn-group" role="group" aria-label="level">
+    <button *ngFor="let level of levels; let i = index" type="button" 
+            class="btn btn-default" [class.active]="myForm.get('level').value == level.value"
+            (click)="myForm.get('level').setValue(level.value)"
+    >{{level.label}}</button>
   </div>
   <div formArrayName="subscribers" class="form-group">
     <label for="subscribers">Inscrits</label>
     <div class="form-group row" *ngFor="let item of myForm.get('subscribers').controls; let i = index" [formGroup]="item">
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Prénom</label>
-        
+        <div class="alert alert-danger" *ngIf="!item.get('firstname').valid && item.get('firstname').dirty">Le prénom est obligatoire</div>
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="firstname">
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Nom</label>
+        <div class="alert alert-danger" *ngIf="!item.get('lastname').valid && item.get('lastname').dirty">Le nom est obligatoire</div>
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="lastname">
       </div>
       <div class="col-sm-4">
         <label [attr.for]="'mail'+i">E-Mail</label>
+        <div class="alert alert-danger" *ngIf="!item.get('email').valid && item.get('email').dirty">
+          <span *ngIf="item.get('email').hasError('required')">Le mail est obligatoire</span>
+          <span *ngIf="item.get('email').hasError('email')">L'adresse email est invalide</span>
+        </div>
         <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="email">
       </div>
       <div *ngIf="i>0" class="col-sm-1">
@@ -37,7 +40,7 @@
     </div>
   </div>
   <button class="btn btn-default" type="button" (click)="addPlayer()">Ajouter des joueurs</button>
-  <button class="btn btn-primary" type="submit" [disabled]="!myForm.valid">Submit</button>
+  <button class="btn btn-primary" type="submit" [disabled]="myForm.invalid">Submit</button>
 </form>
 
   <button *ngIf="validable" class="btn btn-primary" (click)="validateSession()">Valider ma réservation</button>
