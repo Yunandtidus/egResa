@@ -34,7 +34,7 @@ export class HttpApi {
 
         let url = this.getApiUrl() + path;
         let options = new RequestOptions({ headers: headers, withCredentials: true })
-        return this.authHttp.post(url, parameters.toString(), options);
+        return this.authHttp.post(url, parameters.toString(), options).map(res => res.json());
     }
 
     protected getApiUrl(): string {

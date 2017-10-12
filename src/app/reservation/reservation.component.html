@@ -1,5 +1,6 @@
 <h2>Réservation de séance</h2>
 
+<div *ngIf="myForm">
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     {{myForm.get('startDateTime').value | date:'dd/MM/y HH:mm:ss'}}
@@ -39,7 +40,7 @@
   </div>
   <button class="btn btn-default" type="button" (click)="addPlayer()">Ajouter des joueurs</button>
   <button class="btn btn-primary" type="submit" [disabled]="!myForm.valid">Submit</button>
-
-
 </form>
 
+  <button *ngIf="validable" class="btn btn-primary" (click)="validateSession()">Valider ma réservation</button>
+</div>

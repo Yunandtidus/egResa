@@ -11,19 +11,25 @@ import * as moment from 'moment';
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css']
 })
-export class ReservationComponent {
+export class CreationReservationComponent implements OnInit {
 
-    private subscribers : Subscriber[] = [];
-    public createSessionData:CreateSessionModel;
-    myForm: FormGroup;
-    levels = [
+    private createSessionData:CreateSessionModel;
+    
+    protected subscribers : Subscriber[] = [];
+    protected myForm: FormGroup;
+    protected levels = [
         {value:1, label:"Débutant"},
         {value:2, label:"Confirmé"},
         {value:3, label:"Expert"}
     ];
+
+    protected validable: boolean = false;
         
-    constructor( private roomService: HttpRoomService) {
+    constructor( protected roomService: HttpRoomService) {
         this.createSessionData = this.roomService.createSessionData;
+    }
+
+    ngOnInit(){
         this.myForm = new FormGroup({
             'idAvailability':new FormControl(this.createSessionData.idAvailability),
             'startDateTime':new FormControl(this.createSessionData.startDateTime),
@@ -51,31 +57,40 @@ export class ReservationComponent {
             'discounts': new FormArray([])
         });
     }
-
-    getReservation(): ReservationModel {
-        return this.roomService.getReservationModel();
-    }
     
-    onSubmit(){
-        console.log(this.myForm.getRawValue());
-
+    protected onSubmit(){
         let formData = this.myForm.getRawValue();
         formData.numberOfPlayers = (<FormArray>this.myForm.get('subscribers')).length;
-        this.roomService.createSession(formData);
+        this.performSaveSession(formData);
     }
 
-    removeAt(i){
+    protected performSaveSession(formData:any){
+        this.roomService.createSession(formData).subscribe(
+            res => {
+                console.log(res);
+            },
+            err => {
+                console.log("Error occured");
+            }
+        );;
+    }
+
+    protected removeAt(i){
         if (i > 0){
             (<FormArray>this.myForm.get('subscribers')).removeAt(i);
         }
     }
 
-    addPlayer(){
+    protected addPlayer(){
         (<FormArray>this.myForm.get('subscribers')).push( new FormGroup({
-            firstname: new FormControl('user'),
-            lastname: new FormControl('user'),
-            email: new FormControl('mail',[Validators.email]),
+            firstname: new FormControl(''),
+            lastname: new FormControl(''),
+            email: new FormControl('',[this.emailOrEmpty]),
             creator:new FormControl(false)
          }))
-    }    
+    }
+
+    emailOrEmpty(control: FormControl) {
+        return control.value === '' ? null : Validators.email(control);
+    }
 }

@@ -55,7 +55,7 @@ export class CalendarComponent implements OnInit {
         return (date: Date) => {
             thisHelper.currentDate = new Date(date.getTime());
             thisHelper.modes[thisHelper.mode].bind(thisHelper)();
-            thisHelper.roomService.loadRoom(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
+            thisHelper.roomService.loadRoomPlanning(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
                 .subscribe(planning => {this.constructSession(planning)});
         }
     };
@@ -93,22 +93,6 @@ export class CalendarComponent implements OnInit {
                 }
             }
         }
-    }
-
-    addSession(day: Date, hour: number) {
-        console.log("ajout de session" + day + hour);
-        let d: Date = new Date();
-        d.setTime(day.getTime());
-        d.setHours(Math.round(hour));
-        d.setMinutes((hour - Math.round(hour)) * 60);
-        d.setSeconds(0);
-        d.setMilliseconds(0);
-        this.roomService.addSession(1, d, 90)
-            .subscribe(
-                result => { console.log("ok", result); }, 
-                e => { console.log(e, "ko")}
-            );
-        this.onChange()(this.currentDate);
     }
 
     modeDay() {
@@ -159,7 +143,4 @@ export class CalendarComponent implements OnInit {
         d.setMilliseconds(0);
     }
 
-    getReservation(): ReservationModel {
-        return this.roomService.getReservationModel();
-    }
 }

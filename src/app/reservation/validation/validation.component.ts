@@ -14,7 +14,7 @@ export class ValidationComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
        console.log(params);
-      this.roomService.validateSession({"session_id" : +params.session_id, "code":params.code});
+      
     });
   }
 

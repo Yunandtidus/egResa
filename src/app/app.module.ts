@@ -17,7 +17,8 @@ import { HttpAuthService } from './api/auth/auth-http.service';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DatepickerComponent } from './calendar/datepicker/datepicker.component';
-import { ReservationComponent } from './reservation/reservation.component';
+import { CreationReservationComponent } from './reservation/reservation-creation.component';
+import { UpdateReservationComponent } from './reservation/reservation-update.component';
 import { AdminComponent } from './admin/admin.component';
 import { CalendarDetailsComponent } from './calendar-details/calendar-details.component';
 import { ValidationComponent } from './reservation/validation/validation.component';
@@ -36,7 +37,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
     CalendarComponent,
     DatepickerComponent,
-    ReservationComponent,
+    CreationReservationComponent,
+    UpdateReservationComponent,
     AdminComponent,
     CalendarDetailsComponent,
     ValidationComponent,

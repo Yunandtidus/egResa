@@ -30,6 +30,15 @@ export class HttpAuthService  {
         return o;
     }
 
+    loginClient(subscriberId: number, password: String): Observable<Response> {
+        let o = this.http.post('login', { id: subscriberId, password: password }, null);
+        o.subscribe(data => {
+             localStorage.setItem("token", data["token"]);
+             this.admin = false;
+            });
+        return o;
+    }
+
     isAdmin(){
         return this.admin;
     }
