@@ -16,14 +16,14 @@ export class CreationReservationComponent implements OnInit {
     private createSessionData:CreateSessionModel;
     
     protected subscribers : Subscriber[] = [];
-    protected myForm: FormGroup;
-    protected levels = [
+    myForm: FormGroup;
+    levels = [
         {value:1, label:"Débutant"},
         {value:2, label:"Confirmé"},
         {value:3, label:"Expert"}
     ];
 
-    protected validable: boolean = false;
+    validable: boolean = false;
         
     constructor( protected roomService: HttpRoomService) {
         this.createSessionData = this.roomService.createSessionData;

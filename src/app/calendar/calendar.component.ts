@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit {
 
     hours: number[];
 
-    private mode: string = "week";
+    mode: string = "week";
 
     private modes = {'day' : this.modeDay, 'week' : this.modeWeek, 'month' : this.modeMonth};
 
@@ -42,6 +42,7 @@ export class CalendarComponent implements OnInit {
         this.midnight(this.currentDate);
     }
 
+
     ngOnInit(){
         this.hours = [];
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
@@ -51,11 +52,10 @@ export class CalendarComponent implements OnInit {
     };
 
     onChange() {      
-        let thisHelper: CalendarComponent = this;
         return (date: Date) => {
-            thisHelper.currentDate = new Date(date.getTime());
-            thisHelper.modes[thisHelper.mode].bind(thisHelper)();
-            thisHelper.roomService.loadRoomPlanning(1, thisHelper.days[0], moment(thisHelper.days[thisHelper.days.length-1]).add(1, "days").toDate())
+            this.currentDate = new Date(date.getTime());
+            this.modes[this.mode].bind(this)();
+            this.roomService.loadRoomPlanning(1, this.days[0], moment(this.days[this.days.length-1]).add(1, "days").toDate())
                 .subscribe(planning => {this.constructSession(planning)});
         }
     };

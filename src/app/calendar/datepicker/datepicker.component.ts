@@ -45,7 +45,7 @@ export class DatepickerComponent implements OnInit {
     @Input()
     private mode: String
 
-    private dateModel: Object;
+    dateModel: Object;
 
     constructor(private formBuilder: FormBuilder) {
     };
@@ -56,7 +56,7 @@ export class DatepickerComponent implements OnInit {
     };
     
 
-    private myDatePickerOptions: IMyDpOptions = {
+    myDatePickerOptions: IMyDpOptions = {
         // other options...
         dateFormat: 'dd mmm yyyy',
         dayLabels: <IMyDayLabels> {

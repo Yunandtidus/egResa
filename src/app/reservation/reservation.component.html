@@ -19,23 +19,21 @@
     <div class="form-group row" *ngFor="let item of myForm.get('subscribers').controls; let i = index" [formGroup]="item">
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Prénom</label>
+        
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="firstname">
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Nom</label>
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="lastname">
       </div>
-
       <div class="col-sm-4">
         <label [attr.for]="'mail'+i">E-Mail</label>
         <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="email">
       </div>
-
       <div *ngIf="i>0" class="col-sm-1">
             <button type="button" class="btn btn-primary"
                     (click)="removeAt(i)">-</button>
       </div>
-
     </div>
   </div>
   <button class="btn btn-default" type="button" (click)="addPlayer()">Ajouter des joueurs</button>
