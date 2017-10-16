@@ -1,4 +1,9 @@
+
 <my-datepicker [date]="currentDate" [onChange]="onChange()" [mode]="mode"></my-datepicker>
+<div>
+   
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '50px' }"></ngx-loading>
+</div>
 <br />
 <div class="row choicePeriod">
     <div class="col-xs-4">
@@ -13,6 +18,7 @@
 </div>
 
 <table class="calendar" *ngIf="mode != 'month'" style="width:100%">
+      
     <tr>
         <th style="max-width:80px">Horaire</th>
         <th class="text-center" *ngFor="let d of days">{{d | date: 'dd/MM'}}</th>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 
 import { FormBuilder, Validators, NgForm } from '@angular/forms';
 import { HttpAuthService } from '../api/auth/auth-http.service';
@@ -10,7 +10,10 @@ import {Router} from '@angular/router';
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit,OnDestroy{
+    ngOnDestroy(): void {
+        this.authService.onLogin.unsubscribe();
+    }
 
     errorMessage = "";
     email = "@bureau401.fr";

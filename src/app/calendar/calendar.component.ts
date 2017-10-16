@@ -24,6 +24,9 @@ export class CalendarComponent implements OnInit {
  
     DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
 
+    // ngx-loading boolean
+    public loading:boolean;
+
     currentDate = new Date();
 
     hours: number[];
@@ -48,15 +51,19 @@ export class CalendarComponent implements OnInit {
         for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
             this.hours.push(i);
         }
+        
         this.onChange();
+       
     };
 
     onChange() {      
         return (date: Date) => {
+           this.loading=true;
             this.currentDate = new Date(date.getTime());
             this.modes[this.mode].bind(this)();
             this.roomService.loadRoomPlanning(1, this.days[0], moment(this.days[this.days.length-1]).add(1, "days").toDate())
-                .subscribe(planning => {this.constructSession(planning)});
+                .subscribe(planning => {this.loading=false;this.constructSession(planning)});
+               
         }
     };
     
@@ -73,6 +80,7 @@ export class CalendarComponent implements OnInit {
      * It contains only existing sessions
      */
     refreshCalendrier() {
+       
         this.calendrier = [];
 
         for (let d of this.days) {
@@ -93,6 +101,7 @@ export class CalendarComponent implements OnInit {
                 }
             }
         }
+       
     }
 
     modeDay() {

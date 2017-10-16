@@ -21,6 +21,8 @@ import { CreationReservationComponent } from './reservation/reservation-creation
 import { UpdateReservationComponent } from './reservation/reservation-update.component';
 import { AdminComponent } from './admin/admin.component';
 import { CalendarDetailsComponent } from './calendar-details/calendar-details.component';
+import { HeaderComponent } from './header/header.component';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -36,6 +38,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UpdateReservationComponent,
     AdminComponent,
     CalendarDetailsComponent,
+    HeaderComponent,
     
   ],
   imports: [
@@ -44,7 +47,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ReactiveFormsModule,
     HttpModule,   
     RouterModule.forRoot(rootRouterConfig),	
-	  MyDatePickerModule
+    MyDatePickerModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.threeBounce,
+      backdropBackgroundColour: 'rgba(0,0,0,0.1)', 
+      backdropBorderRadius: '50px',
+      primaryColour: '#286090', 
+      secondaryColour: '#286090', 
+      tertiaryColour: '#286090'
+  })
   ],
   providers: [
     HttpApi,
