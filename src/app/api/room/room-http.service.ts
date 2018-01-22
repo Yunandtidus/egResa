@@ -1,10 +1,13 @@
+import { HttpClient } from '@angular/common/http';
+import { environment } from './../../../environments/environment.prod';
 import { AvailableSessionModel } from './../../model/available-session.model';
 import { CreateSessionModel } from './../../model/create-session-model';
 import { Injectable, Inject} from '@angular/core';
 import { Response, URLSearchParams, Headers } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
+
 import 'rxjs';
+import 'rxjs/add/operator/map';
 
 import { HttpApi} from '../http-api.service';
 
@@ -37,11 +40,11 @@ export class HttpRoomService {
      * @param duration the duration (in minutes)
      */
     addSession(id: number, date: Date, duration: number): Observable<any> {
-        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(120, "m").toDate(), gameTotalDuration: duration }, null);
+        return this.http.post('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(120, "m").toDate(), gameTotalDuration: duration }, null);
     }
 
     consultSession(session_id : number): Observable<CreateSessionModel> {
-        return this.http.authPost("session/consult", {session_id : session_id}, null)
+        return this.http.post("session/consult", {session_id : session_id}, null)
             .map(res => {
                 let session: CreateSessionModel = res["message"]; return session;
             });
@@ -53,6 +56,10 @@ export class HttpRoomService {
 
     validateSession(model : any): Observable<any>{
         return this.http.post('session/validate', model, null)
+    }
+
+    protected getApiUrl(): string {
+        return environment.apiUrl + "api/";
     }
     
 }
