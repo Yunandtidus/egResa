@@ -1,31 +1,36 @@
 import { Injectable, Inject} from '@angular/core';
-import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs';
 import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import * as moment from 'moment';
 
 @Injectable()
 export class HttpApi {
 
-    constructor(protected http: Http, protected authHttp: AuthHttp = null) { }
+    constructor(public http: HttpClient) { }
 
-    public post(path: string, params: Object, headers: Headers): Observable<Response> {
-        var headers = headers || new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let parameters = new URLSearchParams();
+    public post(path: string, params: Object, headers: HttpHeaders) {
+        var headers = headers || new HttpHeaders();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');        
+        let parameters = new HttpParams();
         if (params) {
             parameters.set("request", JSON.stringify(params));
         }
+        console.log(params);
 
         let url = this.getApiUrl() + path;
-        return this.http.post(url, parameters.toString(), { headers: headers }).map(res => res.json());
+        return this.http.post(
+            url,
+            {request:JSON.stringify(params)},
+              { headers: headers });
     }
 
-    public authPost(path: string, params: Object, headers: Headers): Observable<Response> {
-        var headers = headers || new Headers();
+    public authPost(path: string, params: Object, headers: HttpHeaders) {
+        var headers = headers || new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let parameters = new URLSearchParams();
         if (params) {
@@ -33,8 +38,8 @@ export class HttpApi {
         }
 
         let url = this.getApiUrl() + path;
-        let options = new RequestOptions({ headers: headers, withCredentials: true })
-        return this.authHttp.post(url, parameters.toString(), options).map(res => res.json());
+        let options = ({ headers: headers, withCredentials: true })
+        return this.http.post(url, parameters.toString(), options);
     }
 
     protected getApiUrl(): string {
