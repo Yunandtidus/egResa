@@ -1,12 +1,13 @@
-import { AvailableSessionModel } from './../model/available-session.model';
+
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {IMyOptions, IMyDateModel} from 'mydatepicker';
+import { Router } from '@angular/router';
 
 import { HttpRoomService } from '../api/room/room-http.service';
-import { DatepickerComponent } from './datepicker/datepicker.component';
 
+import { AvailableSessionModel } from './../model/available-session.model';
 import { RoomModel } from '../model/room.model';
+import { CreateSessionModel } from './../model/create-session-model';
 import { ReservationModel } from '../model/reservation.model';
 
 import * as moment from 'moment';
@@ -18,138 +19,64 @@ import * as moment from 'moment';
 })
 export class CalendarComponent implements OnInit {
 
-    static HOUR_START: number = 12;
-    static HOUR_END: number = 24;
-    static DELTA_TIME: number = 0.5;
- 
-    DAY_OF_WEEK = DatepickerComponent.DAY_LABELS;
+    public loading:boolean = true;
 
-    // ngx-loading boolean
-    public loading:boolean;
-
-    currentDate = new Date();
-
-    hours: number[];
-
-    mode: string = "week";
-
-    private modes = {'day' : this.modeDay, 'week' : this.modeWeek, 'month' : this.modeMonth};
-
-    days: Date[];
-    monthWeeks: Date[][];
-
-    planning: AvailableSessionModel[]; 
-    calendrier: AvailableSessionModel[][];
-
-    constructor( private roomService: HttpRoomService) {
-        this.midnight(this.currentDate);
+    constructor(private router:Router, private roomService: HttpRoomService) {
     }
 
-
-    ngOnInit(){
-        this.hours = [];
-        for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
-            this.hours.push(i);
-        }
-        
-        this.onChange();
-       
-    };
-
-    onChange() {      
-        return (date: Date) => {
-           this.loading=true;
-            this.currentDate = new Date(date.getTime());
-            this.modes[this.mode].bind(this)();
-            this.roomService.loadRoomPlanning(1, this.days[0], moment(this.days[this.days.length-1]).add(1, "days").toDate())
-                .subscribe(planning => {this.loading=false;this.constructSession(planning)});
-               
-        }
-    };
-    
-    constructSession(planning: AvailableSessionModel[]) {
-        this.planning = planning;
-        this.refreshCalendrier();
+    headerConfig = {
+        left:"prev,next today",
+        center: "title",
+        right: "month, agendaWeek, agendaDay"
     }
 
-    /** Construct Calendar
-     * The calendar is a 2-dim array, 
-     * - first dimension is the day number (relative to first day displayed)
-     * - second dimension is the time slot number 
-     * 
-     * It contains only existing sessions
-     */
-    refreshCalendrier() {
-       
-        this.calendrier = [];
+    events: any[];
 
-        for (let d of this.days) {
-            let dayPlanning = [];
-            for (let i = CalendarComponent.HOUR_START; i <= CalendarComponent.HOUR_END; i += CalendarComponent.DELTA_TIME) {
-                dayPlanning.push(null);
-            }
-            this.calendrier.push(dayPlanning);
-        }
+    ngOnInit(){}
 
-        for (let a of this.planning) {
-            let d = moment(a.hour_start, 'YYYY-MM-DD hh:mm').toDate();
-            let hour = d.getHours() + d.getMinutes() / 60;
-            this.midnight(d);
-            for (let i in this.days) {
-                if (d.getTime() == this.days[i].getTime()) {
-                    this.calendrier[i][(hour - CalendarComponent.HOUR_START) / CalendarComponent.DELTA_TIME] = a;                   
-                }
-            }
-        }
-       
+    handleDayClick(event) {
+        //event.view 
+        console.log(event.date);
+        console.log("ajout de session" + event.date);
+        this.roomService.addSession(1, event.date, 90)
+            .subscribe(
+                result => {console.log("session creation ok", result); }, 
+                e => { console.log(e, "ko")}                
+            );
     }
 
-    modeDay() {
-        this.mode = "day";
-        this.days = [this.currentDate];
-    };
-
-    modeWeek() {
-        this.mode = "week";
-        this.days = [this.currentDate];
-        console.log(this.currentDate);
-        for (let i = 1; i < 7; i++) {
-            let d = new Date();
-            d.setTime(this.currentDate.getTime());
-            d.setDate(d.getDate() + i);
-            this.days.push(d);
-        }
+    loadCalendar(event) {
+        let start = event.view.start;
+        let end = event.view.end;
+        this.loading=true;
+        this.roomService.loadRoomPlanning(1, start.toDate(), end.toDate())
+            .subscribe(
+                planning => {
+                    this.loading=false;
+                    this.events = [];
+                    for (let a of planning) {
+                        this.events.push({
+                            title: a.is_free ? "Disponible" :"Indisponible", 
+                            start: a.hour_start, 
+                            end: a.hour_end,
+                            id_availability: a.id_availability,
+                            className : a.is_free ? "free" : ""
+                        });
+                    }
+                },
+                e => {
+                    this.loading=false;
+                    console.log(e, "ko")
+                }  
+        );
     }
 
-    modeMonth() {
-        this.mode = "month";
-        this.days = [];
-        this.monthWeeks = [];
-        let firstMonday = new Date(this.currentDate.getFullYear(), 1, 1, 0, 0, 0, 0);
-        firstMonday.setMonth(this.currentDate.getMonth());
-        firstMonday.setDate(1);
-        firstMonday.setDate(firstMonday.getDate() - firstMonday.getDay() + 1);
-        for (let i = 0; i < 5; i++) {
-            this.monthWeeks.push([]);
-            for (let d = 0; d < 7; d++) {
-                let date: Date = new Date();
-                date.setTime(firstMonday.getTime());
-                this.monthWeeks[i].push(date);
-                this.days.push(date);
-                firstMonday.setDate(firstMonday.getDate() + 1);
-            }
-        }
-    }    
-
-    showHour(h: number) {
-        return Math.round(h) == h;
+    handleEventClick(event){
+        console.log(event.calEvent);
+        let createSessionModel : CreateSessionModel = new CreateSessionModel();
+        createSessionModel.startDateTime = event.calEvent.start;
+        createSessionModel.idAvailability = event.calEvent.id_availability;
+        this.roomService.createSessionData = createSessionModel;
+        this.router.navigate(['/reservation']);
     }
-
-    midnight(d: Date) {
-        d.setHours(0);
-        d.setMinutes(0);
-        d.setSeconds(0);
-        d.setMilliseconds(0);
-    }
-
 }

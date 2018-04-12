@@ -4,7 +4,7 @@ import { Injectable, Inject} from '@angular/core';
 import { Response, URLSearchParams, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs';
+import 'rxjs/Rx';
 
 import { HttpApi} from '../http-api.service';
 

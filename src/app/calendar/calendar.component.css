@@ -38,10 +38,12 @@ tr.not-full-hour td{
     left:0px;
     right:0px;    
 }
-.month-calendar .game-session {
+
+.room-calendar .fc-event {
+    background:#FF0000;
 }
 
-.game-session.free {
+.room-calendar .fc-event.free {
     background:#387cea;
     border-color:#06054a;
 }

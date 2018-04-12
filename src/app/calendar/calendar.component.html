@@ -1,67 +1,16 @@
-
-<my-datepicker [date]="currentDate" [onChange]="onChange()" [mode]="mode"></my-datepicker>
-<div>
-   
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '50px' }"></ngx-loading>
+<div class="room-calendar">
+    <p-schedule 
+        [events]="events" locale="fr" 
+        [header]="headerConfig" [allDaySlot]="false" 
+        (onDayClick)="handleDayClick($event)"
+        (onEventClick)="handleEventClick($event)"
+        (onViewRender)="loadCalendar($event)"
+        minTime="10:00:00"
+        defaultView="agendaWeek"
+        [contentHeight]="640"
+    >
+    </p-schedule>
 </div>
-<br />
-<div class="row choicePeriod">
-    <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeDay();refreshCalendrier();">Jour</button>
-    </div>
-    <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeWeek();refreshCalendrier();">Semaine</button>    
-    </div>
-    <div class="col-xs-4">
-        <button class="btn btn-primary-light btn-block" (click)="modeMonth();refreshCalendrier();">Mois</button>    
-    </div>
+<div style="display:block; position:absolute; top:50%; left:50%; width:100px; height:100px; margin-left:-50px; margin-top:-50px;text-align:center;z-index:1000">
+    <p-progressSpinner *ngIf="loading" ></p-progressSpinner>
 </div>
-
-<table class="calendar" *ngIf="mode != 'month'" style="width:100%">
-      
-    <tr>
-        <th style="max-width:80px">Horaire</th>
-        <th class="text-center" *ngFor="let d of days">{{d | date: 'dd/MM'}}</th>
-    </tr>
-    <tr *ngFor="let hour of hours;let i=index" [ngClass]="showHour(hour) ? 'full-hour' : 'not-full-hour'">
-        <td class="planning-cell col-xs-1" style="max-width:80px">
-            <span>{{hour}}h</span>
-        </td>
-
-        <td *ngFor="let d of days;let j=index">
-            <app-calendar-details *ngIf="calendrier" [hour]="hour" [day]="d" [sessionModel]="calendrier[j][i]"></app-calendar-details>                      
-        </td>
-    </tr>
-</table>
-
-<table class="month-calendar" *ngIf="mode == 'month'">
-    <tr>
-        <th class="text-center" *ngFor="let i of DAY_OF_WEEK">{{i}}</th>
-    </tr>
-    <tr *ngFor="let w of monthWeeks;let i = index">
-        <td *ngFor="let d of w; let j = index">
-            <div class="calendar-day {{d.getMonth() == currentDate.getMonth() ? 'current-month' : ''}} {{d.getTime() == currentDate.getTime() ? 'today' : ''}}">
-                {{d.getDate()}} <span *ngIf="d.getDate() == 1">{{d | date:'MMM'}}</span>
-            </div>
-
-            <div *ngIf="calendrier">
-                <div *ngFor="let p of calendrier[i*7+j]">
-                    <div *ngIf="p" class="game-session {{p.is_free ? 'free' : ''}}">
-                        <app-calendar-details *ngIf="calendrier" [hour]="p.hour_start.substring(11, 16)" [day]="d" [sessionModel]="p" class="month-session"></app-calendar-details>
-                    </div>
-                </div>
-            </div>
-        </td>
-    </tr>
-</table>
-<br />
-
-<fieldset>
-    <legend>Debug</legend>
-    Test : {{ monthWeeks | json}}
-    Planning :
-    <pre>{{planning | json}}</pre>
-    Calendrier :
-    <pre>{{calendrier | json}}</pre>
-</fieldset>
-

@@ -16,6 +16,7 @@ export class HttpApi {
         var headers = headers || new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let parameters = new URLSearchParams();
+        parameters.set("_format", "json");
         if (params) {
             parameters.set("request", JSON.stringify(params));
         }
