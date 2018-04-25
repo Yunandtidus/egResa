@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit {
     handleEventClick(event){
         console.log(event.calEvent);
         let createSessionModel : CreateSessionModel = new CreateSessionModel();
-        createSessionModel.startDateTime = event.calEvent.start;
+        createSessionModel.startDateTime = event.calEvent.start.toDate();
         createSessionModel.idAvailability = event.calEvent.id_availability;
         this.roomService.createSessionData = createSessionModel;
         this.router.navigate(['/reservation']);
