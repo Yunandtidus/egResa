@@ -35,13 +35,20 @@ export class CalendarComponent implements OnInit {
     ngOnInit(){}
 
     handleDayClick(event) {
-        //event.view 
-        console.log(event.date);
-        console.log("ajout de session" + event.date);
-        this.roomService.addSession(1, event.date, 90)
+        console.log(event);
+        console.log("ajout de session" + event.date.toDate());
+        this.loading=true;
+        this.roomService.addSession(1, event.date.toDate(), 90)
             .subscribe(
-                result => {console.log("session creation ok", result); }, 
-                e => { console.log(e, "ko")}                
+                result => {
+                    console.log("session creation ok", result); 
+                    this.loading=false;
+                    this.loadCalendar(event);
+                }, 
+                e => { 
+                    console.log(e, "ko")
+                    this.loading=false;
+                }                
             );
     }
 

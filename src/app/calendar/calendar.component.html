@@ -1,11 +1,12 @@
 <div class="room-calendar">
-    <p-schedule 
+    <p-schedule
         [events]="events" locale="fr" 
         [header]="headerConfig" [allDaySlot]="false" 
         (onDayClick)="handleDayClick($event)"
         (onEventClick)="handleEventClick($event)"
         (onViewRender)="loadCalendar($event)"
         minTime="10:00:00"
+        timezone="local"
         defaultView="agendaWeek"
         [contentHeight]="640"
     >
