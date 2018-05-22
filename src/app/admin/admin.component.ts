@@ -28,8 +28,6 @@ export class AdminComponent implements OnInit,OnDestroy{
     }
 
     login(f: NgForm) {
-        console.log(f);
-        console.log(f.value);
         this.authService.loginAdmin(f.value.email, f.value.password);
         return false;
     }

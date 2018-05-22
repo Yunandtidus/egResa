@@ -31,7 +31,6 @@ export class CreationReservationComponent implements OnInit {
     }
 
     ngOnInit(){
-        console.log("Creation ngOnInit");
         this.myForm = new FormGroup({
             'idAvailability':new FormControl(this.createSessionData.idAvailability),
             'startDateTime':new FormControl(this.createSessionData.startDateTime),
@@ -71,7 +70,6 @@ export class CreationReservationComponent implements OnInit {
                 this.router.navigateByUrl('/reservation/creation_ok');
             },
             err => {
-                console.log("Error occured");
             }
         );;
     }

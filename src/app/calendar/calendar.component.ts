@@ -35,18 +35,14 @@ export class CalendarComponent implements OnInit {
     ngOnInit(){}
 
     handleDayClick(event) {
-        console.log(event);
-        console.log("ajout de session" + event.date.toDate());
         this.loading=true;
         this.roomService.addSession(1, event.date.toDate(), 90)
             .subscribe(
                 result => {
-                    console.log("session creation ok", result); 
                     this.loading=false;
                     this.loadCalendar(event);
                 }, 
                 e => { 
-                    console.log(e, "ko")
                     this.loading=false;
                 }                
             );
@@ -73,13 +69,11 @@ export class CalendarComponent implements OnInit {
                 },
                 e => {
                     this.loading=false;
-                    console.log(e, "ko")
                 }  
         );
     }
 
     handleEventClick(event){
-        console.log(event.calEvent);
         let createSessionModel : CreateSessionModel = new CreateSessionModel();
         createSessionModel.startDateTime = event.calEvent.start.toDate();
         createSessionModel.idAvailability = event.calEvent.id_availability;
