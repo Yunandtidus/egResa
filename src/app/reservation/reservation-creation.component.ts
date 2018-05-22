@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CreateSessionModel } from './../model/create-session-model';
 import { Subscriber } from './../model/subscriber.model';
 import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -25,32 +26,27 @@ export class CreationReservationComponent implements OnInit {
 
     validable: boolean = false;
         
-    constructor( protected roomService: HttpRoomService) {
+    constructor( protected roomService: HttpRoomService, protected router: Router ) {
         this.createSessionData = this.roomService.createSessionData;
     }
 
     ngOnInit(){
+        console.log("Creation ngOnInit");
         this.myForm = new FormGroup({
             'idAvailability':new FormControl(this.createSessionData.idAvailability),
             'startDateTime':new FormControl(this.createSessionData.startDateTime),
             'level': new FormControl(this.levels[0].value),
             'subscribers': new FormArray([
                 new FormGroup({
-                   firstname: new FormControl('Bruno',[Validators.required]),
-                   lastname: new FormControl('Bruno',[Validators.required]),
-                   email:new FormControl('bruno@bureau401.fr',[Validators.required,Validators.email]),
+                   firstname: new FormControl('',[Validators.required]),
+                   lastname: new FormControl('',[Validators.required]),
+                   email:new FormControl('',[Validators.required,this.emailOrEmpty]),
                    creator:new FormControl(true)
                 }),
                 new FormGroup({
-                   firstname: new FormControl('Daniel'),
-                   lastname: new FormControl('Daniel'),
-                   email:new FormControl('daniel@bureau401.fr',[Validators.email]),
-                   creator:new FormControl(false)
-                }),
-                new FormGroup({
-                   firstname: new FormControl('Esteban'),
-                   lastname: new FormControl('Esteban'),
-                   email:new FormControl('esteban@bureau401.fr',[Validators.email]),
+                   firstname: new FormControl(''),
+                   lastname: new FormControl(''),
+                   email:new FormControl('',[this.emailOrEmpty]),
                    creator:new FormControl(false)
                 })
             ]),
@@ -72,7 +68,7 @@ export class CreationReservationComponent implements OnInit {
     protected performSaveSession(formData:any){
         this.roomService.createSession(formData).subscribe(
             res => {
-                console.log(res);
+                this.router.navigateByUrl('/reservation/creation_ok');
             },
             err => {
                 console.log("Error occured");

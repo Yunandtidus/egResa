@@ -1,5 +1,5 @@
 import { HttpAuthService } from './../api/auth/auth-http.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreationReservationComponent } from './reservation-creation.component';
 import { CreateSessionModel } from './../model/create-session-model';
 import { Subscriber } from './../model/subscriber.model';
@@ -24,8 +24,9 @@ export class UpdateReservationComponent extends CreationReservationComponent {
         
     constructor(protected roomService: HttpRoomService, 
                 private route: ActivatedRoute,
-                private authService: HttpAuthService) {
-        super(roomService);
+                private authService: HttpAuthService,
+                protected router: Router) {
+        super(roomService, router);
     }
 
     ngOnInit(){
@@ -41,7 +42,6 @@ export class UpdateReservationComponent extends CreationReservationComponent {
     
     loadSession(){
         this.roomService.consultSession(this.session_id).subscribe(session => {
-            console.log(session);
             this.myForm = new FormGroup({});
 
             this.myForm.addControl('idAvailability', new FormControl(0)),
@@ -70,10 +70,10 @@ export class UpdateReservationComponent extends CreationReservationComponent {
         this.roomService.validateSession({"session_id" : +this.session_id, "code":this.password}).subscribe(
             res => {
                 this.validable = false;
-                console.log(res);
+                
+                this.router.navigate(['/reservation/validation_ok']);
             },
             err => {
-                console.log("Error occured");
             }
         );
     }

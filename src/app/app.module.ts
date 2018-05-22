@@ -10,6 +10,9 @@ import { rootRouterConfig } from './app.routes';
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ScheduleModule } from 'primeng/schedule';
+import { PanelModule } from 'primeng/panel';
+
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import { HttpApi } from './api/http-api.service';
 import { HttpRoomService } from './api/room/room-http.service';
@@ -21,6 +24,8 @@ import { CreationReservationComponent } from './reservation/reservation-creation
 import { UpdateReservationComponent } from './reservation/reservation-update.component';
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
+import { ReservationOkComponent } from './reservation/reservation-ok/reservation-ok.component';
+import { ReservationValidatedComponent } from './reservation/reservation-validated/reservation-validated.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -35,6 +40,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UpdateReservationComponent,
     AdminComponent,
     HeaderComponent,
+    ReservationOkComponent,
+    ReservationValidatedComponent,
     
   ],
   imports: [
@@ -42,9 +49,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,   
-    RouterModule.forRoot(rootRouterConfig),	
+    RouterModule.forRoot(rootRouterConfig, { useHash: true }),	
+    PanelModule,
     ScheduleModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    NoopAnimationsModule
   ],
   providers: [
     HttpApi,

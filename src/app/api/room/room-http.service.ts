@@ -37,7 +37,7 @@ export class HttpRoomService {
      * @param duration the duration (in minutes)
      */
     addSession(id: number, date: Date, duration: number): Observable<any> {
-        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(120, "m").toDate(), gameTotalDuration: duration }, null);
+        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(duration, "m").toDate(), gameTotalDuration: duration }, null);
     }
 
     consultSession(session_id : number): Observable<CreateSessionModel> {
