@@ -11,6 +11,7 @@ import { rootRouterConfig } from './app.routes';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ScheduleModule } from 'primeng/schedule';
 import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -51,6 +52,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HttpModule,   
     RouterModule.forRoot(rootRouterConfig, { useHash: true }),	
     PanelModule,
+    ButtonModule,
     ScheduleModule,
     ProgressSpinnerModule,
     NoopAnimationsModule

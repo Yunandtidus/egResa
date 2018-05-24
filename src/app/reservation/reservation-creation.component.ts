@@ -74,10 +74,8 @@ export class CreationReservationComponent implements OnInit {
         );;
     }
 
-    protected removeAt(i){
-        if (i > 0){
-            (<FormArray>this.myForm.get('subscribers')).removeAt(i);
-        }
+    protected removePlayer(){
+        (<FormArray>this.myForm.get('subscribers')).removeAt((<FormArray>this.myForm.get('subscribers')).length - 1);
     }
 
     protected addPlayer(){
