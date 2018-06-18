@@ -15,6 +15,8 @@ import * as moment from 'moment';
 export class CreationReservationComponent implements OnInit {
 
     private createSessionData:CreateSessionModel;
+
+    private loading: boolean = false;
     
     protected subscribers : Subscriber[] = [];
     myForm: FormGroup;
@@ -65,8 +67,10 @@ export class CreationReservationComponent implements OnInit {
     }
 
     protected performSaveSession(formData:any){
+        this.loading = true;
         this.roomService.createSession(formData).subscribe(
             res => {
+                this.loading = false;
                 this.router.navigateByUrl('/reservation/creation_ok');
             },
             err => {

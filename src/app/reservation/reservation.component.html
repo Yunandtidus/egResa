@@ -15,7 +15,7 @@
   <h3>Nombre de joueurs</h3>
   <div class="ui-inputgroup">
       <button pButton type="button" icon="fa-minus" [disabled]="myForm.get('subscribers').controls.length <= 2" (click)="removePlayer()"></button>    
-      <input type="text" pInputText placeholder="Vote" value="{{myForm.get('subscribers').controls.length}}">   
+      <input type="text" pInputText readonly="readonly" style="text-align:center; width:50px" value="{{myForm.get('subscribers').controls.length}}">   
       <button pButton type="button" icon="fa-plus" [disabled]="myForm.get('subscribers').controls.length >= 6" (click)="addPlayer()"></button>      
   </div>
 
@@ -24,26 +24,28 @@
     <div class="form-group row" *ngFor="let item of myForm.get('subscribers').controls; let i = index" [formGroup]="item">
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Prénom <span *ngIf="i == 0">*</span></label>
-        <div class="alert alert-danger" *ngIf="!item.get('firstname').valid && item.get('firstname').dirty">Le prénom est obligatoire</div>
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="firstname">
+        <div class="alert alert-danger" *ngIf="!item.get('firstname').valid && item.get('firstname').dirty">Le prénom est obligatoire</div>
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'user'+i">Nom <span *ngIf="i == 0">*</span></label>
-        <div class="alert alert-danger" *ngIf="!item.get('lastname').valid && item.get('lastname').dirty">Le nom est obligatoire</div>
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="lastname">
+        <div class="alert alert-danger" *ngIf="!item.get('lastname').valid && item.get('lastname').dirty">Le nom est obligatoire</div>
       </div>
       <div class="col-sm-4">
         <label [attr.for]="'mail'+i">E-Mail <span *ngIf="i == 0">*</span></label>
+        <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="email">
         <div class="alert alert-danger" *ngIf="!item.get('email').valid && item.get('email').dirty">
           <span *ngIf="item.get('email').hasError('required')">Le mail est obligatoire</span>
           <span *ngIf="item.get('email').hasError('email')">L'adresse email est invalide</span>
         </div>
-        <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="email">
       </div>
     </div>
   </div>
   <button class="btn btn-primary" type="submit" [disabled]="myForm.invalid">Réserver</button>
 </form>
+</div>
 
-  <button *ngIf="validable" class="btn btn-primary" (click)="validateSession()">Valider ma réservation</button>
+<div style="display:block; position:absolute; top:50%; left:50%; width:100px; height:100px; margin-left:-50px; margin-top:-50px;text-align:center;z-index:1000">
+    <p-progressSpinner *ngIf="loading" ></p-progressSpinner>
 </div>

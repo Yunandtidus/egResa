@@ -1,0 +1,18 @@
+<p-dialog header="Validation de la séance en cours" [visible]="!validated" modal="true">
+    <span style="text-align: center">{{status}}</span>
+</p-dialog>
+
+<p-panel *ngIf="validated" header="Votre réservation a bien été validée">
+    Papy Louis n'attend plus que vous !
+</p-panel>
+<br/>
+<p-panel *ngIf="validated && session" header="Détails de votre réservation">
+    <p><b>La séance commence le {{session.hour_start | date:'dd/MM/y \à HH:mm:ss'}}</b></p>
+    <p><b>Nombre de joueurs :</b> {{session.number_of_players}}</p>
+    <p><b>Niveau de difficulté : </b>{{levels[session.level-1].label}}</p>
+    <ul>
+    <li *ngFor="let player of session.subscribers">
+        {{player.firstname}} {{player.lastname}} ({{player.email}})
+    </li>
+    </ul>
+</p-panel>

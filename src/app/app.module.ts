@@ -12,6 +12,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ScheduleModule } from 'primeng/schedule';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
+import { GrowlModule } from 'primeng/growl';
+import { DialogModule } from 'primeng/dialog';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -22,11 +25,10 @@ import { HttpAuthService } from './api/auth/auth-http.service';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CreationReservationComponent } from './reservation/reservation-creation.component';
-import { UpdateReservationComponent } from './reservation/reservation-update.component';
+import { ValidationReservationComponent } from './reservation/reservation-validation.component';
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
 import { ReservationOkComponent } from './reservation/reservation-ok/reservation-ok.component';
-import { ReservationValidatedComponent } from './reservation/reservation-validated/reservation-validated.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -38,12 +40,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
     CalendarComponent,
     CreationReservationComponent,
-    UpdateReservationComponent,
+    ValidationReservationComponent,
     AdminComponent,
     HeaderComponent,
     ReservationOkComponent,
-    ReservationValidatedComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -55,12 +55,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ButtonModule,
     ScheduleModule,
     ProgressSpinnerModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    GrowlModule,
+    DialogModule
   ],
   providers: [
     HttpApi,
     HttpAuthService,
     HttpRoomService,
+    MessageService,
     //{ provide: LOCALE_ID, useValue: "fr" },
     { provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions]}
   ],

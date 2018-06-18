@@ -4,13 +4,14 @@ import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs';
 import { environment } from '../../environments/environment';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 import * as moment from 'moment';
 
 @Injectable()
 export class HttpApi {
 
-    constructor(protected http: Http, protected authHttp: AuthHttp = null) { }
+    constructor(protected http: Http, protected authHttp: AuthHttp = null, protected msgService : MessageService) { }
 
     public post(path: string, params: Object, headers: Headers): Observable<Response> {
         var headers = headers || new Headers();
@@ -22,7 +23,11 @@ export class HttpApi {
         }
 
         let url = this.getApiUrl() + path;
-        return this.http.post(url, parameters.toString(), { headers: headers }).map(res => res.json());
+        return this.http.post(url, parameters.toString(), { headers: headers })
+                        .map(res => res.json())
+                        .catch((e:any) => {
+                            return Observable.throw(this.handleError(e))
+                        });
     }
 
     public authPost(path: string, params: Object, headers: Headers): Observable<Response> {
@@ -35,7 +40,11 @@ export class HttpApi {
 
         let url = this.getApiUrl() + path;
         let options = new RequestOptions({ headers: headers, withCredentials: true })
-        return this.authHttp.post(url, parameters.toString(), options).map(res => res.json());
+        return this.authHttp.post(url, parameters.toString(), options)
+                            .map(res => res.json())
+                            .catch((e:any) => {
+                                return Observable.throw(this.handleError(e))
+                            });;
     }
 
     protected getApiUrl(): string {
@@ -49,5 +58,7 @@ export class HttpApi {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
+        console.log(errMsg);
+        this.msgService.add({severity:'error', summary:'Erreur', detail:"Une erreur s'est produite"});
     };
 }

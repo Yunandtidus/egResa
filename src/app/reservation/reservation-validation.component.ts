@@ -11,17 +11,22 @@ import { ReservationModel } from '../model/reservation.model';
 import * as moment from 'moment';
 @Component({
   selector: 'app-reservation',
-  templateUrl: './reservation.component.html',
+  templateUrl: './reservation-validation.component.html',
   styleUrls: ['./reservation.component.css']
 })
-export class UpdateReservationComponent extends CreationReservationComponent {
+export class ValidationReservationComponent extends CreationReservationComponent {
 
     protected subscribers : Subscriber[] = [];
 
     private session_id: number;
     private subscriber_id: number;
     private password;
-        
+
+    private status: string;
+    private validated: boolean = false;
+
+    private session: any;
+
     constructor(protected roomService: HttpRoomService, 
                 private route: ActivatedRoute,
                 private authService: HttpAuthService,
@@ -35,13 +40,21 @@ export class UpdateReservationComponent extends CreationReservationComponent {
             this.password = params.password;
             this.subscriber_id = +params.subscriber_id;
 
-            this.authService.loginClient(this.subscriber_id, this.password).subscribe(ret => this.loadSession());
+            this.status = "Authentification...";
+
+            this.authService.loginClient(this.subscriber_id, this.password)
+                            .subscribe(ret => {
+                                this.status = "Validation...";
+                                this.loadSession();
+                                this.validateSession();
+                            });
         });
-        this.validable = true;
     }
     
     loadSession(){
         this.roomService.consultSession(this.session_id).subscribe(session => {
+            this.session = session;
+            console.log(session);
             this.myForm = new FormGroup({});
 
             this.myForm.addControl('idAvailability', new FormControl(0)),
@@ -69,11 +82,10 @@ export class UpdateReservationComponent extends CreationReservationComponent {
     validateSession(){
         this.roomService.validateSession({"session_id" : +this.session_id, "code":this.password}).subscribe(
             res => {
-                this.validable = false;
-                
-                this.router.navigate(['/reservation/validation_ok']);
+                this.validated=true;
             },
             err => {
+                this.status = "Erreur lors de la validation";
             }
         );
     }

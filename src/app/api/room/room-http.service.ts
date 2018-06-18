@@ -26,8 +26,13 @@ export class HttpRoomService {
      * @param end the end date
      */
     loadRoomPlanning(id: number, begin: Date, end: Date): Observable<AvailableSessionModel[]> {
-        return this.http.post('room/planning', { idRoom: id, startDateTime: begin, endDateTime: end }, null)
-            .map(res => {let planning: AvailableSessionModel[] = res["message"]; return planning;});
+        return this.http.post('room/planning', 
+                              { idRoom: id, startDateTime: begin, endDateTime: end }, 
+                              null)
+                        .map(res => {
+                            let planning: AvailableSessionModel[] = res["message"]; 
+                            return planning;
+                        });
     };
 
     /**
@@ -37,22 +42,30 @@ export class HttpRoomService {
      * @param duration the duration (in minutes)
      */
     addSession(id: number, date: Date, duration: number): Observable<any> {
-        return this.http.authPost('staff/availability/create', { room_id: id, startDateTime: date, endDateTime: moment(date).add(duration, "m").toDate(), gameTotalDuration: duration }, null);
+        return this.http.authPost('staff/availability/create', 
+                                  { room_id: id, startDateTime: date, endDateTime: moment(date).add(duration, "m").toDate(), gameTotalDuration: duration }, 
+                                  null);
     }
 
     consultSession(session_id : number): Observable<CreateSessionModel> {
-        return this.http.authPost("session/consult", {session_id : session_id}, null)
-            .map(res => {
-                let session: CreateSessionModel = res["message"]; return session;
-            });
+        return this.http.authPost("session/consult", 
+                                  {session_id : session_id}, 
+                                  null)
+                        .map(res => {
+                            let session: CreateSessionModel = res["message"]; return session;
+                        });
     }
 
     createSession(model : CreateSessionModel): Observable<any> {
-        return this.http.post('session/create', model, null);
+        return this.http.post('session/create', 
+                              model, 
+                              null);
     }
 
     validateSession(model : any): Observable<any>{
-        return this.http.post('session/validate', model, null)
+        return this.http.post('session/validate', 
+                              model, 
+                              null)
     }
     
 }
