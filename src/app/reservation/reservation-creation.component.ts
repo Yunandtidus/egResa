@@ -16,7 +16,7 @@ export class CreationReservationComponent implements OnInit {
 
     private createSessionData:CreateSessionModel;
 
-    private loading: boolean = false;
+    public loading: boolean = false;
     
     protected subscribers : Subscriber[] = [];
     myForm: FormGroup;

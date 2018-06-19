@@ -22,10 +22,10 @@ export class ValidationReservationComponent extends CreationReservationComponent
     private subscriber_id: number;
     private password;
 
-    private status: string;
-    private validated: boolean = false;
+    public status: string;
+    public validated: boolean = false;
 
-    private session: any;
+    public session: any;
 
     constructor(protected roomService: HttpRoomService, 
                 private route: ActivatedRoute,
@@ -44,9 +44,12 @@ export class ValidationReservationComponent extends CreationReservationComponent
 
             this.authService.loginClient(this.subscriber_id, this.password)
                             .subscribe(ret => {
-                                this.status = "Validation...";
-                                this.loadSession();
-                                this.validateSession();
+                                
+                                setTimeout(() => {
+                                    this.status = "Validation...";
+                                    this.loadSession();
+                                    this.validateSession();
+                                }, 1000);
                             });
         });
     }
@@ -54,7 +57,6 @@ export class ValidationReservationComponent extends CreationReservationComponent
     loadSession(){
         this.roomService.consultSession(this.session_id).subscribe(session => {
             this.session = session;
-            console.log(session);
             this.myForm = new FormGroup({});
 
             this.myForm.addControl('idAvailability', new FormControl(0)),
@@ -72,11 +74,6 @@ export class ValidationReservationComponent extends CreationReservationComponent
                 first = false;
             }
         });
-    }
-
-    protected performSaveSession(formData:any){
-        console.log((<FormArray>this.myForm.get('subscribers')).at(0).get('email'));
-        //this.roomService.updateSession(formData);
     }
 
     validateSession(){

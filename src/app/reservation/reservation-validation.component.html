@@ -10,6 +10,7 @@
     <p><b>La séance commence le {{session.hour_start | date:'dd/MM/y \à HH:mm:ss'}}</b></p>
     <p><b>Nombre de joueurs :</b> {{session.number_of_players}}</p>
     <p><b>Niveau de difficulté : </b>{{levels[session.level-1].label}}</p>
+    <p><b>Liste des joueurs : </b></p>
     <ul>
     <li *ngFor="let player of session.subscribers">
         {{player.firstname}} {{player.lastname}} ({{player.email}})
