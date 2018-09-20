@@ -39,7 +39,7 @@ export class HttpAuthService  {
         return o;
     }
 
-    isAdmin(){
+    isAdmin() {
         return this.admin;
     }
 }
