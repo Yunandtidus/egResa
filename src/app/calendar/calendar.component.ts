@@ -20,6 +20,8 @@ import * as moment from 'moment';
 })
 export class CalendarComponent {
     couleur;
+    freeclasscss;
+   
     events: any[];
     public loading = true;
     headerConfig = {
@@ -32,8 +34,7 @@ export class CalendarComponent {
     }
 
     handleDayClick(event) {
-        if (this.checkIsAdmin()) {
-            console.log(this.checkIsAdmin());
+        if (this.httpAuthService.isAdmin()) {
            this.loading = true;
             this.roomService.addSession(1, event.date.toDate(), 90)
             .subscribe(
@@ -57,31 +58,32 @@ export class CalendarComponent {
                 planning => {
                     this.loading = false;
                     this.events = [];
-                    console.log(planning);                    
+                    console.log(planning);
                     for (const a of planning) {
+                        
                         let timestart = moment(a.hour_start, 'YYYY-MM-DD');
-                        let timeend = moment(a.hour_end, 'YYYY-MM-DD');
+                        var bipbip = new Date(a.hour_start);
+                        let timeend = moment(bipbip).format('YYYY-MM-DD');
+                      //  let timeend = moment(a.hour_end, 'YYYY-MM-DD');
                         let time2 = moment('2018-10-02', 'YYYY-MM-DD');
                         let time3 = moment('2018-10-04', 'YYYY-MM-DD');
+                        if ( moment(timestart).isAfter(time2) && moment(timeend).isBefore(time3) ) {
+                            // Halloween
+                            // this.couleur = '#360505'
+                             this.freeclasscss = 'freeHalloween';
+                        } else {
+                            // Pas Halloween
+                          //  this.couleur = '#406032';
+                            this.freeclasscss = 'free';
 
-                        console.log(moment(timestart));
-                        console.log(moment(time2));
-                        console.log(moment(timestart).isAfter(time2));
-                        console.log(moment(timeend).isBefore(time3));
-                        if( moment(timestart).isAfter(time2) && moment(timeend).isBefore(time3) ){
-                             this.couleur = 'blue'
-                        }else{
-                            this.couleur ='red';
                         }
-
-
                         this.events.push({
                             title: a.is_free ? 'Disponible' : 'Indisponible',
                             start: a.hour_start,
                             end: a.hour_end,
                             backgroundColor : this.couleur,
                             id_availability: a.id_availability,
-                            className : a.is_free ? 'free' : ''
+                            className : a.is_free ? this.freeclasscss : 'notfree',
                         });
                     }
                 },
@@ -97,10 +99,5 @@ export class CalendarComponent {
         createSessionModel.idAvailability = event.calEvent.id_availability;
         this.roomService.createSessionData = createSessionModel;
         this.router.navigate(['/reservation']);
-    }
-
-    checkIsAdmin() {
-       return this.httpAuthService.isAdmin();
-
     }
 }

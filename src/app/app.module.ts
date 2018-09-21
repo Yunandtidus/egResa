@@ -29,6 +29,7 @@ import { ValidationReservationComponent } from './reservation/reservation-valida
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
 import { ReservationOkComponent } from './reservation/reservation-ok/reservation-ok.component';
+import { InformationComponent } from './information/information/information.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -44,6 +45,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AdminComponent,
     HeaderComponent,
     ReservationOkComponent,
+    InformationComponent,
   ],
   imports: [
     BrowserModule,

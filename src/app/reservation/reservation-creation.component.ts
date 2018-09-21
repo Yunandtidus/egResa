@@ -26,23 +26,22 @@ export class CreationReservationComponent implements OnInit {
         {value:3, label:"Expert"}
     ];
 
-    validable: boolean = false;
-        
+    validable = false;
     constructor( protected roomService: HttpRoomService, protected router: Router ) {
         this.createSessionData = this.roomService.createSessionData;
     }
 
     ngOnInit(){
         this.myForm = new FormGroup({
-            'idAvailability':new FormControl(this.createSessionData.idAvailability),
-            'startDateTime':new FormControl(this.createSessionData.startDateTime),
+            'idAvailability': new FormControl(this.createSessionData.idAvailability),
+            'startDateTime': new FormControl(this.createSessionData.startDateTime),
             'level': new FormControl(this.levels[0].value),
             'subscribers': new FormArray([
                 new FormGroup({
                    firstname: new FormControl('',[Validators.required]),
                    lastname: new FormControl('',[Validators.required]),
-                   email:new FormControl('',[Validators.required,this.emailOrEmpty]),
-                   creator:new FormControl(true)
+                   email: new FormControl('',[Validators.required,this.emailOrEmpty]),
+                   creator: new FormControl(true)
                 }),
                 new FormGroup({
                    firstname: new FormControl(''),

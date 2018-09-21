@@ -2,6 +2,7 @@
 @import "../node_modules/bootstrap/less/bootstrap.less";
 
 @bgcolor: rgb(69,83,84);
+@RougeHalloween : #47080C;
 body {  
     font-family: "Playfair Display",serif;
     background-color: @bgcolor;
@@ -47,11 +48,31 @@ color:black;
 }
 
 .room-calendar .fc-event.free {
+    background-color : #406032;   
+    //border: 1px solid #21331a;
+}
+ .fc-event {
+    padding : 5px;
+    text-align: center;
+    font-size: 100%;
+    background-color: #707070;
+    border: none;
+    margin: 1px 0;
+}
+
+.fc-event.free {
     background-color : #406032;
+    border: none;   
     //border: 1px solid #21331a;
 }
 
-.toto .fc-event.free{
-    background-color: red!important;;
-    color:yellow;
+.fc-event.freeHalloween {
+    background-color : @RougeHalloween;   
+    border: none;
+    //border: 1px solid #21331a;
+}
+.fc-event.notfree {
+    background-color : #5E5E5E;   
+    border: none;
+    //border: 1px solid #21331a;
 }
