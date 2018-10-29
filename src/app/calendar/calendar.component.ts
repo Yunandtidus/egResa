@@ -78,7 +78,7 @@ export class CalendarComponent {
 
                         }
                         this.events.push({
-                            title: a.is_free ? 'Disponible' : 'Réservé',
+                            title: a.is_free ? 'Disponible' : 'Complet',
                             start: a.hour_start,
                             end: a.hour_end,
                             backgroundColor : this.couleur,
