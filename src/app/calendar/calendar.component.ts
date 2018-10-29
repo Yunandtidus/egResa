@@ -21,7 +21,7 @@ import * as moment from 'moment';
 export class CalendarComponent {
     couleur;
     freeclasscss;
-   
+
     events: any[];
     public loading = true;
     headerConfig = {
@@ -60,13 +60,13 @@ export class CalendarComponent {
                     this.events = [];
                     console.log(planning);
                     for (const a of planning) {
-                        
-                        let timestart = moment(a.hour_start, 'YYYY-MM-DD');
-                        var bipbip = new Date(a.hour_start);
-                        let timeend = moment(bipbip).format('YYYY-MM-DD');
+
+                        const timestart = moment(a.hour_start, 'YYYY-MM-DD');
+                        const bipbip = new Date(a.hour_start);
+                        const timeend = moment(bipbip).format('YYYY-MM-DD');
                       //  let timeend = moment(a.hour_end, 'YYYY-MM-DD');
-                        let time2 = moment('2018-10-02', 'YYYY-MM-DD');
-                        let time3 = moment('2018-10-04', 'YYYY-MM-DD');
+                        const time2 = moment('2018-10-02', 'YYYY-MM-DD');
+                        const time3 = moment('2018-10-04', 'YYYY-MM-DD');
                         if ( moment(timestart).isAfter(time2) && moment(timeend).isBefore(time3) ) {
                             // Halloween
                             // this.couleur = '#360505'
@@ -78,7 +78,7 @@ export class CalendarComponent {
 
                         }
                         this.events.push({
-                            title: a.is_free ? 'Disponible' : 'Indisponible',
+                            title: a.is_free ? 'Disponible' : 'Réservé',
                             start: a.hour_start,
                             end: a.hour_end,
                             backgroundColor : this.couleur,
