@@ -3,20 +3,36 @@
 <div *ngIf="myForm">
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    Séance commençant le {{myForm.get('startDateTime').value | date:'dd/MM/y \à HH:mm:ss'}}
-  </div>  
+    Séance commençant le {{myForm.get('startDateTime').value | date:'dd/MM/y \à HH:mm:ss'}}, votre scénario est :
+    &quot;
+    <b *ngIf="myForm.get('idRoom').value ==1">Les disparus du Fort Lachaux</b>
+    <b *ngIf="myForm.get('idRoom').value ==2">Spécial HALLOWEEN</b>
+    &quot;
+  </div>
   <h3>Niveau de difficulté </h3>
   <div class="btn-group" role="group" aria-label="level">
-    <button *ngFor="let level of levels; let i = index" type="button" 
+    <button *ngFor="let level of levels; let i = index" type="button"
             class="btn btn-default" [class.active]="myForm.get('level').value == level.value"
             (click)="myForm.get('level').setValue(level.value)"
     >{{level.label}}</button>
   </div>
-  <h3>Nombre de joueurs</h3>
+  <h3>Joueurs</h3>
   <div class="ui-inputgroup">
-      <button pButton type="button" icon="fa-minus" [disabled]="myForm.get('subscribers').controls.length <= 2" (click)="removePlayer()"></button>    
-      <input type="text" pInputText readonly="readonly" style="text-align:center; width:50px" value="{{myForm.get('subscribers').controls.length}}">   
-      <button pButton type="button" icon="fa-plus" [disabled]="myForm.get('subscribers').controls.length >= 6" (click)="addPlayer()"></button>      
+      <button pButton type="button" icon="fa-minus"
+              [disabled]="myForm.get('subscribers').controls.length <= minPlayers()"
+              (click)="removePlayer()"></button>
+      <input type="text" pInputText readonly="readonly" style="text-align:center; width:50px" value="{{myForm.get('subscribers').controls.length}}">
+      <button pButton type="button" icon="fa-plus" [disabled]="myForm.get('subscribers').controls.length >= 6" (click)="addPlayer()"></button>
+  </div>
+
+  <h3 title="Ce numéro pourra être utilisé pour vous contacter en cas de problèmes">Numéro de téléphone de
+    contact*</h3>
+  <div class="form-group row">
+    <div class="col-sm-3">
+      <input type="text" class="form-control" formControlName="phoneNumber">
+      <div class="alert alert-danger" *ngIf="!myForm.get('phoneNumber').valid && myForm.get('phoneNumber').dirty">Le
+      téléphone est obligatoire</div>
+    </div>
   </div>
 
   <h3 title="L'identité et l'adresse e-mail du premier joueur sont obligatoires">Identité et adresse e-mail des joueurs</h3>
@@ -32,7 +48,7 @@
         <input type="text" class="form-control" [attr.id]="'user'+i" formControlName="lastname">
         <div class="alert alert-danger" *ngIf="!item.get('lastname').valid && item.get('lastname').dirty">Le nom est obligatoire</div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <label [attr.for]="'mail'+i">E-Mail <span *ngIf="i == 0">*</span></label>
         <input type="text" class="form-control" [attr.id]="'mail'+i" formControlName="email">
         <div class="alert alert-danger" *ngIf="!item.get('email').valid && item.get('email').dirty">
@@ -40,6 +56,14 @@
           <span *ngIf="item.get('email').hasError('email')">L'adresse email est invalide</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <h3 >Remarques</h3>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <input type="textarea" rows="4" class="form-control" formControlName="comment"
+             placeholder="Votre équipe a une particularité, indiquez la nous (ex : EVG, EVJF, enfants...)">
     </div>
   </div>
   <button class="btn btn-primary" type="submit" [disabled]="myForm.invalid">Réserver</button>

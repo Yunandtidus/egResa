@@ -17,7 +17,9 @@ export class CreationReservationComponent implements OnInit {
     private createSessionData:CreateSessionModel;
 
     public loading: boolean = false;
-    
+
+    private idRoom: number;
+
     protected subscribers : Subscriber[] = [];
     myForm: FormGroup;
     levels = [
@@ -32,28 +34,39 @@ export class CreationReservationComponent implements OnInit {
     }
 
     ngOnInit(){
+        this.idRoom = this.createSessionData.idRoom;
         this.myForm = new FormGroup({
+            'idRoom': new FormControl(this.idRoom),
             'idAvailability': new FormControl(this.createSessionData.idAvailability),
             'startDateTime': new FormControl(this.createSessionData.startDateTime),
             'level': new FormControl(this.levels[0].value),
-            'subscribers': new FormArray([
-                new FormGroup({
-                   firstname: new FormControl('',[Validators.required]),
-                   lastname: new FormControl('',[Validators.required]),
-                   email: new FormControl('',[Validators.required,this.emailOrEmpty]),
-                   creator: new FormControl(true)
-                }),
-                new FormGroup({
-                   firstname: new FormControl(''),
-                   lastname: new FormControl(''),
-                   email:new FormControl('',[this.emailOrEmpty]),
-                   creator:new FormControl(false)
-                })
-            ]),
+            'subscribers': new FormArray(this.getSubscribers(this.createSessionData.idRoom)),
+            'phoneNumber': new FormControl('',[Validators.required]),
+            'comment': new FormControl(''),
             'discounts': new FormArray([])
         });
     }
-    
+
+    protected getSubscribers(idRoom: number){
+      let ret = [];
+      ret.push(new FormGroup({
+          firstname: new FormControl('',[Validators.required]),
+          lastname: new FormControl('',[Validators.required]),
+          email: new FormControl('',[Validators.required,this.emailOrEmpty]),
+          creator: new FormControl(true)
+       }));
+      for (let i = 0; i < (idRoom == 1 ? 1 : 2); i++){
+        ret.push(new FormGroup({
+               firstname: new FormControl(''),
+               lastname: new FormControl(''),
+               email:new FormControl('',[this.emailOrEmpty]),
+               creator:new FormControl(false)
+            })
+        );
+      }
+      return ret;
+    }
+
     protected onSubmit(){
         this.myForm.markAsDirty();
         if (this.myForm.valid){
@@ -92,5 +105,9 @@ export class CreationReservationComponent implements OnInit {
 
     emailOrEmpty(control: FormControl) {
         return control.value ? Validators.email(control) : null;
+    }
+
+    minPlayers(){
+      return this.idRoom == 1 ? 2 : 3;
     }
 }

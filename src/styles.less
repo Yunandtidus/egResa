@@ -3,7 +3,7 @@
 
 @bgcolor: rgb(69,83,84);
 @RougeHalloween : #47080C;
-body {  
+body {
     font-family: "Playfair Display",serif;
     background-color: @bgcolor;
     color: white;
@@ -15,7 +15,7 @@ color:black;
 
 .btn {
     border: medium none;
-    border-radius: 0px;   
+    border-radius: 0px;
     font-weight: 700;
     text-transform: uppercase;
     transition: all 0.35s ease 0s;
@@ -30,49 +30,38 @@ color:black;
     background-color: white;
     border-color: #455354;
     color: #222222;
-   
+
 }
 
 .btn-primary-light:hover {
     background-color: #e2e2e2;
-    border-color: #ededed;   
+    border-color: #ededed;
 }
 
-.room-calendar .fc-event {
-    padding : 5px;
-    text-align: center;
-    font-size: 100%;
-    background-color: #707070;
-    border: none;
-    margin: 1px 0;
+.fc-event.event-legend {
+  margin-bottom : 5px;
+  text-align:center;
+  font-size:1em;
+  &.free.room-1 {background-color: mix(#FFF, #406032, 20%);}
+  &.free.room-2 {background-color: mix(#FFF, #8f452c, 20%);}
+  &.notfree {background-color: mix(#FFF, #707070, 20%);}
 }
 
-.room-calendar .fc-event.free {
-    background-color : #406032;   
-    //border: 1px solid #21331a;
-}
- .fc-event {
-    padding : 5px;
-    text-align: center;
-    font-size: 100%;
-    background-color: #707070;
-    border: none;
-    margin: 1px 0;
-}
+.fc-event {
+  padding : 5px;
+  font-size: 100%;
+  background-color: #707070;
+  margin: 1px 0;
+  border: none !important;
 
-.fc-event.free {
+  &.free {
     background-color : #406032;
-    border: none;   
-    //border: 1px solid #21331a;
-}
+    &.room-2{
+      background-color : #8f452c;
+    }
+  }
 
-.fc-event.freeHalloween {
-    background-color : @RougeHalloween;   
-    border: none;
-    //border: 1px solid #21331a;
-}
-.fc-event.notfree {
-    background-color : #5E5E5E;   
-    border: none;
-    //border: 1px solid #21331a;
+  &.notfree {
+    background-color : #5E5E5E;
+  }
 }

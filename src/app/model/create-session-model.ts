@@ -1,5 +1,6 @@
 import { Subscriber } from './subscriber.model';
 export class CreateSessionModel {
+    idRoom:number;
     idAvailability:number;
     startDateTime:Date;
     numberOfPlayers:number;
