@@ -36,7 +36,7 @@ export class CalendarComponent {
     handleDayClick(event) {
         if (this.httpAuthService.isAdmin()) {
            this.loading = true;
-            this.roomService.addSession(1, event.date.toDate(), 90)
+            this.roomService.addSession(2, event.date.toDate(), 90)
             .subscribe(
                 result => {
                     this.loading = false;
@@ -53,30 +53,14 @@ export class CalendarComponent {
         const start = event.view.start;
         const end = event.view.end;
         this.loading = true;
-        this.roomService.loadRoomPlanning(1, start.toDate(), end.toDate())
+        this.roomService.loadRoomPlanning(2, start.toDate(), end.toDate())
             .subscribe(
                 planning => {
                     this.loading = false;
                     this.events = [];
                     console.log(planning);
                     for (const a of planning) {
-
-                        const timestart = moment(a.hour_start, 'YYYY-MM-DD');
-                        const bipbip = new Date(a.hour_start);
-                        const timeend = moment(bipbip).format('YYYY-MM-DD');
-                      //  let timeend = moment(a.hour_end, 'YYYY-MM-DD');
-                        const time2 = moment('2018-10-02', 'YYYY-MM-DD');
-                        const time3 = moment('2018-10-04', 'YYYY-MM-DD');
-                        if ( moment(timestart).isAfter(time2) && moment(timeend).isBefore(time3) ) {
-                            // Halloween
-                            // this.couleur = '#360505'
-                             this.freeclasscss = 'freeHalloween';
-                        } else {
-                            // Pas Halloween
-                          //  this.couleur = '#406032';
-                            this.freeclasscss = 'free';
-
-                        }
+                        this.freeclasscss = 'freeHalloween';
                         this.events.push({
                             title: a.is_free ? 'Disponible' : 'Complet',
                             start: a.hour_start,
