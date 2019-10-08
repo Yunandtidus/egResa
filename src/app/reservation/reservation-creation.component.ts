@@ -17,7 +17,7 @@ export class CreationReservationComponent implements OnInit {
     private createSessionData:CreateSessionModel;
 
     public loading: boolean = false;
-    
+
     protected subscribers : Subscriber[] = [];
     myForm: FormGroup;
     levels = [
@@ -48,12 +48,18 @@ export class CreationReservationComponent implements OnInit {
                    lastname: new FormControl(''),
                    email:new FormControl('',[this.emailOrEmpty]),
                    creator:new FormControl(false)
-                })
+                }),
+                new FormGroup({
+                  firstname: new FormControl(''),
+                  lastname: new FormControl(''),
+                  email:new FormControl('',[this.emailOrEmpty]),
+                  creator:new FormControl(false)
+               })
             ]),
             'discounts': new FormArray([])
         });
     }
-    
+
     protected onSubmit(){
         this.myForm.markAsDirty();
         if (this.myForm.valid){

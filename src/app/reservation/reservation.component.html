@@ -4,19 +4,19 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     Séance commençant le {{myForm.get('startDateTime').value | date:'dd/MM/y \à HH:mm:ss'}}
-  </div>  
+  </div>
   <h3>Niveau de difficulté </h3>
   <div class="btn-group" role="group" aria-label="level">
-    <button *ngFor="let level of levels; let i = index" type="button" 
+    <button *ngFor="let level of levels; let i = index" type="button"
             class="btn btn-default" [class.active]="myForm.get('level').value == level.value"
             (click)="myForm.get('level').setValue(level.value)"
     >{{level.label}}</button>
   </div>
   <h3>Nombre de joueurs</h3>
   <div class="ui-inputgroup">
-      <button pButton type="button" icon="fa-minus" [disabled]="myForm.get('subscribers').controls.length <= 2" (click)="removePlayer()"></button>    
-      <input type="text" pInputText readonly="readonly" style="text-align:center; width:50px" value="{{myForm.get('subscribers').controls.length}}">   
-      <button pButton type="button" icon="fa-plus" [disabled]="myForm.get('subscribers').controls.length >= 6" (click)="addPlayer()"></button>      
+      <button pButton type="button" icon="fa-minus" [disabled]="myForm.get('subscribers').controls.length <= 3" (click)="removePlayer()"></button>
+      <input type="text" pInputText readonly="readonly" style="text-align:center; width:50px" value="{{myForm.get('subscribers').controls.length}}">
+      <button pButton type="button" icon="fa-plus" [disabled]="myForm.get('subscribers').controls.length >= 6" (click)="addPlayer()"></button>
   </div>
 
   <h3 title="L'identité et l'adresse e-mail du premier joueur sont obligatoires">Identité et adresse e-mail des joueurs</h3>
