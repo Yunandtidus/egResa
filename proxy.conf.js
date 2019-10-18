@@ -3,7 +3,7 @@ var HttpsProxyAgent = require('https-proxy-agent');
 var proxyConfig = [
     {
     context: '/api',
-    target: "https://preprod.api.bureau401.fr",
+    target: "https://api.bureau401.fr",
     secure: false,
     changeOrigin: true,
     //agent: new HttpsProxyAgent("http://host:3128"),

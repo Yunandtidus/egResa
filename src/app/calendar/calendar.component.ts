@@ -22,6 +22,8 @@ export class CalendarComponent {
     couleur;
     freeclasscss;
 
+    adminIdRoom = 0;
+
     events: any[];
     public loading = true;
     headerConfig = {
@@ -35,12 +37,17 @@ export class CalendarComponent {
 
     handleDayClick(event) {
         if (this.httpAuthService.isAdmin()) {
-           this.loading = true;
-            this.roomService.addSession(1, event.date.toDate(), 90)
+            this.loading = true;
+            if (this.adminIdRoom == 0){
+              this.adminIdRoom = parseInt(prompt("IdRoom = ", "1"));
+            }
+            this.roomService.addSession(this.adminIdRoom, event.date.toDate(), 90)
             .subscribe(
                 result => {
                     this.loading = false;
-                    this.loadCalendar(event);
+                    this.events = [];
+                    this.loadCalendar(event, 1);
+                    this.loadCalendar(event, 2);
                 },
                 e => {
                     this.loading = false;
@@ -49,41 +56,26 @@ export class CalendarComponent {
         }
     }
 
-    loadCalendar(event) {
+    loadCalendar(event, idRoom) {
         const start = event.view.start;
         const end = event.view.end;
         this.loading = true;
-        this.roomService.loadRoomPlanning(1, start.toDate(), end.toDate())
+        this.roomService.loadRoomPlanning(idRoom, start.toDate(), end.toDate())
             .subscribe(
                 planning => {
                     this.loading = false;
-                    this.events = [];
                     console.log(planning);
                     for (const a of planning) {
-
-                        const timestart = moment(a.hour_start, 'YYYY-MM-DD');
-                        const bipbip = new Date(a.hour_start);
-                        const timeend = moment(bipbip).format('YYYY-MM-DD');
-                      //  let timeend = moment(a.hour_end, 'YYYY-MM-DD');
-                        const time2 = moment('2018-10-02', 'YYYY-MM-DD');
-                        const time3 = moment('2018-10-04', 'YYYY-MM-DD');
-                        if ( moment(timestart).isAfter(time2) && moment(timeend).isBefore(time3) ) {
-                            // Halloween
-                            // this.couleur = '#360505'
-                             this.freeclasscss = 'freeHalloween';
-                        } else {
-                            // Pas Halloween
-                          //  this.couleur = '#406032';
-                            this.freeclasscss = 'free';
-
-                        }
+                        var startHour = new Date(a.hour_start);
                         this.events.push({
-                            title: a.is_free ? 'Disponible' : 'Complet',
+                            title: (a.is_free ? 'Disponible' : 'Indisponible') + '\n'+ (idRoom == 1 ? '' :
+                            'Halloween'),
                             start: a.hour_start,
                             end: a.hour_end,
                             backgroundColor : this.couleur,
+                            id_room: idRoom,
                             id_availability: a.id_availability,
-                            className : a.is_free ? this.freeclasscss : 'notfree',
+                            className : (a.is_free ? 'free' : 'notfree') + ' room-'+idRoom,
                         });
                     }
                 },
@@ -97,6 +89,7 @@ export class CalendarComponent {
         const createSessionModel: CreateSessionModel = new CreateSessionModel();
         createSessionModel.startDateTime = event.calEvent.start.toDate();
         createSessionModel.idAvailability = event.calEvent.id_availability;
+        createSessionModel.idRoom = event.calEvent.id_room;
         this.roomService.createSessionData = createSessionModel;
         this.router.navigate(['/reservation']);
     }

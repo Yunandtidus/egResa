@@ -1,10 +1,16 @@
 <div>
+  <div class="fc-event free room-1 event-legend">Salle 1 : Les disparus du Fort Lachaux (disponible)</div>
+  <div class="fc-event free room-2 event-legend">Salle éphémère : Spéciale HALLOWEEN (disponible)</div>
+  <div class="fc-event notfree event-legend">Salle indisponible (déjà réservée)</div>
+</div>
+
+<div>
     <p-schedule
-        [events]="events" locale="fr" 
-        [header]="headerConfig" [allDaySlot]="false" 
-        (onDayClick)="handleDayClick($event)"        
+        [events]="events" locale="fr"
+        [header]="headerConfig" [allDaySlot]="false"
+        (onDayClick)="handleDayClick($event)"
         (onEventClick)="handleEventClick($event)"
-        (onViewRender)="loadCalendar($event)"
+        (onViewRender)="events=[];loadCalendar($event, 1);loadCalendar($event, 2);"
         minTime="10:00:00"
         timezone="local"
         defaultView="agendaWeek"
