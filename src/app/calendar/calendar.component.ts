@@ -74,6 +74,7 @@ export class CalendarComponent {
                             end: a.hour_end,
                             backgroundColor : this.couleur,
                             id_room: idRoom,
+                            is_free: a.is_free,
                             id_availability: a.id_availability,
                             className : (a.is_free ? 'free' : 'notfree') + ' room-'+idRoom,
                         });
@@ -86,11 +87,14 @@ export class CalendarComponent {
     }
 
     handleEventClick(event) {
-        const createSessionModel: CreateSessionModel = new CreateSessionModel();
-        createSessionModel.startDateTime = event.calEvent.start.toDate();
-        createSessionModel.idAvailability = event.calEvent.id_availability;
-        createSessionModel.idRoom = event.calEvent.id_room;
-        this.roomService.createSessionData = createSessionModel;
-        this.router.navigate(['/reservation']);
+      console.log(event);
+        if(event.calEvent.is_free){
+          const createSessionModel: CreateSessionModel = new CreateSessionModel();
+          createSessionModel.startDateTime = event.calEvent.start.toDate();
+          createSessionModel.idAvailability = event.calEvent.id_availability;
+          createSessionModel.idRoom = event.calEvent.id_room;
+          this.roomService.createSessionData = createSessionModel;
+          this.router.navigate(['/reservation']);
+        }
     }
 }
