@@ -87,7 +87,6 @@ export class CalendarComponent {
     }
 
     handleEventClick(event) {
-      console.log(event);
         if(event.calEvent.is_free){
           const createSessionModel: CreateSessionModel = new CreateSessionModel();
           createSessionModel.startDateTime = event.calEvent.start.toDate();

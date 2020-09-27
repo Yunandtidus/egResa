@@ -87,7 +87,7 @@ export class CreationReservationComponent implements OnInit {
             },
             err => {
             }
-        );;
+        );
     }
 
     protected removePlayer(){
@@ -108,6 +108,6 @@ export class CreationReservationComponent implements OnInit {
     }
 
     minPlayers(){
-      return this.idRoom == 1 ? 2 : 3;
+      return this.idRoom === 1 ? 2 : 3;
     }
 }
