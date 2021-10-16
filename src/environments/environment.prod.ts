@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://preprod.api.bureau401.fr/'
+    apiUrl: 'https://api.bureau401.fr/'
 };
